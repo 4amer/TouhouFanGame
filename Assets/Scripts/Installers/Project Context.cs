@@ -1,4 +1,5 @@
 using Services.GSMC;
+using Services.SceneLoaderC;
 using Zenject;
 
 namespace Installers
@@ -7,12 +8,13 @@ namespace Installers
     {
         public override void InstallBindings()
         {
-            BindGSM();
+            BindServices();
         }
 
-        private void BindGSM()
+        private void BindServices()
         {
             Container.BindInterfacesAndSelfTo<GSM>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<SceneLoader>().AsSingle().NonLazy();
         }
     }
 }

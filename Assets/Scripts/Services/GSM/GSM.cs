@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Services.GSMC.States;
+using Zenject;
 
 namespace Services.GSMC
 { 
@@ -8,6 +9,13 @@ namespace Services.GSMC
         private Dictionary<string, BaseGameState> _gameStates = new Dictionary<string, BaseGameState>();
 
         private BaseGameState _currentState = null;
+        private DiContainer _diContainer = null;
+
+        [Inject]
+        private void Construct(DiContainer diContainer)
+        {
+            _diContainer = diContainer;
+        }
 
         public void Init()
         {
@@ -18,6 +26,8 @@ namespace Services.GSMC
         private void AddState(BaseGameState state)
         {
             state.Init(this);
+            _diContainer.Inject(state);
+
 
             string key = state.GetType().ToString();
             if (!_gameStates.ContainsKey(key)) {
