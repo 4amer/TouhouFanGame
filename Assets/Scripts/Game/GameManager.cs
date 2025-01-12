@@ -9,17 +9,9 @@ namespace Game
     {
         public Subject<float> Updated { get; set; } = new Subject<float>();
 
-        private IBulletComponentManager _bulletComponentManager = null;
-
-        [Inject] 
-        private void Construct(IBulletComponentManager bulletComponentManager)
+        public void Init()
         {
-            _bulletComponentManager = bulletComponentManager;
-        }
-
-        private void Awake()
-        {
-            
+            DontDestroyOnLoad(gameObject);
         }
 
         private void Update()
@@ -30,6 +22,7 @@ namespace Game
 
     public interface IGameManager
     {
+        public void Init();
         public Subject<float> Updated { get; set; }
     }
 }
