@@ -1,5 +1,3 @@
-using System;
-using UniRx;
 using UnityEngine;
 
 namespace Game.BulletSystem
@@ -30,7 +28,17 @@ namespace Game.BulletSystem
             }
             _particleSystem.Play();
         }
-        public void UpdateComponent(float fixedDelta)
+
+        private void StopBulletComponent()
+        {
+            if (_particleSystem == null)
+            {
+                _particleSystem = GetComponent<ParticleSystem>();
+            }
+            _particleSystem.Stop();
+        }
+
+        public void UpdateComponent(float delta)
         {
             if (_lookAtPlayer)
             {
@@ -46,6 +54,6 @@ namespace Game.BulletSystem
     public interface IBulletComponent
     {
         void Init(Transform player);
-        void UpdateComponent(float fixedDelta);
+        void UpdateComponent(float delta);
     }
 }

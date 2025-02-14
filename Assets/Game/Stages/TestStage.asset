@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 095041c247066a2458df33bcc18b950e, type: 3}
+  m_Name: TestStage
+  m_EditorClassIdentifier: 
+  initialParts:
+  - {fileID: 2205321750381239115, guid: b368407e2fb68124895755cb1e9ceaa4, type: 3}
+  secondaryParts: []
+  firstPassiveParts: []
+  tertioryParts: []
+  quaternaryParts: []
+  secondPassiveParts: []
+  bossParts: {fileID: 0}

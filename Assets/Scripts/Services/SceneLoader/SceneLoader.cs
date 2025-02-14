@@ -1,7 +1,11 @@
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 using Zenject;
 
@@ -13,33 +17,45 @@ namespace Services.SceneLoaderC
         public Subject<float> SceneLoadUpdated { get; set; } = new Subject<float>();
         public Subject<Unit> SceneEndLoad { get; set; } = new Subject<Unit>();
 
-        public void LoadScene(string sceneName)
+        private AsyncOperationHandle<SceneInstance> _sceneHandle;
+
+        public void LoadScene(string sceneKey)
         {
-            LoadSceneAsync(sceneName);
-            Debug.Log("Test 1");
+            LoadSceneAsync(sceneKey);
         }
 
-        private async Task LoadSceneAsync(string sceneName)
+        private async Task LoadSceneAsync(string sceneKey)
         {
-            AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
-            operation.allowSceneActivation = false;
+            _sceneHandle = Addressables.LoadSceneAsync(sceneKey, LoadSceneMode.Single, activateOnLoad: false);
 
             SceneStartLoad?.OnNext(Unit.Default);
 
-            while (!operation.isDone)
+            while (!_sceneHandle.IsDone)
             {
-                float progress = (operation.progress / 0.9f);
+                float progress = _sceneHandle.PercentComplete;
                 SceneLoadUpdated?.OnNext(progress);
-                Debug.Log(progress);
-                if (progress >= 0.9f)
-                {
-                    operation.allowSceneActivation = true;
-                }
+                Debug.Log($"Loading progress: {progress:P}");
 
                 await Task.Yield();
             }
 
-            SceneEndLoad?.OnNext(Unit.Default);
+            if (_sceneHandle.Status == AsyncOperationStatus.Succeeded)
+            {
+                await _sceneHandle.Result.ActivateAsync();
+                SceneEndLoad?.OnNext(Unit.Default);
+            } 
+            else
+            {
+                Debug.LogError($"Failed to load scene: {sceneKey}");
+            }
+        }
+
+        public void UnloadScene()
+        {
+            if (_sceneHandle.IsValid())
+            {
+                Addressables.UnloadSceneAsync(_sceneHandle);
+            }
         }
     }
 
@@ -50,5 +66,6 @@ namespace Services.SceneLoaderC
         public Subject<Unit> SceneEndLoad { get; set; }
 
         public void LoadScene(string sceneName);
+        public void UnloadScene();
     }
 }
