@@ -1,7 +1,6 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using UnityEngine;
 public class Timer
 {
     public float duration = 5f;
@@ -9,7 +8,7 @@ public class Timer
 
     public event Action OnTimerStop;
     public event Action OnTimerStart;
-    public event Action OnTimerUpdated;
+    public event Action<float> OnTimerUpdated;
 
     public Action EventOnStart;
     public Action EventOnUpdate;
@@ -55,21 +54,23 @@ public class Timer
     {
         if (EventOnStop != null) EventOnStop();
         OnTimerStop?.Invoke();
-        _currentTimerTime = 0;
-        _isTimerEnd = true;
-
-        _cancellationTokenSource.Cancel();
+        ResetTimer();
     }
 
-    public void KillInstantly()
+    public void Dispose()
+    {
+        ResetTimer();
+    }
+
+    public bool IsPlaying => !_isTimerEnd;
+
+    private void ResetTimer()
     {
         _currentTimerTime = 0;
         _isTimerEnd = true;
 
         _cancellationTokenSource.Cancel();
     }
-
-    public bool IsPlaying => !_isTimerEnd;
 
     private async Task StartTimer(CancellationToken token)
     {
@@ -90,7 +91,7 @@ public class Timer
                 _currentTimerTime += timeStep;
 
                 EventOnUpdate?.Invoke();
-                OnTimerUpdated?.Invoke();
+                OnTimerUpdated?.Invoke(_currentTimerTime);
             }
         }
         catch (TaskCanceledException)

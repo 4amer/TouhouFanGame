@@ -5,7 +5,7 @@ namespace Enemies
 {
     public class Enemy : MonoBehaviour, IEnemy
     {
-        [SerializeField] private float _durationBeforeStart = 5f;
+        [SerializeField] private float _durationBeforeMove = 5f;
         [SerializeField] private float _durationBeforeShoot = 6f;
 
         [SerializeField] private float _movementSpeed = 1f;
@@ -13,7 +13,7 @@ namespace Enemies
         [SerializeField] private BulletComponent _bulletComponent = default;
 
         [SerializeField] private IBulletComponent _iBulletComponent = default;
-        public float DurationBeforeStart { get => _durationBeforeStart; }
+        public float DurationBeforeStart { get => _durationBeforeMove; }
         public float DurationBeforeShoot { get => _durationBeforeShoot; }
 
         public void Init(Transform player)

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Stages.Manager;
 using Stages.Parts;
 using UniRx;
 using UnityEngine;
@@ -19,6 +20,8 @@ namespace Stages
         public Subject<APart> PartClear { get; set; } = new Subject<APart>();
         public Subject<Unit> SelectingPart { get; set; } = new Subject<Unit>();
         public Subject<APart> PartInit { get; set; } = new Subject<APart>();
+        public Subject<IBaseStage> StageClear { get; set; } = new Subject<IBaseStage>();
+        public Subject<IBaseStage> StageInited { get; set; } = new Subject<IBaseStage>();
 
         private const int SELECTABLE_PARTS_AMOUNT = 2;
 
@@ -29,11 +32,20 @@ namespace Stages
 
         private Transform _partParent = default;
 
-        public void Init(Transform partParent)
+        private IStageManagerActions _managerActions = null;
+
+        public void Init(Transform partParent, IStageManagerActions managerActions)
         {
             CheckForArrayAmount();
 
             _partParent = partParent;
+
+            _managerActions = managerActions;
+
+            _managerActions
+                .TimeChanged
+                .Subscribe(_ => OnTimerUpdated(_))
+                .AddTo(_disposables);
 
             InitFirstPart();
         }
@@ -68,6 +80,11 @@ namespace Stages
 
             CreatePart(part);
 
+            _managerActions
+                .TimeChanged
+                .Subscribe(_ => part.TimerUpdated(_))
+                .AddTo(_disposables);
+
             part.PartClear
                 .Subscribe(_ => NextPart())
                 .AddTo(_disposables);
@@ -81,6 +98,8 @@ namespace Stages
         {
             CreatePart(part);
 
+
+
             part.PartClear
                 .Subscribe(_ => NextPart())
                 .AddTo(_disposables);
@@ -93,6 +112,11 @@ namespace Stages
         private void OnPartSelected(APart[] parts)
         {
             PrepareSelectableParts(parts);
+        }
+
+        private void OnTimerUpdated(float time)
+        {
+            Debug.Log($"New time = {time}");
         }
 
         private APart[] PrepareSelectableParts(APart[] parts)
@@ -212,7 +236,9 @@ namespace Stages
     {
         public Subject<APart> PartClear { get; set; }
         public Subject<APart> PartInit { get; set; }
-        public void Init(Transform partParent);
+        public Subject<IBaseStage> StageClear { get; set; }
+        public Subject<IBaseStage> StageInited { get; set; }
+        public void Init(Transform partParent, IStageManagerActions managerActions);
     }
     public enum PartSteps
     {

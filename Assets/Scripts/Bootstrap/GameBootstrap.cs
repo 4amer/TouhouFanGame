@@ -1,5 +1,6 @@
 using Game.BulletSystem.Manager;
 using Game.Player.Manager;
+using Stages.Manager;
 using UnityEngine;
 using Zenject;
 
@@ -8,20 +9,20 @@ namespace BootstrapService
     public class GameBootstrap : MonoBehaviour
     {
         private IPlayerManager _playerManager = null;
-        private IBulletComponentManager _bulletComponentManager = null;
-
+        private IStageManager _stageManager = null;
 
         [Inject]
-        private void Constract(IPlayerManager playerManager, IBulletComponentManager bulletComponentManager)
+        private void Constract(IPlayerManager playerManager, IStageManager stageManager)
         {
             _playerManager = playerManager;
-            _bulletComponentManager = bulletComponentManager;
+            _stageManager = stageManager;
         }
 
         private void Awake()
         {
             _playerManager.Init();
-            _bulletComponentManager.Init();
+            _stageManager.Init();
+            //_bulletComponentManager.Init();
         }
     }
 }

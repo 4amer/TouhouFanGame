@@ -11,9 +11,15 @@ namespace Stages.Parts
         {
             PartStarted.OnNext(this);
         }
+
         public virtual void Clear()
         {
             PartClear.OnNext(this);
+        }
+
+        public virtual void TimerUpdated(float time)
+        {
+
         }
     }
 }

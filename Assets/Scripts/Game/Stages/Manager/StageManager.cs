@@ -1,10 +1,12 @@
+using Cysharp.Threading.Tasks;
 using Stages.Parts;
+using UniRx;
 using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Stages.Manager
 {
-    public class StageManager : MonoBehaviour, IStageManager
+    public class StageManager : MonoBehaviour, IStageManager, IStageManagerActions
     {
         [SerializeField] private BaseStage[] _stages = new BaseStage[6];
 
@@ -13,15 +15,28 @@ namespace Stages.Manager
         [SerializeField] private Transform _partsParentTransform = null;
 
         private IBaseStage _currentStage = default;
+
+        public Subject<float> TimeChanged { get; set; } = new Subject<float>();
+
+        private Timer _timer = null;
+
+        private CompositeDisposable _stageDisposables = new CompositeDisposable();    
         public void Init()
         {
-            SetupTimer();
             InitStage(_stageIndex);
+            SetupTimer();
         }
 
         private void InitStage(int index)
         {
             _currentStage = _stages[index];
+
+            _currentStage
+                .StageClear
+                .Subscribe(_ => NextState())
+                .AddTo(_stageDisposables);
+
+            _currentStage.Init(_partsParentTransform, this);
         }
 
         private void WhenStageClear(IBaseStage stage)
@@ -31,13 +46,30 @@ namespace Stages.Manager
 
         private void NextState()
         {
-
+            _stageDisposables.Clear();
         }
 
         private void SetupTimer()
         {
-
+            _timer = new Timer();
+            _timer.timeStep = 0.1f;
+            _timer.EventOnUpdate = () =>
+            {
+                TimeChanged.OnNext(_timer.GetCurrentTime);
+            };
+            _timer.StartInfinity();
         }
+
+        private void OnDestroy()
+        {
+            _stageDisposables.Dispose();
+            _timer.Dispose();
+        }
+    }
+
+    public interface IStageManagerActions
+    {
+        public Subject<float> TimeChanged { get; set; }
     }
 
     public interface IStageManager 

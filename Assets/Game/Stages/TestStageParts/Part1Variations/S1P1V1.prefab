@@ -4823,7 +4823,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6939d2f4c24acf943a45d5fae427b445, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _durationBeforeStart: 5
+  _durationBeforeMove: 5
   _durationBeforeShoot: 6
   _movementSpeed: 1
   _bulletComponent: {fileID: 2103079901539992091}
@@ -4925,6 +4925,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7117107528182278806}
   - component: {fileID: 2205321750381239115}
+  - component: {fileID: 8661670229901792152}
   m_Layer: 0
   m_Name: S1P1V1
   m_TagString: Untagged
@@ -4963,3 +4964,15 @@ MonoBehaviour:
   _partTime: 10
   _enemies:
   - {fileID: 674800459539357713}
+--- !u!114 &8661670229901792152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6955919722623253606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acf075e6a6872e2409e5f3e3edbf20a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
