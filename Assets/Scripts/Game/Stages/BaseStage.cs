@@ -3,6 +3,7 @@ using Stages.Manager;
 using Stages.Parts;
 using UniRx;
 using UnityEngine;
+using Zenject;
 
 namespace Stages
 {
@@ -34,9 +35,17 @@ namespace Stages
 
         private IStageManagerActions _managerActions = null;
 
+        private DiContainer _diContainer = null;
+
+        [Inject]
+        private void Construct(DiContainer diContainer)
+        {
+            _diContainer = diContainer;
+        }
+
         public void Init(Transform partParent, IStageManagerActions managerActions)
         {
-            CheckForArrayAmount();
+            //CheckForArrayAmount();
 
             _partParent = partParent;
 
@@ -78,35 +87,23 @@ namespace Stages
         {
             APart part = TakeRandomPart(parts);
 
-            CreatePart(part);
-
-            _managerActions
-                .TimeChanged
-                .Subscribe(_ => part.TimerUpdated(_))
-                .AddTo(_disposables);
-
-            part.PartClear
-                .Subscribe(_ => NextPart())
-                .AddTo(_disposables);
-
-            part.Init();
-
-            _currentPart = part;
+            PreparePart(part);
         }
 
         private void PreparePart(APart part)
         {
-            CreatePart(part);
+            _currentPart = CreatePart(part);
 
+            _managerActions
+                .TimeChanged
+                .Subscribe(_ => _currentPart.TimerUpdated(_))
+                .AddTo(_disposables);
 
-
-            part.PartClear
+            _currentPart.PartClear
                 .Subscribe(_ => NextPart())
                 .AddTo(_disposables);
 
-            part.Init();
-
-            _currentPart = part;
+            _currentPart.Init();
         }
 
         private void OnPartSelected(APart[] parts)
@@ -116,7 +113,7 @@ namespace Stages
 
         private void OnTimerUpdated(float time)
         {
-            Debug.Log($"New time = {time}");
+            
         }
 
         private APart[] PrepareSelectableParts(APart[] parts)
@@ -183,6 +180,7 @@ namespace Stages
             //TODO: Rewrite and use Facroty instead
 
             GameObject partObject = Instantiate(aPart.gameObject, _partParent);
+            _diContainer.InjectGameObject(partObject);
             return partObject.GetComponent<APart>();
         }
 

@@ -16,8 +16,18 @@ namespace Game.BulletSystem
 
         public void Init(Transform player)
         {
+            _particleSystem = GetComponent<ParticleSystem>();
             _playerTransform = player;
+        }
+
+        public void StartShooting()
+        {
             StartBulletComponent();
+        }
+
+        public void StopShooting()
+        {
+            StopBulletComponent();
         }
 
         private void StartBulletComponent()
@@ -54,6 +64,8 @@ namespace Game.BulletSystem
     public interface IBulletComponent
     {
         void Init(Transform player);
+        void StartShooting();
+        void StopShooting();
         void UpdateComponent(float delta);
     }
 }

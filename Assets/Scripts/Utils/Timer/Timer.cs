@@ -90,6 +90,8 @@ public class Timer
                 await Task.Delay(timeToUpdate, token);
                 _currentTimerTime += timeStep;
 
+                _currentTimerTime = (float)Math.Round(_currentTimerTime, 1);
+
                 EventOnUpdate?.Invoke();
                 OnTimerUpdated?.Invoke(_currentTimerTime);
             }

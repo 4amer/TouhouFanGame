@@ -552,6 +552,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerManager: {fileID: 1248272081}
   _bulletComponentManager: {fileID: 818626668}
+  _stageManager: {fileID: 880962125}
 --- !u!114 &2052191458
 MonoBehaviour:
   m_ObjectHideFlags: 0

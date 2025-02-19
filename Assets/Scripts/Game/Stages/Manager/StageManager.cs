@@ -3,6 +3,7 @@ using Stages.Parts;
 using UniRx;
 using Unity.VisualScripting;
 using UnityEngine;
+using Zenject;
 
 namespace Stages.Manager
 {
@@ -20,7 +21,15 @@ namespace Stages.Manager
 
         private Timer _timer = null;
 
-        private CompositeDisposable _stageDisposables = new CompositeDisposable();    
+        private CompositeDisposable _stageDisposables = new CompositeDisposable();
+        private DiContainer _diContainer = null;
+
+        [Inject]
+        public void Construct(DiContainer diContainer)
+        {
+            _diContainer = diContainer;
+        }
+
         public void Init()
         {
             InitStage(_stageIndex);
@@ -35,6 +44,8 @@ namespace Stages.Manager
                 .StageClear
                 .Subscribe(_ => NextState())
                 .AddTo(_stageDisposables);
+
+            _diContainer.Inject(_currentStage);
 
             _currentStage.Init(_partsParentTransform, this);
         }

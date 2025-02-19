@@ -9,7 +9,7 @@ namespace Stages.Parts
         public Subject<APart> PartStarted = new Subject<APart>();
         public virtual void Init()
         {
-            PartStarted.OnNext(this);
+            PartClear.OnNext(this);
         }
 
         public virtual void Clear()
