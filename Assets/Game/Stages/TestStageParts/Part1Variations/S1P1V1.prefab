@@ -60,6 +60,7 @@ GameObject:
   - component: {fileID: 1626764250079170850}
   - component: {fileID: 7509641761739426428}
   - component: {fileID: 2103079901539992091}
+  - component: {fileID: 3024577124073475696}
   m_Layer: 0
   m_Name: BaseEnemy
   m_TagString: Untagged
@@ -4869,12 +4870,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31ec608d32c8e034f8f0beba81140682, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _shootSequence:
+  _eventSequence:
   - _actionDelay: 1
     _type: 1
-  - _actionDelay: 5
-    _type: 2
+  - _actionDelay: 3
+    _type: 5
   _bulletComponent: {fileID: 2103079901539992091}
+  _movementBezierComponent: {fileID: 3024577124073475696}
+  _enemyGameObject: {fileID: 5816867565921762848}
 --- !u!199 &7509641761739426428
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -4963,6 +4966,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _particleSystem: {fileID: 4080444815017725849}
   _lookAtPlayer: 0
+--- !u!114 &3024577124073475696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5816867565921762848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03d286976ecedbc4582042bd6b87efeb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bezierCorves:
+  - _duration: 2
+    _startPosition: {x: 2, y: 0, z: 0}
+    _centralPosition: {x: 0, y: 3, z: 0}
+    _endPosition: {x: 0, y: 0, z: 5}
+    _moveEase: 1
 --- !u!1 &6955919722623253606
 GameObject:
   m_ObjectHideFlags: 0

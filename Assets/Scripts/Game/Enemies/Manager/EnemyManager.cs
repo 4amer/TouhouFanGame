@@ -63,21 +63,21 @@ namespace Enemies.Manager
             {
                 if (EnemysTime.TryGetValue(enemy, out float lastEventTime))
                 {
-                    while (enemy.ShootSequencesQueue.Count > 0)
+                    while (enemy.EventSequencesQueue.Count > 0)
                     {
-                        ShootSequence currentSequence = enemy.ShootSequencesQueue.Peek();
+                        EventSequence currentSequence = enemy.EventSequencesQueue.Peek();
                         float scheduledTime = lastEventTime + currentSequence.Delay;
 
                         if (scheduledTime <= time)
                         {
                             currentSequence.Event.Invoke();
                             lastEventTime = scheduledTime;
-                            enemy.ShootSequencesQueue.Dequeue();
+                            enemy.EventSequencesQueue.Dequeue();
                             EnemysTime[enemy] = lastEventTime;
                         }
                         else
                         {
-                            break; // Exit if the next event isn't ready
+                            break;
                         }
                     }
                 }

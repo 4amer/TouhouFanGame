@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using BezierMovementSystem;
 using Enemies.Sequences;
 using Game.BulletSystem;
 using Stages.Manager;
@@ -9,19 +10,28 @@ namespace Enemies
 {
     public class EnemyController : MonoBehaviour, IEnemyController
     {
-        [SerializeField] private ShootSequence[] _shootSequence = new ShootSequence[1];
+        [SerializeField] private EventSequence[] _eventSequence = new EventSequence[1];
         [SerializeField] private BulletComponent _bulletComponent = default;
+        [SerializeField] private MovementBezierComponent _movementBezierComponent = default;
+
+        [Space(10)]
+        [Header("Enemy Object")]
+        [SerializeField] private GameObject _enemyGameObject = null;
 
         private IBulletComponent _iBulletComponent = default;
+        private IMovementBezierComponent _iMovementBezierComponent = default;
 
-        private Queue<ShootSequence> _shootSequencesQueue;
-        public Queue<ShootSequence> ShootSequencesQueue { get => _shootSequencesQueue; }
+        private Queue<EventSequence> _eventSequencesQueue;
+        public Queue<EventSequence> EventSequencesQueue { get => _eventSequencesQueue; }
 
         public void Init(Transform player)
         {
-            _shootSequencesQueue = new Queue<ShootSequence>(_shootSequence);   
+            _eventSequencesQueue = new Queue<EventSequence>(_eventSequence);   
 
             PrepareSequencies();
+
+            _iMovementBezierComponent = _movementBezierComponent;
+            _iMovementBezierComponent.Init(_enemyGameObject);
 
             _iBulletComponent = _bulletComponent;
             _iBulletComponent.Init(player);
@@ -29,7 +39,7 @@ namespace Enemies
 
         public void UpdateEnemy(float delta)
         {
-
+            _iBulletComponent.UpdateComponent(delta);
         }
 
         public void StartLookAtPlayer()
@@ -39,7 +49,8 @@ namespace Enemies
 
         public void StartMove()
         {
-            
+            Debug.Log("Start movement");
+            _iMovementBezierComponent.StartMovement();
         }
 
         public void StartShoot()
@@ -55,7 +66,8 @@ namespace Enemies
 
         public void StopMove()
         {
-            
+            Debug.Log("Stop movement");
+            _iMovementBezierComponent.StopMovement();
         }
 
         public void StopShoot()
@@ -66,21 +78,27 @@ namespace Enemies
 
         private void PrepareSequencies()
         {
-            foreach (ShootSequence item in _shootSequence)
+            foreach (EventSequence item in _eventSequence)
             {
                 switch (item.Type)
                 {
-                    case ShootEventType.Shoot:
+                    case Sequences.EventType.Shoot:
                         item.Event = StartShoot;
                         break;
-                    case ShootEventType.StopShoot:
+                    case Sequences.EventType.StopShoot:
                         item.Event = StopShoot;
                         break;
-                    case ShootEventType.LookAtPlayer:
+                    case Sequences.EventType.LookAtPlayer:
                         item.Event = StartLookAtPlayer;
                         break;
-                    case ShootEventType.StopLookAtPlayer:
+                    case Sequences.EventType.StopLookAtPlayer:
                         item.Event = StopLookAtPlayer;
+                        break;
+                    case Sequences.EventType.Move:
+                        item.Event = StartMove;
+                        break;
+                    case Sequences.EventType.StopMove:
+                        item.Event = StopMove;
                         break;
                 }
             }
@@ -89,7 +107,7 @@ namespace Enemies
 
     public interface IEnemyController
     {
-        public Queue<ShootSequence> ShootSequencesQueue { get; }
+        public Queue<EventSequence> EventSequencesQueue { get; }
         public void Init(Transform player);
         public void UpdateEnemy(float delta);
         public void StartMove();
