@@ -3,12 +3,26 @@ using System.Text;
 using DG.Tweening;
 using UniRx;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEditor.ShaderGraph.Internal;
+using System.Collections.Generic;
+using UnityEditor.Search;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace BezierMovementSystem
 {
     public class MovementBezierComponent : MonoBehaviour, IMovementBezierComponent
     {
-        [SerializeField] private BezierCurve[] _bezierCorves = new BezierCurve[1];
+        [Header("Movement")]
+        [SerializeField] private List<BezierCurve> _bezierCorves = new List<BezierCurve>();
+
+        [Space(10)]
+        [Header("Editor")]
+        [SerializeField] private int _linesInTheCurve = 10;
+        [SerializeField] private float _pointSphereRadious = 2;
 
         private int _currentCurve = 0;
         private bool _isMoving = false;
@@ -54,6 +68,8 @@ namespace BezierMovementSystem
             BezierCurve bezierCurve = _bezierCorves[_currentCurve];
 
             MoveAlongCurve(bezierCurve);
+
+            _currentCurve += 1;
         }
 
         public void StopMovement()
@@ -63,22 +79,49 @@ namespace BezierMovementSystem
                 _currentMovingSequence.Kill();
             }
         }
+
+        private void OnDrawGizmos()
+        {
+#if UNITY_EDITOR
+            List<Vector3> allPoints = new List<Vector3>();
+
+            foreach (BezierCurve bezierCurve in _bezierCorves)
+            {
+                if (bezierCurve.IsHideGizmos) continue;
+
+                Gizmos.DrawSphere(bezierCurve.StartPositions, _pointSphereRadious);
+                Gizmos.DrawSphere(bezierCurve.CentralPositions, _pointSphereRadious);
+                Gizmos.DrawSphere(bezierCurve.EndPositions, _pointSphereRadious);
+                for (int i = 0; i < _linesInTheCurve + 1; i++)
+                {
+                    float t = (float)i / (float)_linesInTheCurve;
+                    Vector3 point = bezierCurve.GetPoint(t);
+                    allPoints.Add(point);
+                }
+            }
+
+            Handles.color = Color.red;
+            Handles.DrawAAPolyLine(3, allPoints.ToArray());
+#endif
+        }
     }
 
     [Serializable]
     public class BezierCurve
     {
         [SerializeField] private float _duration = 1.0f;
-        [SerializeField] private Vector3 _startPosition = Vector3.zero;
-        [SerializeField] private Vector3 _centralPosition = Vector3.zero;
-        [SerializeField] private Vector3 _endPosition = Vector3.zero;
+        [SerializeField] private Transform _startPosition = default;
+        [SerializeField] private Transform _centralPosition = default;
+        [SerializeField] private Transform _endPosition = default;
         [SerializeField] private Ease _moveEase = default;
+        [SerializeField] private bool _hideGizmos = false;
 
         public float Duration { get => _duration; }
-        public Vector3 StartPositions { get => _startPosition; }
-        public Vector3 CentralPositions { get => _centralPosition; }
-        public Vector3 EndPositions { get => _endPosition; }
+        public Vector3 StartPositions { get => _startPosition.position; }
+        public Vector3 CentralPositions { get => _centralPosition.position; }
+        public Vector3 EndPositions { get => _endPosition.position; }
         public Ease MoveEase { get => _moveEase; }
+        public bool IsHideGizmos { get => _hideGizmos; }
 
         public Vector3 GetPoint(float t)
         {
