@@ -1,13 +1,10 @@
-using Cysharp.Threading.Tasks;
-using Stages.Parts;
 using UniRx;
-using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
 namespace Stages.Manager
 {
-    public class StageManager : MonoBehaviour, IStageManager, IStageManagerActions
+    public class StageManager : MonoBehaviour, IStageManager, IStageManagerTimer
     {
         [SerializeField] private BaseStage[] _stages = new BaseStage[6];
 
@@ -23,6 +20,7 @@ namespace Stages.Manager
 
         private CompositeDisposable _stageDisposables = new CompositeDisposable();
         private DiContainer _diContainer = null;
+        public float currentTime { get => (_timer != null) ? _timer.GetCurrentTime : 0; }
 
         [Inject]
         public void Construct(DiContainer diContainer)
@@ -40,10 +38,10 @@ namespace Stages.Manager
         {
             _currentStage = _stages[index];
 
-            _currentStage
+            /*_currentStage
                 .StageClear
                 .Subscribe(_ => NextState())
-                .AddTo(_stageDisposables);
+                .AddTo(_stageDisposables);*/
 
             _diContainer.Inject(_currentStage);
 
@@ -78,9 +76,10 @@ namespace Stages.Manager
         }
     }
 
-    public interface IStageManagerActions
+    public interface IStageManagerTimer
     {
         public Subject<float> TimeChanged { get; set; }
+        public float currentTime { get; }
     }
 
     public interface IStageManager 

@@ -110,16 +110,16 @@ namespace BezierMovementSystem
     public class BezierCurve
     {
         [SerializeField] private float _duration = 1.0f;
-        [SerializeField] private Transform _startPosition = default;
-        [SerializeField] private Transform _centralPosition = default;
-        [SerializeField] private Transform _endPosition = default;
+        [SerializeField] private Vector3 _startPosition = default;
+        [SerializeField] private Vector3 _centralPosition = default;
+        [SerializeField] private Vector3 _endPosition = default;
         [SerializeField] private Ease _moveEase = default;
         [SerializeField] private bool _hideGizmos = false;
 
         public float Duration { get => _duration; }
-        public Vector3 StartPositions { get => _startPosition.position; }
-        public Vector3 CentralPositions { get => _centralPosition.position; }
-        public Vector3 EndPositions { get => _endPosition.position; }
+        public Vector3 StartPositions { get => _startPosition; }
+        public Vector3 CentralPositions { get => _centralPosition; }
+        public Vector3 EndPositions { get => _endPosition; }
         public Ease MoveEase { get => _moveEase; }
         public bool IsHideGizmos { get => _hideGizmos; }
 

@@ -23,22 +23,25 @@ namespace Enemies.Manager
 
         private Transform _playerTransform = null;
 
+        private float _timeOnStart = 0;
+
         [Inject]
-        private void Construct(IPlayerManagerTransform playerManager)
+        private void Construct(IPlayerManagerTransform playerManager, IStageManagerTimer stageManagerTimer)
         {
             _playerTransform = playerManager.PlayerTransform;
+            _timeOnStart = stageManagerTimer.currentTime;
+
+            stageManagerTimer
+                .TimeChanged
+                .Subscribe(_ => TimerUpdated(_))
+                .AddTo(disposables);
         }
 
-        public void Init(IPartAction partAction)
+        public void Init()
         {
             _enemyControllers = enemyControllers;
             InitEnemies(_playerTransform);
             FillEnemysTime();
-
-            partAction
-                .TimerUpdatedLocal
-                .Subscribe(_ => TimerUpdated(_))
-                .AddTo(disposables);
         }
 
         private void InitEnemies(Transform player)
@@ -59,6 +62,7 @@ namespace Enemies.Manager
 
         private void TimerUpdated(float time)
         {
+            float localTime = time - _timeOnStart;
             foreach (EnemyController enemy in _enemyControllers)
             {
                 if (EnemysTime.TryGetValue(enemy, out float lastEventTime))
@@ -68,7 +72,7 @@ namespace Enemies.Manager
                         EventSequence currentSequence = enemy.EventSequencesQueue.Peek();
                         float scheduledTime = lastEventTime + currentSequence.Delay;
 
-                        if (scheduledTime <= time)
+                        if (scheduledTime <= localTime)
                         {
                             currentSequence.Event.Invoke();
                             lastEventTime = scheduledTime;
@@ -87,6 +91,6 @@ namespace Enemies.Manager
 
     public interface IEnemyManager
     {
-        void Init(IPartAction partAction);
+        void Init();
     }
 }

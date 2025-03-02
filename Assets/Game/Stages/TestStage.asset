@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialParts:
   - {fileID: 2205321750381239115, guid: b368407e2fb68124895755cb1e9ceaa4, type: 3}
-  secondaryParts: []
+  secondaryParts:
+  - {fileID: 2205321750381239115, guid: b368407e2fb68124895755cb1e9ceaa4, type: 3}
   firstPassiveParts: []
   tertioryParts: []
   quaternaryParts: []
   secondPassiveParts: []
-  bossParts: {fileID: 0}
+  bossPart: {fileID: 0}

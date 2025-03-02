@@ -33,7 +33,7 @@ namespace Stages
 
         private Transform _partParent = default;
 
-        private IStageManagerActions _managerActions = null;
+        private IStageManagerTimer _managerActions = null;
 
         private DiContainer _diContainer = null;
 
@@ -43,7 +43,7 @@ namespace Stages
             _diContainer = diContainer;
         }
 
-        public void Init(Transform partParent, IStageManagerActions managerActions)
+        public void Init(Transform partParent, IStageManagerTimer managerActions)
         {
             //CheckForArrayAmount();
 
@@ -94,10 +94,10 @@ namespace Stages
         {
             _currentPart = CreatePart(part);
 
-            _managerActions
+            /*_managerActions
                 .TimeChanged
                 .Subscribe(_ => _currentPart.TimerUpdated(_))
-                .AddTo(_disposables);
+                .AddTo(_disposables);*/
 
             _currentPart.PartClear
                 .Subscribe(_ => NextPart())
@@ -187,6 +187,7 @@ namespace Stages
         private void DestroyCurrentPart()
         {
             _disposables.Clear();
+            _currentPart.Dispose();
             Destroy(_currentPart.gameObject);
         }
 
@@ -236,7 +237,7 @@ namespace Stages
         public Subject<APart> PartInit { get; set; }
         public Subject<IBaseStage> StageClear { get; set; }
         public Subject<IBaseStage> StageInited { get; set; }
-        public void Init(Transform partParent, IStageManagerActions managerActions);
+        public void Init(Transform partParent, IStageManagerTimer managerActions);
     }
     public enum PartSteps
     {
