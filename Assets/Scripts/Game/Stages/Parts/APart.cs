@@ -1,6 +1,12 @@
 using System;
 using UniRx;
 using UnityEngine;
+using Unity.VisualScripting;
+
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Stages.Parts
 {
@@ -8,6 +14,11 @@ namespace Stages.Parts
     {
         public Subject<APart> PartClear = new Subject<APart>();
         public Subject<APart> PartStarted = new Subject<APart>();
+
+        private Vector3 TopRightCorner = new Vector3(10.3f, 5.8f, 0f);
+        private Vector3 DownRightCorner = new Vector3(10.3f, -5.8f, 0f);
+        private Vector3 TopLeftCorner = new Vector3(-10.3f, 5.8f, 0f);
+        private Vector3 DownLeftCorner = new Vector3(-10.3f, -5.8f, 0f);
 
         protected CompositeDisposable _disposable = new CompositeDisposable();
         public virtual void Init()
@@ -24,6 +35,22 @@ namespace Stages.Parts
         {
 
         }
+
+#if UNITY_EDITOR
+        private void OnDrawGizmos()
+        {
+            Vector3[] windowsEdges = new Vector3[5];
+
+            windowsEdges[0] = TopRightCorner;
+            windowsEdges[1] = DownRightCorner;
+            windowsEdges[2] = DownLeftCorner;
+            windowsEdges[3] = TopLeftCorner;
+            windowsEdges[4] = TopRightCorner;
+
+            Handles.color = Color.white;
+            Handles.DrawAAPolyLine(3,windowsEdges);
+        }
+#endif
 
         public void Dispose()
         {

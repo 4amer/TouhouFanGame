@@ -77,7 +77,7 @@ Transform:
   m_GameObject: {fileID: 5816867565921762848}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7.33, y: 8.28, z: 0}
+  m_LocalPosition: {x: 3.63, y: 6.96, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4875,6 +4875,18 @@ MonoBehaviour:
     _type: 5
   - _actionDelay: 0
     _type: 1
+  - _actionDelay: 1
+    _type: 5
+  - _actionDelay: 1
+    _type: 5
+  - _actionDelay: 1
+    _type: 5
+  - _actionDelay: 1
+    _type: 5
+  - _actionDelay: 1
+    _type: 5
+  - _actionDelay: 1
+    _type: 5
   _bulletComponent: {fileID: 2103079901539992091}
   _movementBezierComponent: {fileID: 3024577124073475696}
   _enemyGameObject: {fileID: 5816867565921762848}
@@ -4978,15 +4990,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03d286976ecedbc4582042bd6b87efeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bezierCorves:
-  - _duration: 1
-    _startPosition: {x: 5.69, y: 0, z: 0}
-    _centralPosition: {x: 0, y: 0, z: 0}
+  _bezierCurves:
+  - _duration: 0
+    _startPosition: {x: 3.63, y: 6.96, z: 0}
+    _centralPosition: {x: 0, y: 4.74, z: 0}
     _endPosition: {x: 0, y: 0, z: 0}
     _moveEase: 0
     _hideGizmos: 0
   _linesInTheCurve: 10
-  _pointSphereRadious: 0.42
+  _pointSphereRadious: 0.5
 --- !u!1 &6955919722623253606
 GameObject:
   m_ObjectHideFlags: 0

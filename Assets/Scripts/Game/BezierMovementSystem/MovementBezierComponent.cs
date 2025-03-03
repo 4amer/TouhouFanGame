@@ -17,7 +17,7 @@ namespace BezierMovementSystem
     public class MovementBezierComponent : MonoBehaviour, IMovementBezierComponent
     {
         [Header("Movement")]
-        [SerializeField] private List<BezierCurve> _bezierCorves = new List<BezierCurve>();
+        [SerializeField] private List<BezierCurve> _bezierCurves = new List<BezierCurve>();
 
         [Space(10)]
         [Header("Editor")]
@@ -32,6 +32,8 @@ namespace BezierMovementSystem
         private Sequence _currentMovingSequence = null;
 
         private Subject<Unit> MoveCompleted;
+
+        private const float ADITIONAL_TIME_TO_TIMER = 0.05f;
 
         public void Init(GameObject entity)
         {
@@ -50,7 +52,7 @@ namespace BezierMovementSystem
                 interpolateValue = t;
                 _enemyTransform.position = bezierCurve.GetPoint(t);
 
-            }, 1, bezierCurve.Duration)
+            }, 1, (bezierCurve.Duration + ADITIONAL_TIME_TO_TIMER))
                 .SetEase(bezierCurve.MoveEase)
                 .OnComplete(() =>
                 {
@@ -65,7 +67,7 @@ namespace BezierMovementSystem
         {
             _isMoving = true;
 
-            BezierCurve bezierCurve = _bezierCorves[_currentCurve];
+            BezierCurve bezierCurve = _bezierCurves[_currentCurve];
 
             MoveAlongCurve(bezierCurve);
 
@@ -80,12 +82,33 @@ namespace BezierMovementSystem
             }
         }
 
+        [ContextMenu("Sync positions")]
+        public void SynchronizeMovePositionsWithObject()
+        {
+            if (_bezierCurves == null || _bezierCurves.Count == 0)
+                return;
+
+            Vector3 objectPosition = transform.position;
+            Vector3 initialCurveStartOffset = _bezierCurves[0].StartPositions - objectPosition; // Always zero initially
+
+            foreach (BezierCurve curve in _bezierCurves)
+            {
+                Vector3 startOffset = curve.StartPositions - _bezierCurves[0].StartPositions;
+                Vector3 centerOffset = curve.CentralPositions - _bezierCurves[0].StartPositions;
+                Vector3 endOffset = curve.EndPositions - _bezierCurves[0].StartPositions;
+
+                curve.StartPositions = objectPosition + startOffset;
+                curve.CentralPositions = objectPosition + centerOffset;
+                curve.EndPositions = objectPosition + endOffset;
+            }
+        }
+
         private void OnDrawGizmos()
         {
 #if UNITY_EDITOR
             List<Vector3> allPoints = new List<Vector3>();
 
-            foreach (BezierCurve bezierCurve in _bezierCorves)
+            foreach (BezierCurve bezierCurve in _bezierCurves)
             {
                 if (bezierCurve.IsHideGizmos) continue;
 
@@ -117,9 +140,9 @@ namespace BezierMovementSystem
         [SerializeField] private bool _hideGizmos = false;
 
         public float Duration { get => _duration; }
-        public Vector3 StartPositions { get => _startPosition; }
-        public Vector3 CentralPositions { get => _centralPosition; }
-        public Vector3 EndPositions { get => _endPosition; }
+        public Vector3 StartPositions { get => _startPosition; set => _startPosition = value; }
+        public Vector3 CentralPositions { get => _centralPosition; set => _centralPosition = value; }
+        public Vector3 EndPositions { get => _endPosition; set => _endPosition = value; }
         public Ease MoveEase { get => _moveEase; }
         public bool IsHideGizmos { get => _hideGizmos; }
 
