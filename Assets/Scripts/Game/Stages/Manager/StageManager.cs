@@ -72,7 +72,7 @@ namespace Stages.Manager
         private void OnDestroy()
         {
             _stageDisposables.Dispose();
-            _timer?.Dispose();
+            _timer?.Reset();
         }
     }
 

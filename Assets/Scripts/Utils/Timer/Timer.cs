@@ -6,18 +6,20 @@ public class Timer
     public float duration = 5f;
     public float timeStep = 1f;
 
-    public event Action OnTimerStop;
     public event Action OnTimerStart;
     public event Action<float> OnTimerUpdated;
+    public event Action OnTimerFinish;
+    public event Action OnTimerPause;
 
     public Action EventOnStart;
     public Action EventOnUpdate;
-    public Action EventOnStop;
+    public Action EventOnFinish;
+    public Action EventOnPause;
 
     private const int ONE_SECOND = 1000;
     private float _currentTimerTime = 0f;
 
-    private bool _isTimerEnd = true;
+    private bool _isTimerStoped = true;
 
     private CancellationTokenSource _cancellationTokenSource = null;
 
@@ -35,40 +37,54 @@ public class Timer
     }
     public void Start()
     {
-        if (EventOnStart != null) EventOnStart();
-        _isTimerEnd = false;
+        if (_isTimerStoped == false) return;
+
+
+        _cancellationTokenSource = new CancellationTokenSource();
+        _isTimerStoped = false;
+        EventOnStart?.Invoke();
         OnTimerStart?.Invoke();
         StartTimer(_cancellationTokenSource.Token);
     }
 
     public void StartInfinity()
     {
-        if (EventOnStart != null) EventOnStart();
-        _isTimerEnd = false;
+        if (_isTimerStoped == false) return;
         duration = int.MaxValue;
-        OnTimerStart?.Invoke();
-        StartTimer(_cancellationTokenSource.Token);
+
+        Start();
     }
 
-    public void Stop()
+    public void Pause()
     {
-        if (EventOnStop != null) EventOnStop();
-        OnTimerStop?.Invoke();
+        EventOnPause?.Invoke();
+        OnTimerPause?.Invoke();
+        PauseTimer();
+    }
+
+    public void Finish()
+    {
+        EventOnFinish?.Invoke();
+        OnTimerFinish?.Invoke();
         ResetTimer();
     }
 
-    public void Dispose()
+    public void Reset()
     {
         ResetTimer();
     }
 
-    public bool IsPlaying => !_isTimerEnd;
+    public bool IsPlaying => !_isTimerStoped;
 
     private void ResetTimer()
     {
         _currentTimerTime = 0;
-        _isTimerEnd = true;
+        PauseTimer();
+    }
 
+    private void PauseTimer()
+    {
+        _isTimerStoped = true;
         _cancellationTokenSource.Cancel();
     }
 
@@ -77,13 +93,13 @@ public class Timer
         _currentTimerTime = 0;
         try
         {
-            while (!_isTimerEnd)
+            while (!_isTimerStoped)
             {
                 int timeToUpdate = (int)(ONE_SECOND * timeStep);
 
                 if (_currentTimerTime >= duration)
                 {
-                    Stop();
+                    Finish();
                     break;
                 }
 

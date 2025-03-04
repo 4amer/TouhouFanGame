@@ -4875,18 +4875,6 @@ MonoBehaviour:
     _type: 5
   - _actionDelay: 0
     _type: 1
-  - _actionDelay: 1
-    _type: 5
-  - _actionDelay: 1
-    _type: 5
-  - _actionDelay: 1
-    _type: 5
-  - _actionDelay: 1
-    _type: 5
-  - _actionDelay: 1
-    _type: 5
-  - _actionDelay: 1
-    _type: 5
   _bulletComponent: {fileID: 2103079901539992091}
   _movementBezierComponent: {fileID: 3024577124073475696}
   _enemyGameObject: {fileID: 5816867565921762848}
@@ -4991,7 +4979,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bezierCurves:
-  - _duration: 0
+  - _duration: 2
     _startPosition: {x: 3.63, y: 6.96, z: 0}
     _centralPosition: {x: 0, y: 4.74, z: 0}
     _endPosition: {x: 0, y: 0, z: 0}
