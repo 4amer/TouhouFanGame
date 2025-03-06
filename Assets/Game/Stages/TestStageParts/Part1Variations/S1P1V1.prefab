@@ -5033,6 +5033,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0983c302fc67b38428195686a97243ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _partColor: {r: 1, g: 1, b: 1, a: 0.39215687}
+  _partName: Gameplay stage
   _partTime: 10
   _enemies: []
   _enemyManager: {fileID: 7150977079705195802}

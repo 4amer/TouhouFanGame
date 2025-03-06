@@ -1,3 +1,4 @@
+using TMPro;
 using UniRx;
 using UnityEngine;
 
@@ -5,36 +6,48 @@ namespace Stages.Parts.Selection
 {
     public class SelectionArea : MonoBehaviour, ISelectionArea
     {
+        [SerializeField] private SpriteRenderer _spriteRenderer = null;
+        [SerializeField] private TextMeshProUGUI _partLabel = null;
+
         private float _timerToSelect = 0;
 
         private Timer _timer = null;
 
-        public Subject<PassivePart> AreaSelected { get; set; } = new Subject<PassivePart>();
-        public void Init(float timeToSelect, PassivePart passivePart)
+        public Subject<APart> OnAreaSelected { get; set; } = new Subject<APart>();
+        public void Init(float timeToSelect, APart passivePart)
         {
             _timerToSelect = timeToSelect;
-            
+
+            _spriteRenderer.color = passivePart.PartColor;
+            _partLabel.text = passivePart.PartName;
+
             _timer = new Timer();
             _timer.EventOnFinish = () =>
             {
-                AreaSelected?.OnNext(passivePart);
+                OnAreaSelected?.OnNext(passivePart);
             };
         }
 
         private void OnCollisionEnter(Collision collision)
         {
-            _timer.Start();
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                _timer.Start();
+            }
         }
 
         private void OnCollisionExit(Collision collision)
         {
-            _timer.Reset();
+            if(collision.gameObject.CompareTag("Player"))
+            {
+                _timer.Reset();
+            }
         }
     }
 
     public interface ISelectionArea
     {
-        public void Init(float timeToSelect, PassivePart passivePart);
-        public Subject<PassivePart> AreaSelected { get; set; }
+        public void Init(float timeToSelect, APart passivePart);
+        public Subject<APart> OnAreaSelected { get; set; }
     }
 }

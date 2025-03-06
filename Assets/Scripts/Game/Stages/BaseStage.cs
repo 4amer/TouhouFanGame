@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Stages.Manager;
 using Stages.Parts;
+using Stages.Parts.Selection;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -10,6 +11,8 @@ namespace Stages
     [CreateAssetMenu(fileName = "BaseStage", menuName = "TouhouLike/Stages/BaseStage", order = 1)]
     public class BaseStage : ScriptableObject, IBaseStage
     {
+        [SerializeField] private SelectionPart _selectablePart = null; 
+
         [SerializeField] private GameplayPart[] initialParts = new GameplayPart[0];
         [SerializeField] private GameplayPart[] secondaryParts = new GameplayPart[0];
         [SerializeField] private APart[] firstPassiveParts = new APart[0];
@@ -29,7 +32,7 @@ namespace Stages
         private PartSteps _currentStep = PartSteps.None;
         private APart _currentPart = default;
 
-        private CompositeDisposable _disposables = new CompositeDisposable();
+        private CompositeDisposable _disposable = new CompositeDisposable();
 
         private Transform _partParent = default;
 
@@ -54,7 +57,7 @@ namespace Stages
             _managerActions
                 .TimeChanged
                 .Subscribe(_ => OnTimerUpdated(_))
-                .AddTo(_disposables);
+                .AddTo(_disposable);
 
             InitFirstPart();
         }
@@ -76,7 +79,7 @@ namespace Stages
 
             if (_currentStep == PartSteps.FirstPassive || _currentStep == PartSteps.SecondPassive)
             {
-                OnPartSelected(parts);
+                PrepareSelectablePart(parts);
                 return;
             }
 
@@ -101,14 +104,28 @@ namespace Stages
 
             _currentPart.PartClear
                 .Subscribe(_ => NextPart())
-                .AddTo(_disposables);
+                .AddTo(_disposable);
 
             _currentPart.Init();
         }
 
-        private void OnPartSelected(APart[] parts)
+        private void PrepareSelectablePart(APart[] parts)
         {
-            PrepareSelectableParts(parts);
+            APart[] selectParts = PreparePartsForSelect(parts);
+            SelectionPart selectPartObject = (SelectionPart)CreatePart(_selectablePart);
+
+            selectPartObject.PrepareParts(selectParts);
+
+            selectPartObject.OnPartSelected
+                .Subscribe(part => {
+                    DestroyCurrentPart();
+                    PreparePart(part);
+                })
+                .AddTo(_disposable);
+
+            selectPartObject.Init();
+
+            _currentPart = selectPartObject;
         }
 
         private void OnTimerUpdated(float time)
@@ -116,7 +133,7 @@ namespace Stages
             
         }
 
-        private APart[] PrepareSelectableParts(APart[] parts)
+        private APart[] PreparePartsForSelect(APart[] parts)
         {
             List<APart> partsList = new List<APart>(parts);
             List<APart> selectableParts = new List<APart>();
@@ -186,7 +203,7 @@ namespace Stages
 
         private void DestroyCurrentPart()
         {
-            _disposables.Clear();
+            _disposable.Clear();
             _currentPart.Dispose();
             Destroy(_currentPart.gameObject);
         }

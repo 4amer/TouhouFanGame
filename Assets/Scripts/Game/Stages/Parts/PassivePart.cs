@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Stages.Parts
 {
     public class PassivePart : APart

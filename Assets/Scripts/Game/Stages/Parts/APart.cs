@@ -12,6 +12,9 @@ namespace Stages.Parts
 {
     public abstract class APart : MonoBehaviour, IDisposable
     {
+        [SerializeField] private Color _partColor = Color.white;
+        [SerializeField] private string _partName = string.Empty;
+
         public Subject<APart> PartClear = new Subject<APart>();
         public Subject<APart> PartStarted = new Subject<APart>();
 
@@ -21,6 +24,8 @@ namespace Stages.Parts
         private Vector3 DownLeftCorner = new Vector3(-10.3f, -5.8f, 0f);
 
         protected CompositeDisposable _disposable = new CompositeDisposable();
+        public Color PartColor => _partColor;
+        public string PartName => _partName;
         public virtual void Init()
         {
             PartClear.OnNext(this);

@@ -12,11 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 095041c247066a2458df33bcc18b950e, type: 3}
   m_Name: TestStage
   m_EditorClassIdentifier: 
+  _selectablePart: {fileID: 7286108707092878384, guid: 054e24aa36755cc469f494ce5265f224, type: 3}
   initialParts:
   - {fileID: 2205321750381239115, guid: b368407e2fb68124895755cb1e9ceaa4, type: 3}
   secondaryParts:
   - {fileID: 2205321750381239115, guid: b368407e2fb68124895755cb1e9ceaa4, type: 3}
-  firstPassiveParts: []
+  firstPassiveParts:
+  - {fileID: 6272302376288678164, guid: 690802636f2a2724fa76e9817bf67986, type: 3}
+  - {fileID: 2024546689989488757, guid: 6d401adac156c1746aa1f100eff2ef71, type: 3}
+  - {fileID: 4532292968419202490, guid: 8d15dd762f79682428ab0f7a7bcef229, type: 3}
   tertioryParts: []
   quaternaryParts: []
   secondPassiveParts: []
