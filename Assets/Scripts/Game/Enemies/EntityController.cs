@@ -12,14 +12,14 @@ namespace Enemies
     {
         [SerializeField] private bool _isSequenceCycled = false;
         [SerializeField] private EventSequence[] _eventSequence = new EventSequence[1];
-        [SerializeField] private BulletComponent _bulletComponent = default;
+        [SerializeField] private BulletComponent[] _bulletComponents = default;
         [SerializeField] private MovementBezierComponent _movementBezierComponent = default;
 
         [Space(10)]
         [Header("Enemy Object")]
         [SerializeField] private GameObject _enemyGameObject = null;
 
-        private IBulletComponent _iBulletComponent = default;
+        private IBulletComponent[] _iBulletComponents = default;
         private IMovementBezierComponent _iMovementBezierComponent = default;
 
         private Queue<EventSequence> _eventSequencesQueue;
@@ -37,13 +37,19 @@ namespace Enemies
             _iMovementBezierComponent = _movementBezierComponent;
             _iMovementBezierComponent?.Init(_enemyGameObject);
 
-            _iBulletComponent = _bulletComponent;
-            _iBulletComponent.Init(player);
+            _iBulletComponents = _bulletComponents;
+            foreach (IBulletComponent bulletComponent in _iBulletComponents)
+            {
+                bulletComponent.Init(player);
+            }
         }
 
         public void UpdateEnemy(float delta)
         {
-            _iBulletComponent.UpdateComponent(delta);
+            foreach (IBulletComponent bulletComponent in _iBulletComponents)
+            {
+                bulletComponent.UpdateComponent(delta);
+            }
         }
 
         public void StartLookAtPlayer()
@@ -60,7 +66,10 @@ namespace Enemies
         public void StartShoot()
         {
             Debug.Log("Shooting");
-            _iBulletComponent.StartShooting();
+            foreach (IBulletComponent bulletComponent in _iBulletComponents)
+            {
+                bulletComponent.StartShooting();
+            }
         }
 
         public void StopLookAtPlayer()
@@ -77,7 +86,10 @@ namespace Enemies
         public void StopShoot()
         {
             Debug.Log("Stop Shooting");
-            _iBulletComponent.StopShooting();
+            foreach (IBulletComponent bulletComponent in _iBulletComponents)
+            {
+                bulletComponent.StopShooting();
+            }
         }
 
         public void RestoreSequence()

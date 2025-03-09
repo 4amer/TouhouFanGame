@@ -1,33 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using Enemies.Bosses.Phase;
+using UniRx;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Enemies.Bosses.SpellCards
 {
-    public class SpellCardManager : MonoBehaviour
+    public class SpellCardManager : MonoBehaviour, ISpellCardManager
     {
         [SerializeField] private Image[] _spellCardImages = new Image[1];
 
         [SerializeField] private GameObject _spellCardEffect = null;
 
-        public void Init(int spellCardAmount)
+        private CompositeDisposable _disposable = new CompositeDisposable();
+
+        [Inject]
+        private void Construct(IBaseBossActions bossActions)
         {
-            for(int i = 0; i < _spellCardImages.Length; i++)
-            {
-                if(i < spellCardAmount)
-                {
-                    _spellCardImages[i].enabled = true;
-                }
-                else
-                {
-                    _spellCardImages[i].enabled = false;
-                }
-            }
+            bossActions
+                .OnSpellCardEnd
+                .Subscribe(_ => SpellCardEnd(_))
+                .AddTo(_disposable);
         }
 
-        private void SpellCardEnd()
+        public void Init(int spellCardAmount)
+        {
+            PrepareSpellCardImages(spellCardAmount);
+        }
+
+        private void SpellCardEnd(BossAttack attack)
         {
             for (int i = (_spellCardImages.Length - 1); i >= 0; i--)
             {
@@ -39,9 +44,29 @@ namespace Enemies.Bosses.SpellCards
             }
         }
 
+        private void PrepareSpellCardImages(int spellCardAmount)
+        {
+            for (int i = 0; i < _spellCardImages.Length; i++)
+            {
+                if (i < spellCardAmount)
+                {
+                    _spellCardImages[i].enabled = true;
+                }
+                else
+                {
+                    _spellCardImages[i].enabled = false;
+                }
+            }
+        }
+
         private void ChangeEnviranvemnt()
         {
 
         }
+    }
+
+    internal interface ISpellCardManager
+    {
+        public void Init(int spellCardAmount);
     }
 }

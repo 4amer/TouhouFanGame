@@ -1,27 +1,32 @@
-using Game.Player.Manager;
+using System;
+using System.Runtime.CompilerServices;
+using Enemies.Bosses.Attack;
 using UnityEngine;
-using Zenject;
 
-namespace Enemies.Bosses.Attack
+namespace Enemies.Bosses.Phase
 {
-    public class BossAttack : MonoBehaviour
+    [Serializable]
+    public class BossAttack
     {
-        [SerializeField] private EntityController[] _entityControllers = null;
+        [SerializeField] private BossPattern[] _attacks = new BossPattern[1];
+        [SerializeField] private bool _isSpellCard = false;
+        [SerializeField] private float _hpOnPhase = 100f;
+        [SerializeField] private int _timeToBeatInSeconds = 99;
+        [SerializeField] private bool _isInvulnerable = false;
 
-        private Transform _playerTransform = null;
+        public BossPattern[] GetAttacks { get => _attacks; }
+        public bool IsSpellCard { get => _isSpellCard; }
+        public float HP { get => _hpOnPhase; }
+        public int TimeTobeat { get => _timeToBeatInSeconds; }
+        public bool IsInvulnerable { get => _isInvulnerable; }
 
-        [Inject]
-        private void Construct(IPlayerManagerTransform playerManagerTransform)
+        public BossPattern GetRandomAttack()
         {
-            _playerTransform = playerManagerTransform.PlayerTransform;
-        }
-
-        public void Init()
-        {
-            foreach (EntityController entity in _entityControllers)
-            {
-                entity.Init(_playerTransform);
-            }
+            int attackLenght = _attacks.Length;
+            if (attackLenght == 0) return null;
+            int index = UnityEngine.Random.RandomRange(0, attackLenght);
+            BossPattern attack = _attacks[index];
+            return attack;
         }
     }
 }

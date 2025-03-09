@@ -5,7 +5,7 @@ using Zenject;
 
 namespace Enemies.Bosses.HP
 {
-    public class HealthController : MonoBehaviour, IHPController
+    public class HealthController : MonoBehaviour, IHealthController
     {
         [SerializeField] private Image _HPBar = null;
         [SerializeField] private float _timeToChange = 0.1f;
@@ -30,7 +30,7 @@ namespace Enemies.Bosses.HP
         }
     }
 
-    internal interface IHPController
+    internal interface IHealthController
     {
         public void Init(float fullHP);
     }
