@@ -37,18 +37,18 @@ namespace Enemies.Manager
                 .AddTo(disposables);
         }
 
-        public void Init()
+        public void Init(GameObject entity = null)
         {
             _enemyControllers = enemyControllers;
-            InitEnemies(_playerTransform);
+            InitEnemies(_playerTransform, entity);
             FillEnemysTime();
         }
 
-        private void InitEnemies(Transform player)
+        private void InitEnemies(Transform player, GameObject entity)
         {
             foreach (IEntityController enemy in _enemyControllers)
             {
-                enemy.Init(player);
+                enemy.Init(player, entity);
             }
         }
 
@@ -96,6 +96,6 @@ namespace Enemies.Manager
 
     public interface IEnemyManager
     {
-        void Init();
+        void Init(GameObject entity = null);
     }
 }
