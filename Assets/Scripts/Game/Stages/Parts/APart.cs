@@ -23,7 +23,7 @@ namespace Stages.Parts
         private Vector3 TopLeftCorner = new Vector3(-10.3f, 5.8f, 0f);
         private Vector3 DownLeftCorner = new Vector3(-10.3f, -5.8f, 0f);
 
-        protected CompositeDisposable _disposable = new CompositeDisposable();
+        protected CompositeDisposable disposable = new CompositeDisposable();
         public Color PartColor => _partColor;
         public string PartName => _partName;
         public virtual void Init()
@@ -59,7 +59,7 @@ namespace Stages.Parts
 
         public void Dispose()
         {
-            _disposable.Dispose();
+            disposable.Dispose();
         }
     }
 }

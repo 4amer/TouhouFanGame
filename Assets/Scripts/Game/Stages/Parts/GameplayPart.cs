@@ -10,10 +10,10 @@ namespace Stages.Parts
     public class GameplayPart : APart
     {
         [SerializeField] private float _partTime = 10f;
-        [SerializeField] private EnemyController[] _enemies = new EnemyController[0];
+        [SerializeField] private EntityController[] _enemies = new EntityController[0];
         [SerializeField] private EnemyManager _enemyManager = null;
 
-        private IEnemyController[] _iEnemies = new IEnemyController[0];
+        private IEntityController[] _iEnemies = new IEntityController[0];
         private IEnemyManager _iEnemyManager = default;
 
         private float _timeOnStart = 0;
@@ -26,7 +26,7 @@ namespace Stages.Parts
             stageManagerTimer
                 .TimeChanged
                 .Subscribe(_ => TimerUpdated(_))
-                .AddTo(_disposable);
+                .AddTo(disposable);
         }
 
         public override void Init()

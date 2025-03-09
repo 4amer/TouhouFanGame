@@ -8,8 +8,9 @@ using Zenject;
 
 namespace Enemies
 {
-    public class EnemyController : MonoBehaviour, IEnemyController
+    public class EntityController : MonoBehaviour, IEntityController
     {
+        [SerializeField] private bool _isSequenceCycled = false;
         [SerializeField] private EventSequence[] _eventSequence = new EventSequence[1];
         [SerializeField] private BulletComponent _bulletComponent = default;
         [SerializeField] private MovementBezierComponent _movementBezierComponent = default;
@@ -22,16 +23,19 @@ namespace Enemies
         private IMovementBezierComponent _iMovementBezierComponent = default;
 
         private Queue<EventSequence> _eventSequencesQueue;
+        public bool IsSequenceCycled { get => _isSequenceCycled; }
         public Queue<EventSequence> EventSequencesQueue { get => _eventSequencesQueue; }
 
-        public void Init(Transform player)
+        public void Init(Transform player, GameObject entity = null)
         {
+            if (entity != null) _enemyGameObject = entity;
+
             _eventSequencesQueue = new Queue<EventSequence>(_eventSequence);   
 
             PrepareSequencies();
 
             _iMovementBezierComponent = _movementBezierComponent;
-            _iMovementBezierComponent.Init(_enemyGameObject);
+            _iMovementBezierComponent?.Init(_enemyGameObject);
 
             _iBulletComponent = _bulletComponent;
             _iBulletComponent.Init(player);
@@ -50,7 +54,7 @@ namespace Enemies
         public void StartMove()
         {
             Debug.Log("Start movement");
-            _iMovementBezierComponent.StartMovement();
+            _iMovementBezierComponent?.StartMovement();
         }
 
         public void StartShoot()
@@ -67,13 +71,18 @@ namespace Enemies
         public void StopMove()
         {
             Debug.Log("Stop movement");
-            _iMovementBezierComponent.StopMovement();
+            _iMovementBezierComponent?.StopMovement();
         }
 
         public void StopShoot()
         {
             Debug.Log("Stop Shooting");
             _iBulletComponent.StopShooting();
+        }
+
+        public void RestoreSequence()
+        {
+            PrepareSequencies();
         }
 
         private void PrepareSequencies()
@@ -105,10 +114,11 @@ namespace Enemies
         }
     }
 
-    public interface IEnemyController
+    public interface IEntityController
     {
+        public bool IsSequenceCycled { get; }
         public Queue<EventSequence> EventSequencesQueue { get; }
-        public void Init(Transform player);
+        public void Init(Transform player, GameObject entity = null);
         public void UpdateEnemy(float delta);
         public void StartMove();
         public void StopMove();
@@ -116,5 +126,6 @@ namespace Enemies
         public void StopShoot();
         public void StartLookAtPlayer();
         public void StopLookAtPlayer();
+        public void RestoreSequence();
     }
 }

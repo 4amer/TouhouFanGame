@@ -11,13 +11,13 @@ namespace Enemies.Manager
 {
     public class EnemyManager : MonoBehaviour, IEnemyManager
     {
-        [SerializeField] private EnemyController[] enemyControllers = new EnemyController[1];
+        [SerializeField] private EntityController[] enemyControllers = new EntityController[1];
 
-        private IEnemyController[] _enemyControllers = null;
+        private IEntityController[] _enemyControllers = null;
 
-        private List<EnemyController> _initializedEnemies = new List<EnemyController>();
+        private List<EntityController> _initializedEnemies = new List<EntityController>();
 
-        private Dictionary<IEnemyController, float> EnemysTime = new Dictionary<IEnemyController, float>();
+        private Dictionary<IEntityController, float> EnemysTime = new Dictionary<IEntityController, float>();
 
         private CompositeDisposable disposables = new CompositeDisposable();
 
@@ -46,7 +46,7 @@ namespace Enemies.Manager
 
         private void InitEnemies(Transform player)
         {
-            foreach (IEnemyController enemy in _enemyControllers)
+            foreach (IEntityController enemy in _enemyControllers)
             {
                 enemy.Init(player);
             }
@@ -54,7 +54,7 @@ namespace Enemies.Manager
 
         private void FillEnemysTime()
         {
-            foreach (IEnemyController enemy in _enemyControllers)
+            foreach (IEntityController enemy in _enemyControllers)
             {
                 EnemysTime.Add(enemy, 0f);
             }
@@ -63,10 +63,15 @@ namespace Enemies.Manager
         private void TimerUpdated(float time)
         {
             float localTime = time - _timeOnStart;
-            foreach (EnemyController enemy in _enemyControllers)
+            foreach (EntityController enemy in _enemyControllers)
             {
                 if (EnemysTime.TryGetValue(enemy, out float lastEventTime))
                 {
+                    if (enemy.EventSequencesQueue.Count == 0 && enemy.IsSequenceCycled)
+                    {
+                        enemy.RestoreSequence();
+                    }
+
                     while (enemy.EventSequencesQueue.Count > 0)
                     {
                         EventSequence currentSequence = enemy.EventSequencesQueue.Peek();

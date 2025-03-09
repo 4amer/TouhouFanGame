@@ -30,7 +30,7 @@ namespace Stages.Parts.Selection
 
                 area.OnAreaSelected
                     .Subscribe(_ => PartSelected(_))
-                    .AddTo(_disposable);
+                    .AddTo(disposable);
 
                 area.Init(_timeForSelect, part);
             }
