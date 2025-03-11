@@ -13,7 +13,7 @@ namespace Stages
     {
         [SerializeField] private SelectionPart _selectablePart = null; 
 
-        [SerializeField] private GameplayPart[] initialParts = new GameplayPart[0];
+        [SerializeField] private APart[] initialParts = new APart[0];
         [SerializeField] private GameplayPart[] secondaryParts = new GameplayPart[0];
         [SerializeField] private APart[] firstPassiveParts = new APart[0];
         [SerializeField] private GameplayPart[] tertioryParts = new GameplayPart[0];

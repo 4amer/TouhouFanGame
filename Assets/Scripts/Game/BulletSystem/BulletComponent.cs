@@ -53,10 +53,10 @@ namespace Game.BulletSystem
             if (_lookAtPlayer)
             {
                 Vector3 directionToPlayer = _playerTransform.position - transform.position;
-                
+
                 float angle = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
-                
-                transform.rotation = Quaternion.Euler(0f, 0f, angle);
+
+                transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);
             }
         }
     }

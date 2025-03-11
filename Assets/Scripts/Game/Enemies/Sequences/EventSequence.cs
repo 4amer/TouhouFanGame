@@ -24,5 +24,7 @@ namespace Enemies.Sequences
         StopLookAtPlayer = 4,
         Move = 5,
         StopMove = 6,
+        Cycle = 7,
+        EndCycle = 8,
     }
 }

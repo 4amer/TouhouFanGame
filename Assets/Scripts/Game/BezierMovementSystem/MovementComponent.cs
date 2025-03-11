@@ -14,7 +14,7 @@ using UnityEditor;
 
 namespace BezierMovementSystem
 {
-    public class MovementBezierComponent : MonoBehaviour, IMovementBezierComponent
+    public class MovementComponent : MonoBehaviour, IMovementBezierComponent
     {
         [Header("Movement")]
         [SerializeField] private List<BezierCurve> _bezierCurves = new List<BezierCurve>();
@@ -137,6 +137,10 @@ namespace BezierMovementSystem
         [SerializeField] private Vector3 _startPosition = default;
         [SerializeField] private Vector3 _centralPosition = default;
         [SerializeField] private Vector3 _endPosition = default;
+        [SerializeField] private bool _followPlayersX = false;
+        [SerializeField] private float _followPlayersXDelay = 0f;
+        [SerializeField] private bool _followPlayersY = false;
+        [SerializeField] private float _followPlayersYDelay = 0f;
         [SerializeField] private Ease _moveEase = default;
         [SerializeField] private bool _hideGizmos = false;
 

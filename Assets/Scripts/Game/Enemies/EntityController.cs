@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using BezierMovementSystem;
 using Enemies.Sequences;
+using Game;
 using Game.BulletSystem;
 using Game.Player.Manager;
 using Stages.Manager;
@@ -15,7 +16,7 @@ namespace Enemies
         [SerializeField] private bool _isSequenceCycled = false;
         [SerializeField] private EventSequence[] _eventSequence = new EventSequence[1];
         [SerializeField] private BulletComponent[] _bulletComponents = default;
-        [SerializeField] private MovementBezierComponent _movementBezierComponent = default;
+        [SerializeField] private MovementComponent _movementBezierComponent = default;
 
         [Space(10)]
         [Header("Enemy Object")]
@@ -34,7 +35,7 @@ namespace Enemies
         private CompositeDisposable _disposable = new CompositeDisposable();
 
         [Inject]
-        private void Construct(IStageManagerTimer stageManagerTimer)
+        private void Construct(IStageManagerTimer stageManagerTimer, IGameManager gameManager)
         {
             _timeShift = stageManagerTimer.currentTime;
 
@@ -42,6 +43,15 @@ namespace Enemies
                 .TimeChanged
                 .Subscribe(_ => TimerUpdated(_))
                 .AddTo(_disposable);
+
+            foreach (IBulletComponent bulletComponent in _bulletComponents)
+            {
+                gameManager
+                    .Updated
+                    .Subscribe(_ => bulletComponent.UpdateComponent(_))
+                    .AddTo(_disposable);
+            }
+
         }
         public void Init(Transform player, GameObject entity = null)
         {
