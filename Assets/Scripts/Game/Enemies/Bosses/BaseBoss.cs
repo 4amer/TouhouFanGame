@@ -71,7 +71,7 @@ namespace Enemies.Bosses
                 return;
             }
 
-            SpawnAttackPattern(currentAttack.GetRandomAttack().gameObject);
+            SpawnAttackPattern(currentAttack.GetRandomAttack());
             OnAttackStart.OnNext(currentAttack);
         }
 
@@ -88,7 +88,7 @@ namespace Enemies.Bosses
             }
         }
 
-        private void SpawnAttackPattern(GameObject attackPatternPrefab)
+        private void SpawnAttackPattern(BossPattern attackPatternPrefab)
         {
             if (attackPatternPrefab == null)
             {
@@ -96,10 +96,9 @@ namespace Enemies.Bosses
                 return;
             }
 
-            GameObject instantiatedObject = Instantiate(attackPatternPrefab, transform);
+            BossPattern instantiatedObject = Instantiate(attackPatternPrefab, transform);
             _diContainer.Inject(instantiatedObject);
-            BossPattern patternAttack = instantiatedObject.GetComponent<BossPattern>();
-            patternAttack.Init(_bossObject);
+            instantiatedObject.Init(_bossObject);
         }
 
         private float CurrentHPAmount()

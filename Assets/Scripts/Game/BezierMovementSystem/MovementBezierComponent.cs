@@ -72,6 +72,7 @@ namespace BezierMovementSystem
             MoveAlongCurve(bezierCurve);
 
             _currentCurve += 1;
+            if (_currentCurve >= _bezierCurves.Count) _currentCurve = 0;
         }
 
         public void StopMovement()

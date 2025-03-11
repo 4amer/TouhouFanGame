@@ -2,7 +2,9 @@ using System.Collections.Generic;
 using BezierMovementSystem;
 using Enemies.Sequences;
 using Game.BulletSystem;
+using Game.Player.Manager;
 using Stages.Manager;
+using UniRx;
 using UnityEngine;
 using Zenject;
 
@@ -26,6 +28,21 @@ namespace Enemies
         public bool IsSequenceCycled { get => _isSequenceCycled; }
         public Queue<EventSequence> EventSequencesQueue { get => _eventSequencesQueue; }
 
+        private float _timeShift = 0f;
+        private float _lastTimeEvent = 0f;
+
+        private CompositeDisposable _disposable = new CompositeDisposable();
+
+        [Inject]
+        private void Construct(IStageManagerTimer stageManagerTimer)
+        {
+            _timeShift = stageManagerTimer.currentTime;
+
+            stageManagerTimer
+                .TimeChanged
+                .Subscribe(_ => TimerUpdated(_))
+                .AddTo(_disposable);
+        }
         public void Init(Transform player, GameObject entity = null)
         {
             if (entity != null) _enemyGameObject = entity;
@@ -94,6 +111,7 @@ namespace Enemies
 
         public void RestoreSequence()
         {
+            _eventSequencesQueue = new Queue<EventSequence>(_eventSequence);
             PrepareSequencies();
         }
 
@@ -124,6 +142,39 @@ namespace Enemies
                 }
             }
         }
+
+        private void TimerUpdated(float time)
+        {
+            if (EventSequencesQueue.Count == 0 && IsSequenceCycled)
+            {
+                RestoreSequence();
+                _lastTimeEvent = 0;
+                _timeShift = time - 0.1f;
+            }
+
+            float localTime = time - _timeShift;
+
+            while (EventSequencesQueue.Count > 0)
+            {
+                EventSequence currentSequence = EventSequencesQueue.Peek();
+                float scheduledTime = _lastTimeEvent + currentSequence.Delay;
+
+                if (scheduledTime <= localTime)
+                {
+                    currentSequence.Event.Invoke();
+                    _lastTimeEvent = scheduledTime;
+                    EventSequencesQueue.Dequeue();
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+        public void Dispose()
+        {
+            _disposable.Dispose();
+        }
     }
 
     public interface IEntityController
@@ -139,5 +190,6 @@ namespace Enemies
         public void StartLookAtPlayer();
         public void StopLookAtPlayer();
         public void RestoreSequence();
+        public void Dispose();
     }
 }
