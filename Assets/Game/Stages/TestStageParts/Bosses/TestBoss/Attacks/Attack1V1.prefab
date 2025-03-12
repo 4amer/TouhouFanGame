@@ -4895,6 +4895,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _entityControllers:
   - {fileID: 672103762276220453}
+  _bossMovement: {fileID: 997260555050911091}
+  _timeForPreparePosition: 1
 --- !u!114 &672103762276220453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4940,24 +4942,40 @@ MonoBehaviour:
     _startPosition: {x: 6.2, y: 0.11, z: 0}
     _centralPosition: {x: 8.27, y: 4.16, z: 0}
     _endPosition: {x: 6.2, y: 4.16, z: 0}
+    _followPlayersX: 0
+    _followPlayersXDelay: 0
+    _followPlayersY: 0
+    _followPlayersYDelay: 0
     _moveEase: 1
     _hideGizmos: 0
   - _duration: 1
     _startPosition: {x: 6.2, y: 4.16, z: 0}
     _centralPosition: {x: 4.13, y: 4.16, z: 0}
     _endPosition: {x: 6.2, y: 0.11, z: 0}
+    _followPlayersX: 0
+    _followPlayersXDelay: 0
+    _followPlayersY: 0
+    _followPlayersYDelay: 0
     _moveEase: 1
     _hideGizmos: 0
   - _duration: 1
     _startPosition: {x: 6.2, y: 0.11, z: 0}
     _centralPosition: {x: 8.27, y: -4.05, z: 0}
     _endPosition: {x: 6.2, y: -4.05, z: 0}
+    _followPlayersX: 0
+    _followPlayersXDelay: 0
+    _followPlayersY: 0
+    _followPlayersYDelay: 0
     _moveEase: 1
     _hideGizmos: 0
   - _duration: 1
     _startPosition: {x: 6.2, y: -4.05, z: 0}
     _centralPosition: {x: 4.13, y: -4.05, z: 0}
     _endPosition: {x: 6.2, y: 0.11, z: 0}
+    _followPlayersX: 0
+    _followPlayersXDelay: 0
+    _followPlayersY: 0
+    _followPlayersYDelay: 0
     _moveEase: 1
     _hideGizmos: 0
   _linesInTheCurve: 10

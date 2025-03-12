@@ -95,6 +95,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _entityControllers:
   - {fileID: 672103762276220453}
+  _bossMovement: {fileID: 997260555050911091}
+  _timeForPreparePosition: 1
 --- !u!114 &672103762276220453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,7 +171,7 @@ Transform:
   m_GameObject: {fileID: 6354666764260920795}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: 0.959166, w: -0.28284374}
-  m_LocalPosition: {x: -6.4, y: 10.1, z: 0}
+  m_LocalPosition: {x: -3, y: 5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5014,7 +5016,7 @@ Transform:
   m_GameObject: {fileID: 6531315370356112522}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9830,4 +9832,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _particleSystem: {fileID: 3869405582622503536}
-  _lookAtPlayer: 0
+  _lookAtPlayer: 1

@@ -672,7 +672,7 @@ ParticleSystem:
     radiusThickness: 1
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
-    m_Rotation: {x: 0, y: 0, z: 0}
+    m_Rotation: {x: 0, y: 0, z: -90}
     m_Scale: {x: 1, y: 1, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
@@ -4897,6 +4897,8 @@ MonoBehaviour:
   _entityControllers:
   - {fileID: 672103762276220453}
   - {fileID: 1677826970084946965}
+  _bossMovement: {fileID: 997260555050911091}
+  _timeForPreparePosition: 1
 --- !u!114 &672103762276220453
 MonoBehaviour:
   m_ObjectHideFlags: 0

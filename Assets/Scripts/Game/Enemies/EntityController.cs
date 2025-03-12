@@ -57,7 +57,7 @@ namespace Enemies
         {
             if (entity != null) _enemyGameObject = entity;
 
-            _eventSequencesQueue = new Queue<EventSequence>(_eventSequence);   
+            _eventSequencesQueue = new Queue<EventSequence>(_eventSequence);
 
             PrepareSequencies();
 
@@ -183,6 +183,8 @@ namespace Enemies
         }
         public void Dispose()
         {
+            StopShoot();
+            StopMove();
             _disposable.Dispose();
         }
     }

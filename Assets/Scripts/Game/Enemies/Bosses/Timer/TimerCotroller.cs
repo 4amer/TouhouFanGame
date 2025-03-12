@@ -42,7 +42,13 @@ namespace Enemies.Bosses.Timer
         {
             float time = (_timeShift - timerTime) + _currentTimerTime;
             int roundTime = Mathf.RoundToInt(time);
-            _timerText.text = $"{roundTime}";
+            if(roundTime > -1)
+                _timerText.text = $"{roundTime}";
+
+            if (roundTime < 0)
+            {
+                TimeOut?.OnNext(Unit.Default);
+            }
         }
         private void ChangeTimer(BossAttack attack)
         {
@@ -55,5 +61,6 @@ namespace Enemies.Bosses.Timer
     internal interface ITimerControll
     {
         public void Init();
+        public Subject<Unit> TimeOut { get; set; }
     }
 }

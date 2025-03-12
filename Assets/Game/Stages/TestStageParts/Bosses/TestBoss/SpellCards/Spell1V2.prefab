@@ -94,6 +94,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _entityControllers:
   - {fileID: 672103762276220453}
+  _bossMovement: {fileID: 997260555050911091}
+  _timeForPreparePosition: 1
 --- !u!114 &672103762276220453
 MonoBehaviour:
   m_ObjectHideFlags: 0

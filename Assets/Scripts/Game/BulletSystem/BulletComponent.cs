@@ -56,7 +56,7 @@ namespace Game.BulletSystem
 
                 float angle = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
 
-                transform.rotation = Quaternion.Euler(0f, 0f, angle - 90f);
+                transform.rotation = Quaternion.Euler(0f, 0f, angle);
             }
         }
     }

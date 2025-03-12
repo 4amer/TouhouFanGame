@@ -5,10 +5,7 @@ using Enemies.Bosses.Phase;
 using Enemies.Bosses.SpellCards;
 using Enemies.Bosses.Timer;
 using UniRx;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
-using UnityEngine.Timeline;
-using UnityEngine.UI;
 using Zenject;
 
 namespace Enemies.Bosses
@@ -27,12 +24,15 @@ namespace Enemies.Bosses
         private ISpellCardManager _spellCardManager = null;
         private ITimerControll _timerControll = null;
 
+        private BossPattern _currentPatternObject = null;
         public Subject<Unit> OnDeath { get; set; } = new Subject<Unit>();
         public Subject<Unit> OnHPChanged { get; set; } = new Subject<Unit>();
         public Subject<BossAttack> OnSpellCardStart { get; set; } = new Subject<BossAttack>();
         public Subject<BossAttack> OnSpellCardEnd { get; set; } = new Subject<BossAttack>();
         public Subject<BossAttack> OnAttackEnd { get; set; } = new Subject<BossAttack>();
         public Subject<BossAttack> OnAttackStart { get; set; } = new Subject<BossAttack>();
+
+        private CompositeDisposable _disposable = new CompositeDisposable();
 
         [Inject]
         private void Construct(DiContainer diContainer, IHealthController healthController,
@@ -43,6 +43,11 @@ namespace Enemies.Bosses
             _healthController = healthController;
             _spellCardManager = spellCardManager;
             _timerControll = timerControll;
+
+            _timerControll
+                .TimeOut
+                .Subscribe(_ => NextPhase())
+                .AddTo(_disposable);
         }
 
         public void Init()
@@ -72,14 +77,24 @@ namespace Enemies.Bosses
             }
 
             SpawnAttackPattern(currentAttack.GetRandomAttack());
-            OnAttackStart.OnNext(currentAttack);
+            OnAttackStart?.OnNext(currentAttack);
+            if (currentAttack.IsSpellCard)
+            {
+                OnSpellCardStart?.OnNext(currentAttack);
+            }
         }
 
         private void NextPhase()
         {
             if (_currentPhaseIndex + 1 < _attacks.Length)
             {
-                OnAttackEnd.OnNext(_attacks[_currentPhaseIndex]);
+                BossAttack currentAttack = _attacks[_currentPhaseIndex];
+                OnAttackEnd?.OnNext(currentAttack);
+                if (currentAttack.IsSpellCard)
+                {
+                    OnSpellCardEnd?.OnNext(currentAttack);
+                }
+                DestroyPattern();
                 StartAttack(_currentPhaseIndex + 1);
             }
             else
@@ -99,6 +114,7 @@ namespace Enemies.Bosses
             BossPattern instantiatedObject = Instantiate(attackPatternPrefab, transform);
             _diContainer.Inject(instantiatedObject);
             instantiatedObject.Init(_bossObject);
+            _currentPatternObject = instantiatedObject;
         }
 
         private float CurrentHPAmount()
@@ -116,6 +132,12 @@ namespace Enemies.Bosses
             }
 
             return counter;
+        }
+
+        private void DestroyPattern()
+        {
+            _currentPatternObject.Clear();
+            Destroy(_currentPatternObject.gameObject);
         }
 
         private void DamageBoss(int damage)

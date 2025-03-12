@@ -27,6 +27,8 @@ namespace BezierMovementSystem
         private int _currentCurve = 0;
         private bool _isMoving = false;
 
+        private bool _isInited = false;
+
         private GameObject _enemy = null;
 
         private Sequence _currentMovingSequence = null;
@@ -37,6 +39,8 @@ namespace BezierMovementSystem
 
         public void Init(GameObject entity)
         {
+            if (_isInited) return;
+            _isInited = true;
             _enemy = entity;
         }
 
@@ -104,6 +108,24 @@ namespace BezierMovementSystem
             }
         }
 
+        public void PrepareStartPosition(float timeForMovement)
+        {
+            BezierCurve curve = new BezierCurve();
+
+            Vector3 StartPosition = _enemy.gameObject.transform.position;
+            Vector3 EndPosition = _bezierCurves[0].StartPositions;
+
+            Vector3 CenterPosition = (StartPosition + EndPosition) / 2f;
+
+            curve.StartPositions = StartPosition;
+            curve.CentralPositions = CenterPosition;
+            curve.EndPositions = EndPosition;
+
+            curve.Duration = timeForMovement;
+
+            MoveAlongCurve(curve);
+        }
+
         private void OnDrawGizmos()
         {
 #if UNITY_EDITOR
@@ -144,7 +166,7 @@ namespace BezierMovementSystem
         [SerializeField] private Ease _moveEase = default;
         [SerializeField] private bool _hideGizmos = false;
 
-        public float Duration { get => _duration; }
+        public float Duration { get => _duration; set => _duration = value; }
         public Vector3 StartPositions { get => _startPosition; set => _startPosition = value; }
         public Vector3 CentralPositions { get => _centralPosition; set => _centralPosition = value; }
         public Vector3 EndPositions { get => _endPosition; set => _endPosition = value; }
@@ -168,6 +190,7 @@ namespace BezierMovementSystem
     public interface IMovementBezierComponent
     {
         public void Init(GameObject entity);
+        public void PrepareStartPosition(float timeForMovement);
         public void StartMovement();
         public void StopMovement();
     }
