@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class UIManager : MonoBehaviour, IInitUIManager
+    public class UIManager : MonoBehaviour, IUIManagerInit, IUIManager
     {
         [SerializeField] private Canvas _canvasPrefab = null;
 
@@ -81,12 +81,21 @@ namespace UI
                 _canvas.renderMode = RenderMode.ScreenSpaceOverlay;
                 canvasGO.AddComponent<CanvasScaler>();
                 canvasGO.AddComponent<GraphicRaycaster>();
+                canvasGO.transform.parent = this.transform;
             }
         }
     }
 
-    internal interface IInitUIManager
+    public interface IUIManagerInit
     {
         public void Init();
+    }
+
+    public interface IUIManager
+    {
+        public T GetWindow<T>() where T : ABaseWindow;
+        public void Show(ABaseWindow window);
+        public void Hide<T>() where T : ABaseWindow;
+
     }
 }
