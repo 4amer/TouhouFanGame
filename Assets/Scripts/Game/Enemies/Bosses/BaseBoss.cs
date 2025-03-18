@@ -10,7 +10,7 @@ using Zenject;
 
 namespace Enemies.Bosses
 {
-    public class BaseBoss : MonoBehaviour, IInitBaseBoss, IBaseBossActions
+    public class BaseBoss : MonoBehaviour, IInitBaseBoss, IBaseBossActions, IBaseBossInfo, IBaseBoss
     {
         [SerializeField] private BossAttack[] _attacks = new BossAttack[1];
 
@@ -20,10 +20,6 @@ namespace Enemies.Bosses
 
         private DiContainer _diContainer = null;
 
-        private IHealthController _healthController = null;
-        private ISpellCardManager _spellCardManager = null;
-        private ITimerControll _timerControll = null;
-
         private BossPattern _currentPatternObject = null;
         public Subject<Unit> OnDeath { get; set; } = new Subject<Unit>();
         public Subject<Unit> OnHPChanged { get; set; } = new Subject<Unit>();
@@ -32,31 +28,15 @@ namespace Enemies.Bosses
         public Subject<BossAttack> OnAttackEnd { get; set; } = new Subject<BossAttack>();
         public Subject<BossAttack> OnAttackStart { get; set; } = new Subject<BossAttack>();
 
-        private CompositeDisposable _disposable = new CompositeDisposable();
-
         [Inject]
-        private void Construct(DiContainer diContainer, IHealthController healthController,
-            ISpellCardManager spellCardManager, ITimerControll timerControll)
+        private void Construct(DiContainer diContainer)
         {
             _diContainer = diContainer;
-
-            _healthController = healthController;
-            _spellCardManager = spellCardManager;
-            _timerControll = timerControll;
-
-            _timerControll
-                .TimeOut
-                .Subscribe(_ => NextPhase())
-                .AddTo(_disposable);
         }
 
         public void Init()
         {
             StartAttack(_currentPhaseIndex);
-
-            _healthController.Init(CurrentHPAmount());
-            _spellCardManager.Init(GetSpellCardAmount());
-            _timerControll.Init();
         }
 
         private void StartAttack(int attackIndex)
@@ -84,7 +64,7 @@ namespace Enemies.Bosses
             }
         }
 
-        private void NextPhase()
+        public void NextPhase()
         {
             if (_currentPhaseIndex + 1 < _attacks.Length)
             {
@@ -117,12 +97,17 @@ namespace Enemies.Bosses
             _currentPatternObject = instantiatedObject;
         }
 
-        private float CurrentHPAmount()
+        public float GetCurrentHPAmount()
         {
             return _attacks[_currentPhaseIndex].HP;
         }
 
-        private int GetSpellCardAmount()
+        public BossAttack GetCurrentAttack()
+        {
+            return _attacks[_currentPhaseIndex];
+        }
+
+        public int GetSpellCardAmount()
         {
             int counter = 0;
             foreach (BossAttack attack in _attacks)
@@ -146,7 +131,7 @@ namespace Enemies.Bosses
         }
     }
 
-    internal interface IBaseBossActions
+    public interface IBaseBossActions
     {
         public Subject<Unit> OnDeath { get; set; }
         public Subject<Unit> OnHPChanged { get; set; }
@@ -156,10 +141,23 @@ namespace Enemies.Bosses
         public Subject<BossAttack> OnAttackStart { get; set; }
     }
 
-    internal interface IInitBaseBoss
+    public interface IBaseBossInfo
+    {
+        public float GetCurrentHPAmount();
+        public int GetSpellCardAmount();
+        public BossAttack GetCurrentAttack();
+    }
+
+    public interface IBaseBossNextPhase
+    {
+        public void NextPhase();
+    }
+
+    public interface IBaseBoss : IBaseBossActions, IBaseBossInfo, IBaseBossNextPhase { }
+
+    public interface IInitBaseBoss
     {
         public Subject<Unit> OnDeath { get; set; }
         public void Init();
-    }
-    
+    }   
 }

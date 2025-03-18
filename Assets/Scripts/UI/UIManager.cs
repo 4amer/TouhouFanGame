@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace UI
 {
@@ -16,10 +17,18 @@ namespace UI
         private Dictionary<string, ABaseWindow> _windowsDictionaty = new Dictionary<string, ABaseWindow>();
         private Dictionary<string, ABaseWindow> _shownWindows = new Dictionary<string, ABaseWindow>();
 
+        private DiContainer _diContainer = null;
+
         public Subject<ABaseWindow> OnShowWindow { get; set; } = new Subject<ABaseWindow>();
         public Subject<ABaseWindow> OnHideWindow { get; set; } = new Subject<ABaseWindow>();
 
         private bool _isInited = false;
+
+        [Inject]
+        private void Construct(DiContainer diContainer)
+        {
+            _diContainer = diContainer;
+        }
 
         public void Init()
         {
@@ -69,7 +78,11 @@ namespace UI
 
         private ABaseWindow SpawnWindow(ABaseWindow window)
         {
-            return Instantiate(window, _canvas.transform);
+            ABaseWindow baseWindow = Instantiate(window, _canvas.transform);
+
+            _diContainer.Inject(baseWindow);
+
+            return baseWindow;
         }
 
         private void PrepareCanvas()
@@ -82,6 +95,10 @@ namespace UI
                 canvasGO.AddComponent<CanvasScaler>();
                 canvasGO.AddComponent<GraphicRaycaster>();
                 canvasGO.transform.parent = this.transform;
+
+                CanvasScaler canvasScaler = _canvas.GetComponent<CanvasScaler>();
+                canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+                canvasScaler.referenceResolution = new Vector2(1920, 1080);
             }
         }
     }

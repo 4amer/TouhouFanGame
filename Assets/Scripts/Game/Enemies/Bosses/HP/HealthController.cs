@@ -18,9 +18,9 @@ namespace Enemies.Bosses.HP
 
         }
 
-        public void Init(float fullHP)
+        public void Init(IBaseBoss boss)
         {
-            _hpAmount = fullHP;
+            _hpAmount = boss.GetCurrentHPAmount();
         }
 
         private void HPChanged(float _hp)
@@ -32,6 +32,6 @@ namespace Enemies.Bosses.HP
 
     internal interface IHealthController
     {
-        public void Init(float fullHP);
+        public void Init(IBaseBoss boss);
     }
 }

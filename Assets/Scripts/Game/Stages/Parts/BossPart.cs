@@ -5,6 +5,7 @@ using Stages.Manager;
 using UI;
 using UI.Windows;
 using UniRx;
+using UnityEngine;
 using Zenject;
 
 namespace Stages.Parts
@@ -13,27 +14,35 @@ namespace Stages.Parts
     {
         private float _timeOnStart = 0;
 
-        private IInitBaseBoss _boss;
+        private IInitBaseBoss _bossInit;
+        private IBaseBoss _baseBoss;
         private IUIManager _UIManager;
+        private IStageManagerTimer _stageManagerTimer;
+
+        [SerializeField] BaseBoss baseBoss = null;
 
         [Inject]
-        private void Construct(IStageManagerTimer stageManagerTimer, IInitBaseBoss baseBoss, IUIManager uIManager)
+        private void Construct(IStageManagerTimer stageManagerTimer, IUIManager uIManager)
         {
+            _stageManagerTimer = stageManagerTimer;
+
             _UIManager = uIManager;
 
             _timeOnStart = stageManagerTimer.currentTime;
-            _boss = baseBoss;
 
             stageManagerTimer.TimeChanged.Subscribe(_ => TimerUpdated(_)).AddTo(disposable);
         }
 
         public override void Init()
         {
-            _boss.OnDeath
+            _bossInit = baseBoss;
+            _baseBoss = baseBoss;
+
+            _bossInit.OnDeath
                 .Subscribe(_ => Clear())
                 .AddTo(disposable);
 
-            _boss.Init();
+            _bossInit.Init();
 
             SetupBossWindow();
         }
@@ -41,9 +50,10 @@ namespace Stages.Parts
         private void SetupBossWindow()
         {
             AWindow<BossWindowData> window = _UIManager.GetWindow<BossWindow>();
-            window.SetData(new BossWindowData 
-            { 
-                            
+            window.SetData(new BossWindowData
+            {
+                boss = _baseBoss,
+                stageManagerTimer = _stageManagerTimer
             });
             _UIManager.Show(window);
         }

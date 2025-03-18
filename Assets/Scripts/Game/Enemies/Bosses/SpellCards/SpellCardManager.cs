@@ -1,12 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Enemies.Bosses.Phase;
 using UniRx;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using Zenject;
 
 namespace Enemies.Bosses.SpellCards
 {
@@ -18,18 +14,14 @@ namespace Enemies.Bosses.SpellCards
 
         private CompositeDisposable _disposable = new CompositeDisposable();
 
-        [Inject]
-        private void Construct(IBaseBossActions bossActions)
+        public void Init(IBaseBoss bossActions)
         {
             bossActions
                 .OnSpellCardEnd
                 .Subscribe(_ => SpellCardEnd(_))
                 .AddTo(_disposable);
-        }
 
-        public void Init(int spellCardAmount)
-        {
-            PrepareSpellCardImages(spellCardAmount);
+            PrepareSpellCardImages(bossActions.GetSpellCardAmount());
         }
 
         private void SpellCardEnd(BossAttack attack)
@@ -67,6 +59,6 @@ namespace Enemies.Bosses.SpellCards
 
     internal interface ISpellCardManager
     {
-        public void Init(int spellCardAmount);
+        public void Init(IBaseBoss bossActions);
     }
 }

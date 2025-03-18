@@ -19,23 +19,18 @@ namespace Enemies.Bosses.Timer
 
         private IStageManagerTimer _stageTimer;
 
-        [Inject]
-        private void Construct(IStageManagerTimer stageTimer, IBaseBossActions baseBossActions)
+        public void Init(IStageManagerTimer stageTimer, IBaseBoss baseBoss)
         {
-            baseBossActions.OnAttackStart
+            baseBoss.OnAttackStart
                 .Subscribe(_ => ChangeTimer(_))
                 .AddTo(_disposable);
 
             _stageTimer = stageTimer;
+            _currentTimerTime = baseBoss.GetCurrentAttack().TimeTobeat;
 
             _stageTimer.TimeChanged
                 .Subscribe(_ => TimeChanged(_))
                 .AddTo(_disposable);
-        }
-
-        public void Init()
-        {
-            
         }
 
         private void TimeChanged(float timerTime)
@@ -54,13 +49,12 @@ namespace Enemies.Bosses.Timer
         {
             _timeShift = _stageTimer.currentTime;
             _currentTimerTime = attack.TimeTobeat;
-
         }
     }
 
     internal interface ITimerControll
     {
-        public void Init();
+        public void Init(IStageManagerTimer stageTimer, IBaseBoss baseBoss);
         public Subject<Unit> TimeOut { get; set; }
     }
 }
