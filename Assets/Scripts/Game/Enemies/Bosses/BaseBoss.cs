@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Audio;
+using Audio.Types.Music;
 using Enemies.Bosses.Attack;
 using Enemies.Bosses.HP;
 using Enemies.Bosses.Phase;
@@ -20,6 +22,8 @@ namespace Enemies.Bosses
 
         private DiContainer _diContainer = null;
 
+        private IAudioManager _audioManager = null;
+
         private BossPattern _currentPatternObject = null;
         public Subject<Unit> OnDeath { get; set; } = new Subject<Unit>();
         public Subject<Unit> OnHPChanged { get; set; } = new Subject<Unit>();
@@ -29,14 +33,16 @@ namespace Enemies.Bosses
         public Subject<BossAttack> OnAttackStart { get; set; } = new Subject<BossAttack>();
 
         [Inject]
-        private void Construct(DiContainer diContainer)
+        private void Construct(DiContainer diContainer, IAudioManager audioManager)
         {
             _diContainer = diContainer;
+            _audioManager = audioManager;
         }
 
         public void Init()
         {
             StartAttack(_currentPhaseIndex);
+            _audioManager.Play(EMusicTypes.TestMusic);
         }
 
         private void StartAttack(int attackIndex)

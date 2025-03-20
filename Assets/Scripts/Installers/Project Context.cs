@@ -4,6 +4,7 @@ using Services.SceneLoaderC;
 using Zenject;
 using Game;
 using UI;
+using Audio;
 
 namespace Installers
 {
@@ -11,6 +12,7 @@ namespace Installers
     {
         [SerializeField] private GameManager _gameManager;
         [SerializeField] private UIManager _uIManager;
+        [SerializeField] private AudioManager _audioManager;
         public override void InstallBindings()
         {
             BindServices();
@@ -31,6 +33,10 @@ namespace Installers
 
             Container.BindInterfacesAndSelfTo<UIManager>()
                 .FromComponentInNewPrefab(_uIManager)
+                .AsSingle();
+            
+            Container.BindInterfacesAndSelfTo<AudioManager>()
+                .FromComponentInNewPrefab(_audioManager)
                 .AsSingle();
         }
     }

@@ -1,20 +1,66 @@
+using System;
+using System.Collections.Generic;
+using Audio.Types;
+using Audio.Types.Music;
+using Audio.Types.SFX;
+using Audio.Types.UI;
 using UnityEngine;
 
 namespace Audio
 {
-    public class AudioManager : MonoBehaviour
+    public class AudioManager : MonoBehaviour, IAudioManagerInit, IAudioManager
     {
-        [SerializeField] private AudioSource _UIAudio = null;
-        [SerializeField] private AudioSource _Sounds = null;
-        [SerializeField] private AudioSource _Music = null;
+        [SerializeField] private UIAudioUtility _UIAudioUtility = null;
+        [SerializeField] private SFXUtility _SFXUtility = null;
+        [SerializeField] private MusicUtility _MusicUtility = null;
 
+        [Range(0, 1)]
         [SerializeField] private float _baseVolume = 0.5f;
+
+        private Dictionary<string, object> keyValueAudio = new Dictionary<string, object>(); 
 
         public void Init()
         {
-            _UIAudio.volume = _baseVolume;
-            _Sounds.volume = _baseVolume;
-            _Music.volume = _baseVolume;
+            _UIAudioUtility.Init();
+            _SFXUtility.Init();
+            _MusicUtility.Init();
+
+            _UIAudioUtility.Volume = _baseVolume;
+            _SFXUtility.Volume = _baseVolume;
+            _MusicUtility.Volume = _baseVolume;
+
+            keyValueAudio.Add(_UIAudioUtility.GetType().BaseType.ToString(), _UIAudioUtility);
+            keyValueAudio.Add(_SFXUtility.GetType().BaseType.ToString(), _SFXUtility);
+            keyValueAudio.Add(_MusicUtility.GetType().BaseType.ToString(), _MusicUtility);
         }
+
+        public void Play<E>(E audioType) where E : Enum
+        {
+            string audioName = typeof(BaseAudioUtility<E>).ToString();
+            BaseAudioUtility<E> baseAudio = keyValueAudio[audioName] as BaseAudioUtility<E>;
+            baseAudio.Play(audioType);
+        }
+
+        public void Pause<E>(E audioType) where E : Enum
+        {
+
+        }
+
+        public void Stop<E>(E audioType) where E : Enum
+        {
+
+        }
+    }
+
+    internal interface IAudioManager
+    {
+        public void Play<E>(E audioType) where E : Enum;
+        public void Pause<E>(E audioType) where E : Enum;
+        public void Stop<E>(E audioType) where E : Enum;
+    }
+
+    internal interface IAudioManagerInit
+    {
+        public void Init();
     }
 }
