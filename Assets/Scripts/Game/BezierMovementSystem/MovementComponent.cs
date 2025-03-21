@@ -33,7 +33,7 @@ namespace BezierMovementSystem
 
         private Sequence _currentMovingSequence = null;
 
-        private Subject<Unit> MoveCompleted;
+        public Subject<Unit> MoveCompleted = new Subject<Unit>();
 
         private const float ADITIONAL_TIME_TO_TIMER = 0.05f;
 
@@ -123,6 +123,8 @@ namespace BezierMovementSystem
 
             curve.Duration = timeForMovement;
 
+            curve.MoveEase = Ease.InCubic;
+
             MoveAlongCurve(curve);
         }
 
@@ -170,7 +172,7 @@ namespace BezierMovementSystem
         public Vector3 StartPositions { get => _startPosition; set => _startPosition = value; }
         public Vector3 CentralPositions { get => _centralPosition; set => _centralPosition = value; }
         public Vector3 EndPositions { get => _endPosition; set => _endPosition = value; }
-        public Ease MoveEase { get => _moveEase; }
+        public Ease MoveEase { get => _moveEase; set => _moveEase = value; }
         public bool IsHideGizmos { get => _hideGizmos; }
 
         public Vector3 GetPoint(float t)

@@ -1,6 +1,10 @@
+using Audio;
+using Audio.Types;
 using BezierMovementSystem;
+using Cysharp.Threading.Tasks;
 using Enemies.Manager;
 using Game.Player.Manager;
+using UniRx;
 using UnityEngine;
 using Utils;
 using Zenject;
@@ -17,13 +21,18 @@ namespace Enemies.Bosses.Attack
 
         private DiContainer _diContainer = null;
 
+        private IAudioManager _audioManager = null;
+
         private Utils.Timer _timeBeforeStart = null;
 
+        private CompositeDisposable _disposable = new CompositeDisposable();
+
         [Inject]
-        private void Construct(DiContainer diContainer, IPlayerManagerTransform playerManagerTransform)
+        private void Construct(DiContainer diContainer, IPlayerManagerTransform playerManagerTransform, IAudioManager audioManager)
         {
             _diContainer = diContainer;
             _playerTransform = playerManagerTransform.PlayerTransform;
+            _audioManager = audioManager;
         }
 
         public void Init(GameObject boss)
@@ -33,6 +42,13 @@ namespace Enemies.Bosses.Attack
 
             _bossMovement.Init(boss);
             _bossMovement.PrepareStartPosition(_timeForPreparePosition);
+            _bossMovement.MoveCompleted
+                .Subscribe(_ =>
+                {
+                    _audioManager.Play(ESFXTypes.Explode);
+                    _disposable.Clear();
+                })
+                .AddTo(_disposable);
 
             _timeBeforeStart.OnTimerFinish += () =>
             {
@@ -44,6 +60,11 @@ namespace Enemies.Bosses.Attack
             };
 
             _timeBeforeStart.Start();
+        }
+
+        private void MovementEnded()
+        {
+
         }
 
         public void Clear()

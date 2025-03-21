@@ -100,6 +100,58 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5404097196246410670, guid: 46035b032a2500c4393e425fe95ecb16, type: 3}
+      propertyPath: _attacks.Array.data[1]._hpOnPhase
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5404097196246410670, guid: 46035b032a2500c4393e425fe95ecb16, type: 3}
+      propertyPath: _attacks.Array.data[0]._isSpellCard
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5404097196246410670, guid: 46035b032a2500c4393e425fe95ecb16, type: 3}
+      propertyPath: _attacks.Array.data[1]._isSpellCard
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5404097196246410670, guid: 46035b032a2500c4393e425fe95ecb16, type: 3}
+      propertyPath: _attacks.Array.data[2]._isSpellCard
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5404097196246410670, guid: 46035b032a2500c4393e425fe95ecb16, type: 3}
+      propertyPath: _attacks.Array.data[3]._isSpellCard
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5404097196246410670, guid: 46035b032a2500c4393e425fe95ecb16, type: 3}
+      propertyPath: _attacks.Array.data[0]._timeToBeatInSeconds
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5404097196246410670, guid: 46035b032a2500c4393e425fe95ecb16, type: 3}
+      propertyPath: _attacks.Array.data[1]._timeToBeatInSeconds
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5404097196246410670, guid: 46035b032a2500c4393e425fe95ecb16, type: 3}
+      propertyPath: _attacks.Array.data[2]._timeToBeatInSeconds
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5404097196246410670, guid: 46035b032a2500c4393e425fe95ecb16, type: 3}
+      propertyPath: _attacks.Array.data[3]._timeToBeatInSeconds
+      value: 99
+      objectReference: {fileID: 0}
+    - target: {fileID: 5404097196246410670, guid: 46035b032a2500c4393e425fe95ecb16, type: 3}
+      propertyPath: _attacks.Array.data[0]._attacks.Array.data[0]
+      value: 
+      objectReference: {fileID: 529743345687918855, guid: a49551229bfaf6b48ac219500cc2ea2e, type: 3}
+    - target: {fileID: 5404097196246410670, guid: 46035b032a2500c4393e425fe95ecb16, type: 3}
+      propertyPath: _attacks.Array.data[1]._attacks.Array.data[0]
+      value: 
+      objectReference: {fileID: 529743345687918855, guid: c4a2520ffa2f6b74db86f6c8546ea112, type: 3}
+    - target: {fileID: 5404097196246410670, guid: 46035b032a2500c4393e425fe95ecb16, type: 3}
+      propertyPath: _attacks.Array.data[2]._attacks.Array.data[0]
+      value: 
+      objectReference: {fileID: 529743345687918855, guid: d90735a56df5cc74d8fba1da4eaa021e, type: 3}
+    - target: {fileID: 5404097196246410670, guid: 46035b032a2500c4393e425fe95ecb16, type: 3}
+      propertyPath: _attacks.Array.data[3]._attacks.Array.data[0]
+      value: 
+      objectReference: {fileID: 529743345687918855, guid: f3a2bf1984e43c94d9d1b5c7089d1164, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
