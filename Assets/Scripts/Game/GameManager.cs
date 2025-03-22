@@ -5,7 +5,7 @@ using Zenject;
 
 namespace Game
 {
-    public class GameManager : MonoBehaviour, IGameManager
+    public class GameManager : MonoBehaviour, IGameManager, IGameManagerInit
     {
         public Subject<float> Updated { get; set; } = new Subject<float>();
 
@@ -20,9 +20,13 @@ namespace Game
         }
     }
 
-    public interface IGameManager
+    internal interface IGameManagerInit
     {
         public void Init();
+    }
+
+    public interface IGameManager
+    {
         public Subject<float> Updated { get; set; }
     }
 }

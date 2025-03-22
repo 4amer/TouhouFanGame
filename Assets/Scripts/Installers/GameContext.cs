@@ -2,6 +2,7 @@ using Game.BulletSystem.Manager;
 using Game.Player.Manager;
 using Stages.Manager;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Zenject;
 
 namespace Installers

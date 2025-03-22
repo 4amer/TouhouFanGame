@@ -5,6 +5,7 @@ using Zenject;
 using Game;
 using UI;
 using Audio;
+using UnityEngine.InputSystem;
 
 namespace Installers
 {
@@ -13,9 +14,11 @@ namespace Installers
         [SerializeField] private GameManager _gameManager;
         [SerializeField] private UIManager _uIManager;
         [SerializeField] private AudioManager _audioManager;
+        [SerializeField] private PlayerInput _playerInput;
         public override void InstallBindings()
         {
             BindServices();
+            BindPlayerInput();
             BindManagers();
         }
 
@@ -23,6 +26,13 @@ namespace Installers
         {
             Container.BindInterfacesAndSelfTo<GSM>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<SceneLoader>().AsSingle().NonLazy();
+        }
+
+        private void BindPlayerInput()
+        {
+            Container.BindInterfacesAndSelfTo<PlayerInput>()
+                .FromComponentInNewPrefab(_playerInput)
+                .AsSingle();
         }
 
         private void BindManagers()

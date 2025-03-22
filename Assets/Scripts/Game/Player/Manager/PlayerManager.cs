@@ -1,4 +1,10 @@
+using Cysharp.Threading.Tasks;
+using Player.Movement;
+using UniRx;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using Zenject;
 
 namespace Game.Player.Manager
 {
@@ -6,12 +12,13 @@ namespace Game.Player.Manager
     {
         [SerializeField] private GameObject _player = null;
 
+        [SerializeField] private PlayerMovement _playerMovemnt = null;
         public GameObject Player { get { return _player; } }
         public Transform PlayerTransform { get => _player.transform; }
 
         public void Init()
         {
-
+            _playerMovemnt.Init(_player);
         }
     }
 
