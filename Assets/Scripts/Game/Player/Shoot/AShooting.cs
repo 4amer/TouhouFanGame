@@ -12,6 +12,8 @@ namespace Player.Shoot
 
         public abstract void DoShiftShoot();
 
+        public abstract void StopShoot();
+
         public abstract void IncreaseDamage();
         public abstract void DecreaseDamage();
     }

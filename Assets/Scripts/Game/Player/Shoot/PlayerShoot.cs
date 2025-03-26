@@ -45,6 +45,11 @@ namespace Player.Shoot
             }
         }
 
+        private void StopShoot()
+        {
+            AShooting.StopShoot();
+        }
+
         private void Shifting(bool shift)
         {
             _isShifting = shift;
@@ -83,7 +88,7 @@ namespace Player.Shoot
             InputAction shift = map["SlowMovement"];
 
             shoot.started += ctx => Shoot();
-            shoot.performed += ctx => Shoot();
+            shoot.canceled += ctx => StopShoot();
 
             shift.started += ctx => Shifting(true);
             shift.canceled += ctx => Shifting(false);
@@ -96,7 +101,7 @@ namespace Player.Shoot
             InputAction shift = map["SlowMovement"];
 
             shoot.started -= ctx => Shoot();
-            shoot.performed -= ctx => Shoot();
+            shoot.canceled -= ctx => StopShoot();
 
             shift.started -= ctx => Shifting(true);
             shift.canceled -= ctx => Shifting(false);

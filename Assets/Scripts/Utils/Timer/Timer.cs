@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -42,7 +43,7 @@ namespace Utils
         {
             if (_isTimerStoped == false) return;
 
-
+            _cancellationTokenSource?.Dispose();
             _cancellationTokenSource = new CancellationTokenSource();
             _isTimerStoped = false;
             EventOnStart?.Invoke();
@@ -67,9 +68,9 @@ namespace Utils
 
         public void Finish()
         {
+            ResetTimer();
             EventOnFinish?.Invoke();
             OnTimerFinish?.Invoke();
-            ResetTimer();
         }
 
         public void Reset()
@@ -113,11 +114,12 @@ namespace Utils
 
                     EventOnUpdate?.Invoke();
                     OnTimerUpdated?.Invoke(_currentTimerTime);
+
                 }
             }
-            catch (TaskCanceledException)
+            catch (TaskCanceledException item)
             {
-
+                UnityEngine.Debug.Log($"{item.Message} Error");
             }
         }
     }

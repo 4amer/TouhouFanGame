@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using Player.Collision;
 using Player.Health;
 using Player.Movement;
+using Player.Shoot;
 using UniRx;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -17,6 +18,7 @@ namespace Game.Player.Manager
         [SerializeField] private PlayerMovement _playerMovemnt = null;
         [SerializeField] private PlayerHealth _playerHealth = null;
         [SerializeField] private PlayerCollision _playerCollision = null;
+        [SerializeField] private PlayerShoot _playerShoot = null;
         public GameObject Player { get { return _player; } }
         public Transform PlayerTransform { get => _player.transform; }
 
@@ -31,6 +33,8 @@ namespace Game.Player.Manager
                 .PlayerCollided
                 .Subscribe(_ => Damage())
                 .AddTo(_disposable);
+
+            _playerShoot.Init();
         }
 
         public void Damage()

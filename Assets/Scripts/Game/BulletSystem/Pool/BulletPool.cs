@@ -9,7 +9,7 @@ namespace Game.BulletSystem.Pool
 
         public void Prepare(int amount, Bullet prefab)
         {
-            for (int i = 0; amount > i; i++)
+            for (int i = 0; amount >= i; i++)
             {
                 Create(prefab);
             }
@@ -17,13 +17,18 @@ namespace Game.BulletSystem.Pool
 
         public Bullet Spawn(Bullet prefab, Transform parent, Vector3 position)
         {
+            if(_freeBullets.ContainsKey(prefab.BulletTypes) == false)
+            {
+                _freeBullets[prefab.BulletTypes] = new Queue<Bullet>();
+            }
+
             if (_freeBullets[prefab.BulletTypes].Count <= 0)
             {
                 Create(prefab);
             }
             Bullet bullet = _freeBullets[prefab.BulletTypes].Dequeue();
             bullet.transform.parent = parent;
-            bullet.transform.position = position;
+            bullet.transform.localPosition = position;
             bullet.gameObject.active = true;
             return bullet;
         }
@@ -31,12 +36,14 @@ namespace Game.BulletSystem.Pool
         public void Release(Bullet bullet)
         {
             bullet.gameObject.active = false;
+            bullet.transform.parent = transform;
             _freeBullets[bullet.BulletTypes].Enqueue(bullet);
         }
 
         private void Create(Bullet prefab)
         {
             Bullet bullet = Instantiate(prefab, transform);
+            bullet.transform.localPosition = Vector3.zero;
             _freeBullets[bullet.BulletTypes].Enqueue(bullet);
         }
     }
