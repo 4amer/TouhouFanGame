@@ -1,12 +1,13 @@
 using UnityEngine;
-using Unity.Mathematics;
-using Unity.Jobs;
 using UnityEngine.Jobs;
 using Unity.Burst;
 using Zenject;
 using Game;
 using Cysharp.Threading.Tasks;
 using UniRx;
+using Game.BulletSystem;
+using Unity.Collections;
+using Unity.Mathematics;
 
 namespace Player.Shoot.Reimu
 {
@@ -40,9 +41,14 @@ namespace Player.Shoot.Reimu
     [BurstCompile]
     public struct CommonBullet : IJobParallelForTransform
     {
+        [ReadOnly] private float Speed;
+        [ReadOnly] private float Delay;
+
         public void Execute(int index, TransformAccess transform)
         {
-
+            float3 direction = math.normalize((float3)Vector3.right - (float3)transform.position);
+            float3 newPosition = (float3)transform.position - direction * Delay * Speed;
+            transform.position = newPosition;
         }
     }
 }
