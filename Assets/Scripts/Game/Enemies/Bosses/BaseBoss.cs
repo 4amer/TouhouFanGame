@@ -1,18 +1,16 @@
-using System.Collections.Generic;
+using System;
 using Audio;
 using Audio.Types.Music;
 using Enemies.Bosses.Attack;
-using Enemies.Bosses.HP;
 using Enemies.Bosses.Phase;
-using Enemies.Bosses.SpellCards;
-using Enemies.Bosses.Timer;
+using Game.BulletSystem.Damage;
 using UniRx;
 using UnityEngine;
 using Zenject;
 
 namespace Enemies.Bosses
 {
-    public class BaseBoss : MonoBehaviour, IInitBaseBoss, IBaseBossActions, IBaseBossInfo, IBaseBoss
+    public class BaseBoss : MonoBehaviour, IInitBaseBoss, IBaseBossActions, IBaseBossInfo, IBaseBoss, IDamagable
     {
         [SerializeField] private BossAttack[] _attacks = new BossAttack[1];
 
@@ -32,11 +30,19 @@ namespace Enemies.Bosses
         public Subject<BossAttack> OnAttackEnd { get; set; } = new Subject<BossAttack>();
         public Subject<BossAttack> OnAttackStart { get; set; } = new Subject<BossAttack>();
 
+        public bool IsVulnerable { get; set; } = false;
+
+        public Transform Transform => transform;
+
+        public Subject<IDamagable> OnDead { get; set; } = new Subject<IDamagable>();
+
         [Inject]
-        private void Construct(DiContainer diContainer, IAudioManager audioManager)
+        private void Construct(DiContainer diContainer, IAudioManager audioManager, IDamagableManager damagableManager)
         {
             _diContainer = diContainer;
             _audioManager = audioManager;
+
+            damagableManager.AddDamagable(this);
         }
 
         public void Init()
@@ -131,7 +137,7 @@ namespace Enemies.Bosses
             Destroy(_currentPatternObject.gameObject);
         }
 
-        private void DamageBoss(int damage)
+        public void Damage(float damage)
         {
             OnHPChanged.OnNext(Unit.Default);
         }

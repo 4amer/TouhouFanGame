@@ -1,3 +1,4 @@
+using Game.BulletSystem.Damage;
 using Game.BulletSystem.Manager;
 using Game.BulletSystem.Pool;
 using Game.Player.Manager;
@@ -16,9 +17,21 @@ namespace Installers
         [SerializeField] private BulletPool _bulletPool = null;
         public override void InstallBindings()
         {
+            BindManagers();
+            BindPool();
+        }
+
+        private void BindManagers()
+        {
             Container.BindInterfacesAndSelfTo<PlayerManager>().FromInstance(_playerManager);
             Container.BindInterfacesAndSelfTo<BulletComponentManager>().FromInstance(_bulletComponentManager);
             Container.BindInterfacesAndSelfTo<StageManager>().FromInstance(_stageManager);
+
+            Container.BindInterfacesAndSelfTo<DamagableManager>().AsSingle().NonLazy();
+        }
+
+        private void BindPool()
+        {
             Container.BindInterfacesAndSelfTo<BulletPool>().FromInstance(_bulletPool);
         }
     }
