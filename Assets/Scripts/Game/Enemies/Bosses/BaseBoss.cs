@@ -43,6 +43,8 @@ namespace Enemies.Bosses
 
         public float RangeToCollide { get; set; } = 3f;
 
+        private CompositeDisposable _disposable = new CompositeDisposable();
+
         [Inject]
         private void Construct(DiContainer diContainer, IAudioManager audioManager, IDamagableManager damagableManager)
         {
@@ -63,6 +65,11 @@ namespace Enemies.Bosses
         private void HealthControllerSetup()
         {
             _healthController.Init(this, GetCurrentHPAmount());
+
+            _healthController
+                .OnDead
+                .Subscribe(_ => NextPhase())
+                .AddTo(_disposable);
         }
 
         private void StartAttack(int attackIndex)
@@ -102,6 +109,7 @@ namespace Enemies.Bosses
                 }
                 DestroyPattern();
                 StartAttack(_currentPhaseIndex + 1);
+                _healthController.ChangeAndRestoreHP(GetCurrentHPAmount());
             }
             else
             {

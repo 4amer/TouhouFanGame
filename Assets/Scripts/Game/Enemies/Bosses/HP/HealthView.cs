@@ -47,6 +47,12 @@ namespace Enemies.Bosses.HP
         private void StaticHPChange(float _hp)
         {
             _staticHP = _hp;
+            RestartBar();
+        }
+
+        private void RestartBar()
+        {
+            _HPBar.fillAmount = 1f;
         }
     }
 
