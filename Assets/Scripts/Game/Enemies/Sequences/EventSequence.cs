@@ -26,5 +26,7 @@ namespace Enemies.Sequences
         StopMove = 6,
         Cycle = 7,
         EndCycle = 8,
+        Vulnerable = 9,
+        Invulnerable = 10,
     }
 }

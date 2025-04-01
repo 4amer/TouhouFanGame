@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using BezierMovementSystem;
+using Enemies.Bosses.HP;
 using Enemies.Sequences;
 using Game;
 using Game.BulletSystem;
+using Game.BulletSystem.Damage;
 using Game.Player.Manager;
 using Stages.Manager;
 using UniRx;
@@ -11,8 +13,13 @@ using Zenject;
 
 namespace Enemies
 {
-    public class EntityController : MonoBehaviour, IEntityController
+    public class EntityController : MonoBehaviour, IEntityController, IDamagable
     {
+        [Header("Common")]
+        [SerializeField] private float _HP = 100f;
+
+        [Space(10)]
+        [Header("Actions")]
         [SerializeField] private bool _isSequenceCycled = false;
         [SerializeField] private EventSequence[] _eventSequence = new EventSequence[1];
         [SerializeField] private BulletComponent[] _bulletComponents = default;
@@ -22,12 +29,24 @@ namespace Enemies
         [Header("Enemy Object")]
         [SerializeField] private GameObject _enemyGameObject = null;
 
+        [Space(10)]
+        [Header("Other Components")]
+        [SerializeField] private HealthController _healthController = null;
+
         private IBulletComponent[] _iBulletComponents = default;
         private IMovementBezierComponent _iMovementBezierComponent = default;
 
         private Queue<EventSequence> _eventSequencesQueue;
         public bool IsSequenceCycled { get => _isSequenceCycled; }
         public Queue<EventSequence> EventSequencesQueue { get => _eventSequencesQueue; }
+        public Subject<IDamagable> OnDead { get; set; }
+        public Subject<float> OnDamaged { get; set; }
+
+        public Transform Transform => transform;
+
+        public float RangeToCollide => 1f;
+
+        public bool IsVulnerable { get; set; } = false;
 
         private float _timeShift = 0f;
         private float _lastTimeEvent = 0f;
@@ -119,10 +138,30 @@ namespace Enemies
             }
         }
 
+        public void Invulnerable()
+        {
+            IsVulnerable = false;
+        }
+
+        public void Vulnerable()
+        {
+            IsVulnerable = true;
+        }
+
         public void RestoreSequence()
         {
             _eventSequencesQueue = new Queue<EventSequence>(_eventSequence);
             PrepareSequencies();
+        }
+
+        private void SetupHealthController()
+        {
+            _healthController.Init(this, _HP);
+
+            _healthController
+                .OnDead
+                .Subscribe(_ => Dead())
+                .AddTo(_disposable);
         }
 
         private void PrepareSequencies()
@@ -148,6 +187,12 @@ namespace Enemies
                         break;
                     case Sequences.EventType.StopMove:
                         item.Event = StopMove;
+                        break;
+                    case Sequences.EventType.Vulnerable:
+                        item.Event = Vulnerable;
+                        break;
+                    case Sequences.EventType.Invulnerable:
+                        item.Event = Invulnerable;
                         break;
                 }
             }
@@ -181,11 +226,26 @@ namespace Enemies
                 }
             }
         }
+
+        private void Dead()
+        {
+            StopShoot();
+            StopMove();
+            StopLookAtPlayer();
+
+            Dispose();
+        }
+
         public void Dispose()
         {
             StopShoot();
             StopMove();
             _disposable.Dispose();
+        }
+
+        public void Damage(float damage)
+        {
+            throw new System.NotImplementedException();
         }
     }
 

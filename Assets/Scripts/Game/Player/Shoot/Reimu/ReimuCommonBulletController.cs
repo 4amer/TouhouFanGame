@@ -188,7 +188,6 @@ namespace Player.Shoot.Reimu
 
                 if (Range >= distance)
                 {
-                    Debug.Log(distance);
                     EnemyToDamage[index] = i;
                     break;
                 }

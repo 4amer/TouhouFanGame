@@ -14,7 +14,6 @@ namespace Stages.Parts
     {
         private float _timeOnStart = 0;
 
-        private IInitBaseBoss _bossInit;
         private IBaseBoss _baseBoss;
         private IUIManager _UIManager;
         private IStageManagerTimer _stageManagerTimer;
@@ -35,14 +34,13 @@ namespace Stages.Parts
 
         public override void Init()
         {
-            _bossInit = baseBoss;
             _baseBoss = baseBoss;
 
-            _bossInit.OnDeath
+            baseBoss.OnDead
                 .Subscribe(_ => Clear())
                 .AddTo(disposable);
 
-            _bossInit.Init();
+            baseBoss.Init();
 
             SetupBossWindow();
         }

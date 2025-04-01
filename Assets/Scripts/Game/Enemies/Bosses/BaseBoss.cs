@@ -26,7 +26,7 @@ namespace Enemies.Bosses
         private IAudioManager _audioManager = null;
 
         private BossPattern _currentPatternObject = null;
-        public Subject<Unit> OnDeath { get; set; } = new Subject<Unit>();
+        public Subject<IDamagable> OnDead { get; set; } = new Subject<IDamagable>();
         public Subject<float> OnDamaged { get; set; } = new Subject<float>();
         public Subject<BossAttack> OnSpellCardStart { get; set; } = new Subject<BossAttack>();
         public Subject<BossAttack> OnSpellCardEnd { get; set; } = new Subject<BossAttack>();
@@ -39,7 +39,6 @@ namespace Enemies.Bosses
 
         public HealthController HealthController { get => _healthController; }
 
-        public Subject<IDamagable> OnDead { get; set; } = new Subject<IDamagable>();
 
         public float RangeToCollide { get; set; } = 3f;
 
@@ -113,7 +112,7 @@ namespace Enemies.Bosses
             }
             else
             {
-                Debug.Log("Boss defeated or no more phases left.");
+                Dead();
             }
         }
 
@@ -159,6 +158,11 @@ namespace Enemies.Bosses
             Destroy(_currentPatternObject.gameObject);
         }
 
+        private void Dead()
+        {
+            OnDead?.OnNext(this);
+        }
+
         public void Damage(float damage)
         {
             OnDamaged?.OnNext(damage);
@@ -167,7 +171,6 @@ namespace Enemies.Bosses
 
     public interface IBaseBossActions
     {
-        public Subject<Unit> OnDeath { get; set; }
         public Subject<float> OnDamaged { get; set; }
         public Subject<BossAttack> OnSpellCardStart { get; set; }
         public Subject<BossAttack> OnSpellCardEnd { get; set; }
@@ -192,7 +195,6 @@ namespace Enemies.Bosses
 
     public interface IInitBaseBoss
     {
-        public Subject<Unit> OnDeath { get; set; }
         public void Init();
     }   
 }
