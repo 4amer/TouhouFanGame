@@ -1,37 +1,65 @@
-using DG.Tweening;
+using Game.BulletSystem.Damage;
+using UniRx;
 using UnityEngine;
-using UnityEngine.UI;
-using Zenject;
 
 namespace Enemies.Bosses.HP
 {
-    public class HealthController : MonoBehaviour, IHealthController
+    public class HealthController : MonoBehaviour, IInitHealthController, IHealthController
     {
-        [SerializeField] private Image _HPBar = null;
-        [SerializeField] private float _timeToChange = 0.1f;
+        private float _staticHP = 0f;
+        private float _changableHP = 0f;
 
-        private float _hpAmount = 1.0f;
+        public Subject<float> HPChanged { get; set; } = new Subject<float>();
+        public Subject<float> StaticHPChanged { get; set; } = new Subject<float>();
+        public Subject<Unit> OnDead { get; set; } = new Subject<Unit>();
 
-        [Inject]
-        private void Contract()
+        private CompositeDisposable disposables = new CompositeDisposable();
+
+        public void Init(IDamagable damagable, float hp)
         {
+            ChangeAndRestoreHP(hp);
 
+            damagable
+                .OnDamaged
+                .Subscribe(_ => ChangeHP(_))
+                .AddTo(disposables);
         }
 
-        public void Init(IBaseBoss boss)
+        public void ChangeAndRestoreHP(float hp)
         {
-            _hpAmount = boss.GetCurrentHPAmount();
+            _staticHP = hp;
+            _changableHP = hp;
+            StaticHPChanged?.OnNext(_staticHP);
         }
 
-        private void HPChanged(float _hp)
+        private void ChangeHP(float damage)
         {
-            float percent = _hp / _hpAmount;
-            _HPBar.DOFillAmount(percent, _timeToChange);
+            _changableHP -= damage;
+            if(_changableHP <= 0)
+            {
+                _changableHP = 0;
+                Dead();
+            }
+            HPChanged?.OnNext(_changableHP);
+        }
+
+        private void Dead()
+        {
+            OnDead?.OnNext(Unit.Default);
         }
     }
 
-    internal interface IHealthController
+    public interface IInitHealthController
     {
-        public void Init(IBaseBoss boss);
+        public void Init(IDamagable damagable, float hp);
+    }
+
+    public interface IHealthController
+    {
+        public Subject<float> HPChanged { get; set; }
+        public Subject<float> StaticHPChanged { get; set; }
+        public Subject<Unit> OnDead { get; set; }
+        public void ChangeAndRestoreHP(float hp);
     }
 }
+

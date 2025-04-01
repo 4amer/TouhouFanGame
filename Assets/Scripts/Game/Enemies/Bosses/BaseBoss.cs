@@ -2,6 +2,7 @@ using System;
 using Audio;
 using Audio.Types.Music;
 using Enemies.Bosses.Attack;
+using Enemies.Bosses.HP;
 using Enemies.Bosses.Phase;
 using Game.BulletSystem.Damage;
 using UniRx;
@@ -16,6 +17,8 @@ namespace Enemies.Bosses
 
         [SerializeField] private GameObject _bossObject = null;
 
+        [SerializeField] private HealthController _healthController = null;
+
         private int _currentPhaseIndex = 0;
 
         private DiContainer _diContainer = null;
@@ -24,7 +27,7 @@ namespace Enemies.Bosses
 
         private BossPattern _currentPatternObject = null;
         public Subject<Unit> OnDeath { get; set; } = new Subject<Unit>();
-        public Subject<Unit> OnHPChanged { get; set; } = new Subject<Unit>();
+        public Subject<float> OnDamaged { get; set; } = new Subject<float>();
         public Subject<BossAttack> OnSpellCardStart { get; set; } = new Subject<BossAttack>();
         public Subject<BossAttack> OnSpellCardEnd { get; set; } = new Subject<BossAttack>();
         public Subject<BossAttack> OnAttackEnd { get; set; } = new Subject<BossAttack>();
@@ -32,9 +35,13 @@ namespace Enemies.Bosses
 
         public bool IsVulnerable { get; set; } = false;
 
-        public Transform Transform => transform;
+        public Transform Transform { get => transform; }
+
+        public HealthController HealthController { get => _healthController; }
 
         public Subject<IDamagable> OnDead { get; set; } = new Subject<IDamagable>();
+
+        public float RangeToCollide { get; set; } = 3f;
 
         [Inject]
         private void Construct(DiContainer diContainer, IAudioManager audioManager, IDamagableManager damagableManager)
@@ -49,6 +56,13 @@ namespace Enemies.Bosses
         {
             StartAttack(_currentPhaseIndex);
             _audioManager.Play(EMusicTypes.TestMusic);
+
+            HealthControllerSetup();
+        }
+
+        private void HealthControllerSetup()
+        {
+            _healthController.Init(this, GetCurrentHPAmount());
         }
 
         private void StartAttack(int attackIndex)
@@ -139,14 +153,14 @@ namespace Enemies.Bosses
 
         public void Damage(float damage)
         {
-            OnHPChanged.OnNext(Unit.Default);
+            OnDamaged?.OnNext(damage);
         }
     }
 
     public interface IBaseBossActions
     {
         public Subject<Unit> OnDeath { get; set; }
-        public Subject<Unit> OnHPChanged { get; set; }
+        public Subject<float> OnDamaged { get; set; }
         public Subject<BossAttack> OnSpellCardStart { get; set; }
         public Subject<BossAttack> OnSpellCardEnd { get; set; }
         public Subject<BossAttack> OnAttackEnd { get; set; }
@@ -155,6 +169,7 @@ namespace Enemies.Bosses
 
     public interface IBaseBossInfo
     {
+        public HealthController HealthController { get; }
         public float GetCurrentHPAmount();
         public int GetSpellCardAmount();
         public BossAttack GetCurrentAttack();

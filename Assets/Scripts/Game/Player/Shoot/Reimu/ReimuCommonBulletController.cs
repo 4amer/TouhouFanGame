@@ -40,6 +40,7 @@ namespace Player.Shoot.Reimu
         private TransformAccessArray _transformAccessArray = default;
 
         private NativeArray<float3> _enemiesPositions = new NativeArray<float3>();
+        private NativeArray<float> _enemiesRanges = new NativeArray<float>();
         private NativeArray<int> _enemyToDamage = new NativeArray<int>();
 
         private bool _isShootingAllowed = false;
@@ -91,6 +92,13 @@ namespace Player.Shoot.Reimu
                 _enemiesPositions[i] = positions[i];
             }
 
+            _enemiesRanges = new NativeArray<float>(_damagableManager.Damagables.Count, Allocator.TempJob);
+            float[] ranges = _damagableManager.GetAllEnemiesRanges();
+            for (int i = 0; i < _enemiesPositions.Length; i++)
+            {
+                _enemiesRanges[i] = ranges[i];
+            }
+
             _enemyToDamage = new NativeArray<int>(_transformAccessArray.length, Allocator.TempJob);
 
             var job = new CommonBullet
@@ -99,6 +107,7 @@ namespace Player.Shoot.Reimu
                 Delay = delay,
                 Range = _bulletRange,
                 EnemiesPositions = _enemiesPositions,
+                EnemiesCollideRange = _enemiesRanges,
                 EnemyToDamage = _enemyToDamage,
             };
             var handle = job.Schedule(_transformAccessArray);
@@ -158,6 +167,7 @@ namespace Player.Shoot.Reimu
         [ReadOnly] public float Delay;
         [ReadOnly] public float Range;
         [ReadOnly] public NativeArray<float3> EnemiesPositions;
+        [ReadOnly] public NativeArray<float> EnemiesCollideRange;
         [WriteOnly] public NativeArray<int> EnemyToDamage;
 
         public void Execute(int index, TransformAccess transform)
@@ -174,8 +184,11 @@ namespace Player.Shoot.Reimu
 
                 float distance = Vector3.Distance(position, transform.position);
 
-                if(Range <= distance)
+                distance -= EnemiesCollideRange[i] / 2f;
+
+                if (Range >= distance)
                 {
+                    Debug.Log(distance);
                     EnemyToDamage[index] = i;
                     break;
                 }

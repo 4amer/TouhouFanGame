@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2503020310823354356}
   - component: {fileID: 8748208401920855033}
   - component: {fileID: 5404097196246410670}
+  - component: {fileID: 2950002236545165429}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Untagged
@@ -123,3 +124,16 @@ MonoBehaviour:
     _timeToBeatInSeconds: 30
     _isInvulnerable: 0
   _bossObject: {fileID: 1549204404016053052}
+  _healthController: {fileID: 2950002236545165429}
+--- !u!114 &2950002236545165429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1549204404016053052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1323536009937b444b61cd77841c207d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -12,7 +12,7 @@ namespace UI.Windows
     public class BossWindow : AWindow<BossWindowData>
     {
         [SerializeField] private TimerCotroller _timerController = null;
-        [SerializeField] private HealthController _healthController = null;
+        [SerializeField] private HealthView _healthController = null;
         [SerializeField] private SpellCardManager _spellCardManager = null;
 
         private IBaseBoss _boss = null;

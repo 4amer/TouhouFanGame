@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Game.BulletSystem.Damage
 {
@@ -34,6 +35,16 @@ namespace Game.BulletSystem.Damage
             return positions;
         }
 
+        public float[] GetAllEnemiesRanges()
+        {
+            float[] ranges = new float[_damagables.Count];
+            for (int i = 0; i < _damagables.Count; i++)
+            {
+                ranges[i] = _damagables[i].RangeToCollide;
+            }
+            return ranges;
+        }
+
         private void Dead(IDamagable damagable)
         {
             _damagables.Remove(damagable);
@@ -55,6 +66,7 @@ namespace Game.BulletSystem.Damage
     {
         public List<IDamagable> Damagables { get; }
         public void AddDamagable(IDamagable damagable);
+        public float[] GetAllEnemiesRanges();
         public Vector3[] GetAllEnemiesPosition();
     }
 }
