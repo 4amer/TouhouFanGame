@@ -62,6 +62,38 @@ PrefabInstance:
       propertyPath: m_Name
       value: BaseEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 6087765579012772336, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: _HP
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6087765579012772336, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: _eventSequence.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6087765579012772336, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: _eventSequence.Array.data[0]._type
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6087765579012772336, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: _eventSequence.Array.data[1]._type
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6087765579012772336, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: _eventSequence.Array.data[2]._type
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6087765579012772336, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: _eventSequence.Array.data[3]._type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6087765579012772336, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: _eventSequence.Array.data[0]._actionDelay
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6087765579012772336, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: _eventSequence.Array.data[1]._actionDelay
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7493533857023655250, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.63

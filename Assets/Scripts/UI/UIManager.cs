@@ -82,6 +82,8 @@ namespace UI
 
             _diContainer.Inject(baseWindow);
 
+            baseWindow.Hide();
+
             return baseWindow;
         }
 

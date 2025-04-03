@@ -16,7 +16,7 @@ namespace Enemies
     public class EntityController : MonoBehaviour, IEntityController, IDamagable
     {
         [Header("Common")]
-        [SerializeField] private float _HP = 100f;
+        [SerializeField] private float _HP = 1f;
 
         [Space(10)]
         [Header("Actions")]
@@ -36,11 +36,13 @@ namespace Enemies
         private IBulletComponent[] _iBulletComponents = default;
         private IMovementBezierComponent _iMovementBezierComponent = default;
 
+        private IDamagableManager _damagableManager = null;
+
         private Queue<EventSequence> _eventSequencesQueue;
         public bool IsSequenceCycled { get => _isSequenceCycled; }
         public Queue<EventSequence> EventSequencesQueue { get => _eventSequencesQueue; }
-        public Subject<IDamagable> OnDead { get; set; }
-        public Subject<float> OnDamaged { get; set; }
+        public Subject<IDamagable> OnDead { get; set; } = new Subject<IDamagable>();
+        public Subject<float> OnDamaged { get; set; } = new Subject<float>();
 
         public Transform Transform => transform;
 
@@ -54,8 +56,10 @@ namespace Enemies
         private CompositeDisposable _disposable = new CompositeDisposable();
 
         [Inject]
-        private void Construct(IStageManagerTimer stageManagerTimer, IGameManager gameManager)
+        private void Construct(IStageManagerTimer stageManagerTimer, IGameManager gameManager, IDamagableManager damagableManager)
         {
+            _damagableManager = damagableManager;
+
             _timeShift = stageManagerTimer.currentTime;
 
             stageManagerTimer
@@ -74,6 +78,8 @@ namespace Enemies
         }
         public void Init(Transform player, GameObject entity = null)
         {
+            _damagableManager.AddDamagable(this);
+
             if (entity != null) _enemyGameObject = entity;
 
             _eventSequencesQueue = new Queue<EventSequence>(_eventSequence);
@@ -88,6 +94,8 @@ namespace Enemies
             {
                 bulletComponent.Init(player);
             }
+
+            SetupHealthController();
         }
 
         public void UpdateEnemy(float delta)
@@ -100,7 +108,10 @@ namespace Enemies
 
         public void StartLookAtPlayer()
         {
-            
+            foreach (IBulletComponent bulletComponent in _bulletComponents)
+            {
+                bulletComponent?.StartLookAtPlayer();
+            }
         }
 
         public void StartMove()
@@ -120,7 +131,10 @@ namespace Enemies
 
         public void StopLookAtPlayer()
         {
-            
+            foreach (IBulletComponent bulletComponent in _bulletComponents)
+            {
+                bulletComponent?.StopLookAtPlayer();
+            }
         }
 
         public void StopMove()
@@ -227,25 +241,35 @@ namespace Enemies
             }
         }
 
-        private void Dead()
+        private void Hide()
+        {
+            gameObject.active = false;
+        }
+
+        private void StopControll()
         {
             StopShoot();
             StopMove();
             StopLookAtPlayer();
+            Hide();
+        }
 
-            Dispose();
+        private void Dead()
+        {
+            StopControll();
+            OnDead?.OnNext(this);
         }
 
         public void Dispose()
         {
-            StopShoot();
-            StopMove();
+            StopControll();
+            OnDead?.OnNext(this);
             _disposable.Dispose();
         }
 
         public void Damage(float damage)
         {
-            throw new System.NotImplementedException();
+            OnDamaged?.OnNext(damage);
         }
     }
 

@@ -30,6 +30,16 @@ namespace Game.BulletSystem
             StopBulletComponent();
         }
 
+        public void StartLookAtPlayer()
+        {
+            _lookAtPlayer = true;
+        }
+
+        public void StopLookAtPlayer()
+        {
+            _lookAtPlayer = false;
+        }
+
         private void StartBulletComponent()
         {
             if (_particleSystem == null)
@@ -63,9 +73,11 @@ namespace Game.BulletSystem
 
     public interface IBulletComponent
     {
-        void Init(Transform player);
-        void StartShooting();
-        void StopShooting();
-        void UpdateComponent(float delta);
+        public void Init(Transform player);
+        public void StartShooting();
+        public void StopShooting();
+        public void StartLookAtPlayer();
+        public void StopLookAtPlayer();
+        public void UpdateComponent(float delta);
     }
 }

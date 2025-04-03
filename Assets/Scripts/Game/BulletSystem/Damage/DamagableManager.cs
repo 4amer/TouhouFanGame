@@ -21,8 +21,6 @@ namespace Game.BulletSystem.Damage
                 .AddTo(_disposables);
 
             _damagables.Add(damagable);
-
-            damagable.IsVulnerable = true;
         }
 
         public Vector3[] GetAllEnemiesPosition()
