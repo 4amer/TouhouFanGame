@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using BezierMovementSystem;
 using Enemies.Bosses.HP;
+using Enemies.Drop;
 using Enemies.Sequences;
 using Game;
 using Game.BulletSystem;
@@ -32,6 +33,7 @@ namespace Enemies
         [Space(10)]
         [Header("Other Components")]
         [SerializeField] private HealthController _healthController = null;
+        [SerializeField] private DropController _dropController = null;
 
         private IBulletComponent[] _iBulletComponents = default;
         private IMovementBezierComponent _iMovementBezierComponent = default;
@@ -79,6 +81,7 @@ namespace Enemies
         public void Init(Transform player, GameObject entity = null)
         {
             _damagableManager.AddDamagable(this);
+            _dropController.Init(this);
 
             if (entity != null) _enemyGameObject = entity;
 
@@ -263,7 +266,7 @@ namespace Enemies
         public void Dispose()
         {
             StopControll();
-            OnDead?.OnNext(this);
+            _damagableManager.RemoveDamagable(this);
             _disposable.Dispose();
         }
 

@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Game.BulletSystem.Pool
 {
-    public class BulletPool : MonoBehaviour, IBulletPool
+    public class BulletPool : MonoBehaviour, IPool<Bullet>
     {
         private Dictionary<BulletTypes, Queue<Bullet>> _freeBullets = new Dictionary<BulletTypes, Queue<Bullet>>();
-
+        public Transform Transform { get => transform; }
         public void Prepare(int amount, Bullet prefab)
         {
             for (int i = 0; amount >= i; i++)
@@ -36,22 +36,23 @@ namespace Game.BulletSystem.Pool
         public void Release(Bullet bullet)
         {
             bullet.gameObject.active = false;
-            bullet.transform.parent = transform;
+            bullet.transform.parent = Transform;
             _freeBullets[bullet.BulletTypes].Enqueue(bullet);
         }
 
         private void Create(Bullet prefab)
         {
-            Bullet bullet = Instantiate(prefab, transform);
+            Bullet bullet = Instantiate(prefab, Transform);
             bullet.transform.localPosition = Vector3.zero;
             _freeBullets[bullet.BulletTypes].Enqueue(bullet);
         }
     }
 
-    public interface IBulletPool
+    public interface IPool<T> where T : MonoBehaviour
     {
-        public void Prepare(int amount, Bullet prefab);
-        public Bullet Spawn(Bullet prefab, Transform parent, Vector3 position);
-        public void Release(Bullet bullet);
+        public void Prepare(int amount, T prefab);
+        public T Spawn(T prefab, Transform parent, Vector3 position);
+        public Transform Transform { get; }
+        public void Release(T obj);
     }
 }

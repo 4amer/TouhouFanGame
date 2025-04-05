@@ -27,7 +27,7 @@ namespace Player.Shoot.Reimu
 
         private Bullet _bulletPrefab = null;
 
-        private IBulletPool _bulletPool = null;
+        private IPool<Bullet> _bulletPool = null;
 
         private IDamagableManager _damagableManager = null;
 
@@ -46,7 +46,7 @@ namespace Player.Shoot.Reimu
         private bool _isShootingAllowed = false;
 
         [Inject]
-        private void Construct(IGameManager gameManager, IBulletPool bulletPool, IDamagableManager damagableManager)
+        private void Construct(IGameManager gameManager, IPool<Bullet> bulletPool, IDamagableManager damagableManager)
         {
             gameManager
                 .Updated
@@ -104,7 +104,7 @@ namespace Player.Shoot.Reimu
             var job = new CommonBullet
             {
                 Speed = _speed,
-                Delay = delay,
+                Delay = Time.deltaTime,
                 Range = _bulletRange,
                 EnemiesPositions = _enemiesPositions,
                 EnemiesCollideRange = _enemiesRanges,
@@ -113,7 +113,7 @@ namespace Player.Shoot.Reimu
             var handle = job.Schedule(_transformAccessArray);
             handle.Complete();
 
-            for(int i = 0; i < _enemyToDamage.Length; i++)
+            for (int i = 0; i < _enemyToDamage.Length; i++)
             {
                 if (_enemyToDamage[i] != -1)
                 {
