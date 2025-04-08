@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace Game.BulletSystem.Pool
 {
@@ -45,6 +46,8 @@ namespace Game.BulletSystem.Pool
             Bullet bullet = Instantiate(prefab, Transform);
             bullet.transform.localPosition = Vector3.zero;
             _freeBullets[bullet.BulletTypes].Enqueue(bullet);
+
+
         }
     }
 

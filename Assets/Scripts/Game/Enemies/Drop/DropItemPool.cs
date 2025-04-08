@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Game.BulletSystem.Pool;
 using PoolService.Pool;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Zenject;
@@ -13,10 +15,14 @@ namespace Enemies.Drop
 
         public Transform Transform { get => transform; }
 
-        [Inject]
-        private void Construct()
-        {
+        private CompositeDisposable _disposable = new CompositeDisposable();
 
+        private DiContainer _dIcontainer;
+
+        [Inject]
+        private void Construct(DiContainer diContainer)
+        {
+            _dIcontainer = diContainer;
         }
 
         public void Prepare(int amount, DropItem prefab)
@@ -55,6 +61,11 @@ namespace Enemies.Drop
         private void Create(DropItem prefab)
         {
             DropItem item = Instantiate(prefab, transform);
+            item.name = prefab.name;
+            item
+                .PickedUp
+                .Subscribe(_ => Release(_))
+                .AddTo(_disposable);
             item.transform.localPosition = Vector3.zero;
             _freeItems[item.name].Enqueue(item);
         }

@@ -117,7 +117,7 @@ namespace Utils
 
                 }
             }
-            catch (TaskCanceledException item)
+            catch (OperationCanceledException item)
             {
                 UnityEngine.Debug.Log($"{item.Message} Error");
             }

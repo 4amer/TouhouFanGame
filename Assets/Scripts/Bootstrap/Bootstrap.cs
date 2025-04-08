@@ -10,28 +10,28 @@ namespace BootstrapService
 {
     public class Bootstrap : MonoBehaviour
     {
-        private IGSM _GSM = null;
-        private IGameManagerInit _GameManager = null;
-        private IUIManagerInit _UIManager = null;
-        private IAudioManagerInit _AudioManager = null;
+        private IGameStateMachine _gameStateMachine = null;
+        private IGameManagerInit _gameManager = null;
+        private IUIManagerInit _uIManager = null;
+        private IAudioManagerInit _audioManager = null;
 
         [Inject]
-        private void Construct(IGSM gSM, IGameManagerInit gameManager, IUIManagerInit uIManager, IAudioManagerInit audioManager)
+        private void Construct(IGameStateMachine gameStateMachine, IGameManagerInit gameManager, IUIManagerInit uIManager, IAudioManagerInit audioManager)
         {
-            _GSM = gSM;
-            _GameManager = gameManager;
-            _UIManager = uIManager;
-            _AudioManager = audioManager;
+            _gameStateMachine = gameStateMachine;
+            _gameManager = gameManager;
+            _uIManager = uIManager;
+            _audioManager = audioManager;
         }
 
         private void Awake()
         {
-            _GameManager.Init();
-            _UIManager.Init();
-            _AudioManager.Init();
+            _gameManager.Init();
+            _uIManager.Init();
+            _audioManager.Init();
 
-            _GSM.Init();
-            _GSM.ChangeState<GameState>();
+            _gameStateMachine.Init();
+            _gameStateMachine.ChangeState<GameState>();
         }
     }
 }

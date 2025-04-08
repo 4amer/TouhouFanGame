@@ -14,13 +14,15 @@ namespace Enemies.Drop
         [SerializeField] private DropProperty[] _dropProperties = new DropProperty[1];
 
         private IPool<DropItem> _dropPool = null;
+        private DiContainer _diContainer = null;
 
         private CompositeDisposable _disposables = new CompositeDisposable();
 
         [Inject]
-        private void Construct(IPool<DropItem> dropPool)
+        private void Construct(IPool<DropItem> dropPool, DiContainer diContainer)
         {
             _dropPool = dropPool;
+            _diContainer = diContainer;
         }
 
         public void Init(IDamagable damagable)
@@ -46,7 +48,13 @@ namespace Enemies.Drop
 
                     Vector3 position = new Vector3(posX, posY, 0);
 
-                    _dropPool.Spawn(dropProperty.dropItem, transform, position);
+                    DropItem item = _dropPool.Spawn(dropProperty.dropItem, transform, position);
+
+                    _diContainer.Inject(item);
+
+                    item.transform.parent = _dropPool.Transform;
+
+                    item.Init();
                 }
             }
         }

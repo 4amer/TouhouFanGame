@@ -4,7 +4,7 @@ using Zenject;
 
 namespace Services.GSMC
 { 
-    public class GSM : IGSM, IGSMStates
+    public class GSM : IGameStateMachine, IGSMStates
     {
         private Dictionary<string, BaseGameState> _gameStates = new Dictionary<string, BaseGameState>();
 
@@ -47,7 +47,7 @@ namespace Services.GSMC
         }
     }
 
-    public interface IGSM
+    public interface IGameStateMachine
     {
         public void Init();
         public void ChangeState<T>() where T : BaseGameState;

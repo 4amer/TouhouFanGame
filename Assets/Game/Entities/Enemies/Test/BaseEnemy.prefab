@@ -16,7 +16,8 @@ GameObject:
   - component: {fileID: 6899760895679791817}
   - component: {fileID: 7716371658092711586}
   - component: {fileID: 3867011989520425900}
-  m_Layer: 0
+  - component: {fileID: 4917557193868990363}
+  m_Layer: 7
   m_Name: BaseEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4837,6 +4838,7 @@ MonoBehaviour:
   _movementBezierComponent: {fileID: 7716371658092711586}
   _enemyGameObject: {fileID: 1321474189750697714}
   _healthController: {fileID: 3867011989520425900}
+  _dropController: {fileID: 4917557193868990363}
 --- !u!199 &3087464495405386414
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -4962,3 +4964,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1323536009937b444b61cd77841c207d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4917557193868990363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1321474189750697714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d02e0b8377bb6574c9bebe1fcb49897e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dropProperties:
+  - dropItem: {fileID: 6405820775353968723, guid: 74f633f0c36627547a78545b464b7b6c, type: 3}
+    rangeToDrop: 1
+    amount: 3
