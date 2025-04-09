@@ -1,3 +1,4 @@
+using System.Security.Cryptography.X509Certificates;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Game;
@@ -9,6 +10,7 @@ namespace Enemies.Drop
 {
     public class DropItem : MonoBehaviour
     {
+
         [SerializeField] private float _standartMoveSpeed = 1.0f;
         private float _changableSpeed = 0f;
         
@@ -16,6 +18,10 @@ namespace Enemies.Drop
         private float _cangableTimer = 0;
 
         [SerializeField] private Rigidbody _rigidbody = null;
+
+        [Space(10)]
+        [Header("Type")]
+        [SerializeField] private EDropItemType _type = EDropItemType.None;
 
         private Vector3 _moveToPosition = Vector3.left;
 
@@ -29,6 +35,8 @@ namespace Enemies.Drop
         private Vector3 _pickedUpPosition = Vector3.zero;
 
         private IGameManager _gameManager = null;
+
+        public EDropItemType Type { get => _type; }
 
         [Inject]
         private void Construct(IGameManager gameManager)
@@ -45,6 +53,7 @@ namespace Enemies.Drop
 
             _changableSpeed = _standartMoveSpeed;
             _cangableTimer = 0;
+            _doPickUp = false;
 
             if (_rigidbody == null) 
             {

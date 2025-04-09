@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 701794352236492343}
   - component: {fileID: 6197124096830663147}
   m_Layer: 6
-  m_Name: PowerLower
+  m_Name: PowerSmall
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -132,8 +132,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _standartMoveSpeed: 3
-  _speedWhenPickedUp: 10
+  _timerToPickUp: 1
   _rigidbody: {fileID: 701794352236492343}
+  _type: 1
 --- !u!54 &701794352236492343
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -14,7 +14,7 @@ namespace Player.Shoot
 
         public abstract void StopShoot();
 
-        public abstract void IncreaseDamage();
-        public abstract void DecreaseDamage();
+        public abstract void IncreasePower(int powerLevel);
+        public abstract void DecreasePower(int powerLevel);
     }
 }

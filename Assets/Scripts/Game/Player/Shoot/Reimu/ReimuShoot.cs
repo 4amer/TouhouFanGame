@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Game.BulletSystem;
 using UnityEngine;
 
@@ -9,12 +10,41 @@ namespace Player.Shoot.Reimu
         [SerializeField] private Bullet _commonBullet = null;
 
         [SerializeField] private ReimuCommonBulletController[] _commonBulletControllers = new ReimuCommonBulletController[1];
+
+        [Space(10)]
+        [Header("Spining Objects")]
+        [SerializeField] private Transform _rotationObjTransform = null;
+        [SerializeField] private float _spiningSpeed = 1f;
+
+        [Space(10)]
+        [SerializeField] private ReimuAutoAimBulletController[] _autoAimBulletControllers = new ReimuAutoAimBulletController[1];
+
+        private int _currentPowerLevel = 0;
+
         public override void Init()
         {
             foreach (ReimuCommonBulletController controller in _commonBulletControllers)
             {
                 controller.Init(_commonBullet);
             }
+
+            SetupSpiningObject();
+        }
+
+        private void SetupSpiningObject()
+        {
+            Vector3 middlePosition = new Vector3(180, 0, 0);
+            Vector3 finishPosition = new Vector3(180, 0, 0);
+
+            Sequence sequence = DOTween.Sequence();
+
+            sequence.Append(_rotationObjTransform
+                .DOBlendableLocalRotateBy(middlePosition, _spiningSpeed)
+                .SetEase(Ease.Linear))
+                .Append(_rotationObjTransform
+                .DOBlendableLocalRotateBy(finishPosition, _spiningSpeed)
+                .SetEase(Ease.Linear))
+                .SetLoops(-1);
         }
 
         public override void UpdateComponents()
@@ -42,14 +72,20 @@ namespace Player.Shoot.Reimu
 
         }
 
-        public override void DecreaseDamage()
+        public override void DecreasePower(int powerLevel)
         {
-
+            for (int i = 0; powerLevel >= i; i++)
+            {
+                _autoAimBulletControllers[i].Hide();
+            }
         }
 
-        public override void IncreaseDamage()
+        public override void IncreasePower(int powerLevel)
         {
-
+            for (int i = 0; powerLevel >= i; i++)
+            {
+                _autoAimBulletControllers[i].Show();
+            }
         }
     }
 }

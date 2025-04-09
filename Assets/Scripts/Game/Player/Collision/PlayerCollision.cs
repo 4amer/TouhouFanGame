@@ -20,6 +20,15 @@ namespace Player.Collision
             }
         }
 
+        private void OnTriggerEnter(Collider other)
+        {
+            GameObject gameObject = other.gameObject;
+            if (gameObject.CompareTag(_tagName))
+            {
+                PlayerCollided?.OnNext(gameObject);
+            }
+        }
+
         private void OnParticleCollision(GameObject other)
         {
             GameObject gameObject = other.gameObject;
