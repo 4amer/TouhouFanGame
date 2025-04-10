@@ -119,13 +119,11 @@ namespace Enemies
 
         public void StartMove()
         {
-            Debug.Log("Start movement");
             _iMovementBezierComponent?.StartMovement();
         }
 
         public void StartShoot()
         {
-            Debug.Log("Shooting");
             foreach (IBulletComponent bulletComponent in _iBulletComponents)
             {
                 bulletComponent.StartShooting();
@@ -142,13 +140,11 @@ namespace Enemies
 
         public void StopMove()
         {
-            Debug.Log("Stop movement");
             _iMovementBezierComponent?.StopMovement();
         }
 
         public void StopShoot()
         {
-            Debug.Log("Stop Shooting");
             foreach (IBulletComponent bulletComponent in _iBulletComponents)
             {
                 bulletComponent.StopShooting();

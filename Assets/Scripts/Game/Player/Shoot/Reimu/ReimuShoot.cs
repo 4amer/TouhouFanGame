@@ -8,6 +8,7 @@ namespace Player.Shoot.Reimu
     {
 
         [SerializeField] private Bullet _commonBullet = null;
+        [SerializeField] private Bullet _autoAimBullet = null;
 
         [SerializeField] private ReimuCommonBulletController[] _commonBulletControllers = new ReimuCommonBulletController[1];
 
@@ -26,6 +27,11 @@ namespace Player.Shoot.Reimu
             foreach (ReimuCommonBulletController controller in _commonBulletControllers)
             {
                 controller.Init(_commonBullet);
+            }
+
+            foreach (ReimuAutoAimBulletController controller in _autoAimBulletControllers)
+            {
+                controller.Init(_autoAimBullet);
             }
 
             SetupSpiningObject();
@@ -58,10 +64,19 @@ namespace Player.Shoot.Reimu
             {
                 controller.AllowShooting();
             }
+
+            foreach (ReimuAutoAimBulletController controller in _autoAimBulletControllers)
+            {
+                controller.AllowShooting();
+            }
         }
         public override void StopShoot()
         {
             foreach (ReimuCommonBulletController controller in _commonBulletControllers)
+            {
+                controller.StopShooting();
+            }
+            foreach (ReimuAutoAimBulletController controller in _autoAimBulletControllers)
             {
                 controller.StopShooting();
             }

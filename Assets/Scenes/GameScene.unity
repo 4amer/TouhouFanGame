@@ -220,8 +220,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a01a1972ee2e79a4ba8ba044c9b189ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 8
-  _reloadDelay: 0.2
+  _speed: 50
+  _reloadDelay: 0.05
   _maxBulletAmount: 20
 --- !u!1 &206757345
 GameObject:
@@ -979,8 +979,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a01a1972ee2e79a4ba8ba044c9b189ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 8
-  _reloadDelay: 0.2
+  _speed: 50
+  _reloadDelay: 0.05
   _maxBulletAmount: 20
 --- !u!1 &1126300371
 GameObject:
@@ -1079,8 +1079,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a01a1972ee2e79a4ba8ba044c9b189ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 8
-  _reloadDelay: 0.2
+  _speed: 50
+  _reloadDelay: 0.05
   _maxBulletAmount: 20
 --- !u!1 &1248272079
 GameObject:
@@ -1867,8 +1867,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a01a1972ee2e79a4ba8ba044c9b189ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 8
-  _reloadDelay: 0.2
+  _speed: 50
+  _reloadDelay: 0.05
   _maxBulletAmount: 20
 --- !u!1 &2052191456
 GameObject:
@@ -1999,6 +1999,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _commonBullet: {fileID: 5826999271750520790, guid: 298561f1788be5948822766672b83e0e, type: 3}
+  _autoAimBullet: {fileID: 5826999271750520790, guid: 7ad7a25103580d044b8efa13c6e2c3e2, type: 3}
   _commonBulletControllers:
   - {fileID: 1888381148}
   - {fileID: 1398193765}

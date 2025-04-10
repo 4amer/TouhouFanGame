@@ -49,7 +49,6 @@ namespace Stages.Parts
         {
             base.TimerUpdated(time);
             float localTime = time - _timeOnStart;
-            Debug.Log(localTime);
             if (localTime >= _partTime)
             {
                 Clear();

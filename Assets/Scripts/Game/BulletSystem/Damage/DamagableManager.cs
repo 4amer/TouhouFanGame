@@ -43,6 +43,11 @@ namespace Game.BulletSystem.Damage
             return ranges;
         }
 
+        public IDamagable[] GetAllDamagables()
+        {
+            return _damagables.ToArray();
+        }
+
         public void RemoveDamagable(IDamagable damagable)
         {
             Dead(damagable);
@@ -74,5 +79,6 @@ namespace Game.BulletSystem.Damage
         public void RemoveDamagable(IDamagable damagable);
         public float[] GetAllEnemiesRanges();
         public Vector3[] GetAllEnemiesPosition();
+        public IDamagable[] GetAllDamagables();
     }
 }

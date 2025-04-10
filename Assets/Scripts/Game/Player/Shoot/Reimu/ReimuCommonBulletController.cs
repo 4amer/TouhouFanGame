@@ -133,14 +133,12 @@ namespace Player.Shoot.Reimu
 
         public void AllowShooting()
         {
-            Debug.Log("Allowed");
             _isShootingAllowed = true;
             Shoot();
         }
 
         public void StopShooting()
         {
-            Debug.Log("Stop");
             _isShootingAllowed = false;
         }
 
