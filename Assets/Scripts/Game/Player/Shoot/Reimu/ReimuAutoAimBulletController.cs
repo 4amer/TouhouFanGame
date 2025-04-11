@@ -112,20 +112,47 @@ namespace Player.Shoot.Reimu
 
         private void BulletLookAtEnemy(Bullet bullet)
         {
-            if (_bulletToDamagable.Count == 0) return;
-            if (_bulletToDamagable.ContainsKey(bullet) == false) return;
-            
-            IDamagable damagable = _bulletToDamagable[bullet];
-            
-            if (damagable == null) return;
+            IDamagable damagable = GetDamagableByBullet(bullet);
+
+            if (damagable == null) {
+                bullet.transform.rotation = Quaternion.identity;
+                return;
+            }    
 
             bullet.transform.LookAt(_bulletToDamagable[bullet].Transform);
         }
 
         private void MoveBullet(Bullet bullet, float delay)
         {
+            IDamagable damagable = GetDamagableByBullet(bullet);
+
             Vector3 bulletPosition = bullet.transform.localPosition;
-            bullet.transform.localPosition = bulletPosition + Vector3.right * _speed * delay;
+            
+            if (damagable == null)
+            {
+                bullet.transform.localPosition = bulletPosition + Vector3.right * _speed * delay;
+            }
+            else
+            {
+                Vector3 damagablePosition = damagable.Transform.position;
+                float step = _speed * Time.deltaTime;
+                bullet.transform.position = Vector3.MoveTowards(bulletPosition, damagablePosition, step);
+                if (Vector3.Distance(bulletPosition, damagablePosition) < 1f)
+                {
+                    damagable.Damage(bullet.Damage);
+                    _bulletPool.Release(bullet);
+                }
+            }
+        }
+
+        private IDamagable GetDamagableByBullet(Bullet bullet)
+        {
+            if (_bulletToDamagable.Count == 0) return null;
+            if (_bulletToDamagable.ContainsKey(bullet) == false) return null;
+
+            IDamagable damagable = _bulletToDamagable[bullet];
+
+            return damagable;
         }
 
         private void Shoot()

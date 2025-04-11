@@ -263,12 +263,17 @@ namespace Enemies
         {
             StopControll();
             _damagableManager.RemoveDamagable(this);
-            _disposable.Dispose();
+            _disposable?.Clear();
         }
 
         public void Damage(float damage)
         {
             OnDamaged?.OnNext(damage);
+        }
+
+        private void OnDisable()
+        {
+            _disposable?.Clear();
         }
     }
 

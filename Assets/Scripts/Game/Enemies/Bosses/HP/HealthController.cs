@@ -47,6 +47,11 @@ namespace Enemies.Bosses.HP
         {
             OnDead?.OnNext(Unit.Default);
         }
+
+        private void OnDisable()
+        {
+            disposables?.Clear();
+        }
     }
 
     public interface IInitHealthController
