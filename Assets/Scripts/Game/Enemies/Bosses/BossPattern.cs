@@ -3,6 +3,7 @@ using Audio.Types;
 using BezierMovementSystem;
 using Cysharp.Threading.Tasks;
 using Enemies.Manager;
+using Game.BulletSystem.Damage;
 using Game.Player.Manager;
 using UniRx;
 using UnityEngine;
@@ -35,12 +36,12 @@ namespace Enemies.Bosses.Attack
             _audioManager = audioManager;
         }
 
-        public void Init(GameObject boss)
+        public void Init(IDamagable boss)
         {
             _timeBeforeStart = new Utils.Timer();
             _timeBeforeStart.duration = _timeForPreparePosition;
 
-            _bossMovement.Init(boss);
+            _bossMovement.Init(boss.Transform);
             _bossMovement.PrepareStartPosition(_timeForPreparePosition);
             _bossMovement.MoveCompleted
                 .Subscribe(_ =>

@@ -4909,8 +4909,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31ec608d32c8e034f8f0beba81140682, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _HP: 1
   _isSequenceCycled: 1
   _eventSequence:
+  - _actionDelay: 0
+    _type: 9
   - _actionDelay: 1
     _type: 5
   - _actionDelay: 0
@@ -4925,6 +4928,8 @@ MonoBehaviour:
   - {fileID: 624689832788488836}
   _movementBezierComponent: {fileID: 997260555050911091}
   _enemyGameObject: {fileID: 0}
+  _healthController: {fileID: 0}
+  _dropController: {fileID: 0}
 --- !u!114 &997260555050911091
 MonoBehaviour:
   m_ObjectHideFlags: 0

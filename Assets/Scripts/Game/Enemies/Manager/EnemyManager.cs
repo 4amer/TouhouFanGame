@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Enemies.Sequences;
+using Game.BulletSystem.Damage;
 using Game.Player.Manager;
 using Stages.Manager;
 using Stages.Parts;
@@ -37,14 +38,14 @@ namespace Enemies.Manager
                 .AddTo(disposables);
         }
 
-        public void Init(GameObject entity = null)
+        public void Init(IDamagable entity = null)
         {
             _enemyControllers = enemyControllers;
             InitEnemies(_playerTransform, entity);
             FillEnemysTime();
         }
 
-        private void InitEnemies(Transform player, GameObject entity)
+        private void InitEnemies(Transform player, IDamagable entity)
         {
             foreach (IEntityController enemy in _enemyControllers)
             {
@@ -96,6 +97,6 @@ namespace Enemies.Manager
 
     public interface IEnemyManager
     {
-        void Init(GameObject entity = null);
+        void Init(IDamagable entity = null);
     }
 }

@@ -39,6 +39,7 @@ namespace Enemies.Bosses
 
         public HealthController HealthController { get => _healthController; }
 
+        IDamagableManager _damagableManager = null;
 
         public float RangeToCollide { get; set; } = 3f;
 
@@ -50,11 +51,13 @@ namespace Enemies.Bosses
             _diContainer = diContainer;
             _audioManager = audioManager;
 
-            damagableManager.AddDamagable(this);
+            _damagableManager = damagableManager;
         }
 
         public void Init()
         {
+            _damagableManager.AddDamagable(this);
+
             StartAttack(_currentPhaseIndex);
             _audioManager.Play(EMusicTypes.TestMusic);
 
@@ -126,7 +129,7 @@ namespace Enemies.Bosses
 
             BossPattern instantiatedObject = Instantiate(attackPatternPrefab, transform);
             _diContainer.Inject(instantiatedObject);
-            instantiatedObject.Init(_bossObject);
+            instantiatedObject.Init(this);
             _currentPatternObject = instantiatedObject;
         }
 

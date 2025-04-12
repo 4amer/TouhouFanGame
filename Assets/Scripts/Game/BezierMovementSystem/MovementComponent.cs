@@ -29,7 +29,7 @@ namespace BezierMovementSystem
 
         private bool _isInited = false;
 
-        private GameObject _enemy = null;
+        private Transform _enemy = null;
 
         private Sequence _currentMovingSequence = null;
 
@@ -37,7 +37,7 @@ namespace BezierMovementSystem
 
         private const float ADITIONAL_TIME_TO_TIMER = 0.05f;
 
-        public void Init(GameObject entity)
+        public void Init(Transform entity)
         {
             if (_isInited) return;
             _isInited = true;
@@ -47,7 +47,7 @@ namespace BezierMovementSystem
         private void MoveAlongCurve(BezierCurve bezierCurve)
         {
             float interpolateValue = 0f;
-            Transform _enemyTransform = _enemy.transform;
+            Transform _enemyTransform = _enemy;
 
             _currentMovingSequence = DOTween.Sequence();
             _currentMovingSequence.Pause();
@@ -112,7 +112,7 @@ namespace BezierMovementSystem
         {
             BezierCurve curve = new BezierCurve();
 
-            Vector3 StartPosition = _enemy.gameObject.transform.position;
+            Vector3 StartPosition = _enemy.position;
             Vector3 EndPosition = _bezierCurves[0].StartPositions;
 
             Vector3 CenterPosition = (StartPosition + EndPosition) / 2f;
@@ -191,7 +191,7 @@ namespace BezierMovementSystem
 
     public interface IMovementBezierComponent
     {
-        public void Init(GameObject entity);
+        public void Init(Transform entity);
         public void PrepareStartPosition(float timeForMovement);
         public void StartMovement();
         public void StopMovement();

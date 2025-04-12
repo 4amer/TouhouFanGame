@@ -117,9 +117,12 @@ namespace Player.Shoot.Reimu
             if (damagable == null) {
                 bullet.transform.rotation = Quaternion.identity;
                 return;
-            }    
+            } 
+            else
+            {
+                bullet.transform.LookAt(_bulletToDamagable[bullet].Transform);
+            }
 
-            bullet.transform.LookAt(_bulletToDamagable[bullet].Transform);
         }
 
         private void MoveBullet(Bullet bullet, float delay)
@@ -211,6 +214,8 @@ namespace Player.Shoot.Reimu
                 }
             }
 
+            if (closiestDamagable == null) return;
+
             if (_bulletToDamagable.ContainsKey(bullet) == false)
             {
                 _bulletToDamagable.Add(bullet, closiestDamagable);
@@ -220,6 +225,13 @@ namespace Player.Shoot.Reimu
                 _bulletToDamagable[bullet] = closiestDamagable;
             }
 
+            closiestDamagable
+                .OnDead
+                .Subscribe(_ =>
+                {
+                    _bulletToDamagable[bullet] = null;
+                })
+                .AddTo(_disposable);
         }
 
         private void CreateBullet()

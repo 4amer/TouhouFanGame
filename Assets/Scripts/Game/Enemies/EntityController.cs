@@ -29,6 +29,7 @@ namespace Enemies
         [Space(10)]
         [Header("Enemy Object")]
         [SerializeField] private GameObject _enemyGameObject = null;
+        private IDamagable _enemyDamagable = null;
 
         [Space(10)]
         [Header("Other Components")]
@@ -47,6 +48,7 @@ namespace Enemies
         public Subject<float> OnDamaged { get; set; } = new Subject<float>();
 
         public Transform Transform => transform;
+
 
         public float RangeToCollide => 1f;
 
@@ -78,19 +80,27 @@ namespace Enemies
             }
 
         }
-        public void Init(Transform player, GameObject entity = null)
+        public void Init(Transform player, IDamagable entity = null)
         {
             _damagableManager.AddDamagable(this);
-            _dropController.Init(this);
+            _dropController?.Init(this);
 
-            if (entity != null) _enemyGameObject = entity;
+            if (entity != null)
+            {
+                _enemyGameObject = entity.Transform.gameObject;
+                _enemyDamagable = entity;
+            } 
+            else
+            {
+                _enemyDamagable = this;
+            }
 
             _eventSequencesQueue = new Queue<EventSequence>(_eventSequence);
 
             PrepareSequencies();
 
             _iMovementBezierComponent = _movementBezierComponent;
-            _iMovementBezierComponent?.Init(_enemyGameObject);
+            _iMovementBezierComponent?.Init(_enemyGameObject.transform);
 
             _iBulletComponents = _bulletComponents;
             foreach (IBulletComponent bulletComponent in _iBulletComponents)
@@ -154,11 +164,13 @@ namespace Enemies
         public void Invulnerable()
         {
             IsVulnerable = false;
+            _enemyDamagable.IsVulnerable = false;
         }
 
         public void Vulnerable()
         {
             IsVulnerable = true;
+            _enemyDamagable.IsVulnerable = true;
         }
 
         public void RestoreSequence()
@@ -281,7 +293,7 @@ namespace Enemies
     {
         public bool IsSequenceCycled { get; }
         public Queue<EventSequence> EventSequencesQueue { get; }
-        public void Init(Transform player, GameObject entity = null);
+        public void Init(Transform player, IDamagable entity = null);
         public void UpdateEnemy(float delta);
         public void StartMove();
         public void StopMove();
