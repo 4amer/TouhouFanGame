@@ -100,25 +100,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _attacks:
   - _attacks:
-    - {fileID: 529743345687918855, guid: f3a2bf1984e43c94d9d1b5c7089d1164, type: 3}
-    _isSpellCard: 1
-    _hpOnPhase: 100
-    _timeToBeatInSeconds: 99
-    _isInvulnerable: 0
-  - _attacks:
     - {fileID: 529743345687918855, guid: a49551229bfaf6b48ac219500cc2ea2e, type: 3}
     _isSpellCard: 0
     _hpOnPhase: 100
     _timeToBeatInSeconds: 30
     _isInvulnerable: 0
   - _attacks:
-    - {fileID: 529743345687918855, guid: c4a2520ffa2f6b74db86f6c8546ea112, type: 3}
+    - {fileID: 529743345687918855, guid: f3a2bf1984e43c94d9d1b5c7089d1164, type: 3}
     _isSpellCard: 1
     _hpOnPhase: 100
     _timeToBeatInSeconds: 99
     _isInvulnerable: 0
   - _attacks:
     - {fileID: 529743345687918855, guid: d90735a56df5cc74d8fba1da4eaa021e, type: 3}
+    _isSpellCard: 1
+    _hpOnPhase: 100
+    _timeToBeatInSeconds: 99
+    _isInvulnerable: 0
+  - _attacks:
+    - {fileID: 529743345687918855, guid: f3a2bf1984e43c94d9d1b5c7089d1164, type: 3}
     _isSpellCard: 0
     _hpOnPhase: 100
     _timeToBeatInSeconds: 30

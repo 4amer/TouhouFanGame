@@ -181,9 +181,9 @@ namespace Enemies
 
         private void SetupHealthController()
         {
-            _healthController.Init(this, _HP);
+            _healthController?.Init(this, _HP);
 
-            _healthController
+            _healthController?
                 .OnDead
                 .Subscribe(_ => Dead())
                 .AddTo(_disposable);

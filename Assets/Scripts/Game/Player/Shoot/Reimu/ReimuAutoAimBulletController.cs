@@ -120,7 +120,8 @@ namespace Player.Shoot.Reimu
             } 
             else
             {
-                bullet.transform.LookAt(_bulletToDamagable[bullet].Transform);
+                Vector3 direction = _bulletToDamagable[bullet].Transform.position - bullet.transform.position;
+                bullet.transform.right = direction.normalized;
             }
 
         }
