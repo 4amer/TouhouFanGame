@@ -47,3 +47,4 @@ MonoBehaviour:
   _canvasPrefab: {fileID: 0}
   _windows:
   - {fileID: 5588161692813445978, guid: 773564e6133a6ee42a7fd642ad8def2e, type: 3}
+  - {fileID: 8313233506350578051, guid: a2b062dc665e3dc498b615e39db025ac, type: 3}

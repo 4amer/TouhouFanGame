@@ -16,7 +16,12 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: 9362acf37312cc44eb1ebf323d04efa9
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 8d15dd762f79682428ab0f7a7bcef229
+    m_Address: Assets/Game/Stages/TestStageParts/Bosses/BossPart.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 9df5ac5b218c84543af3102852a9f38a, type: 2}
   m_SchemaSet:

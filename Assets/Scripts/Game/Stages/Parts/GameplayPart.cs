@@ -2,6 +2,8 @@ using Enemies;
 using Enemies.Manager;
 using Game.Player.Manager;
 using Stages.Manager;
+using UI;
+using UI.Windows;
 using UniRx;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -20,11 +22,16 @@ namespace Stages.Parts
 
         private IPlayerManagerTransform _playerTransform = null;
 
+        private IUIManager _uIManager = null;   
+
         private float _timeOnStart = 0;
 
         [Inject]
-        private void Construct(IStageManagerTimer stageManagerTimer, IPlayerManagerTransform playerTransform)
+        private void Construct(IStageManagerTimer stageManagerTimer, IPlayerManagerTransform playerTransform,
+            IUIManager uIManager)
         {
+            _uIManager = uIManager;
+
             _timeOnStart = stageManagerTimer.currentTime;
 
             _playerTransform = playerTransform;
@@ -43,6 +50,8 @@ namespace Stages.Parts
             {
                 entityController.Init(playerTransform);
             }
+
+            SetupGameWindow();
         }
 
         public override void TimerUpdated(float time)
@@ -53,6 +62,16 @@ namespace Stages.Parts
             {
                 Clear();
             }
+        }
+
+        private void SetupGameWindow()
+        {
+            AWindow<GameWindowData> gameWindow = _uIManager.GetWindow<GameWindow>();
+            gameWindow.SetData(new GameWindowData
+            {
+
+            });
+            _uIManager.Show(gameWindow);
         }
 
         public override void Clear()

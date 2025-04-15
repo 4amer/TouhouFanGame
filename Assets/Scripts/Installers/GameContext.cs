@@ -3,6 +3,7 @@ using Game.BulletSystem.Damage;
 using Game.BulletSystem.Manager;
 using Game.BulletSystem.Pool;
 using Game.Player.Manager;
+using Services.Money;
 using Stages.Manager;
 using UnityEngine;
 using UnityEngine.InputSystem;

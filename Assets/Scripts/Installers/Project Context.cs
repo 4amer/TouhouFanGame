@@ -6,6 +6,7 @@ using Game;
 using UI;
 using Audio;
 using UnityEngine.InputSystem;
+using Services.Money;
 
 namespace Installers
 {
@@ -26,6 +27,7 @@ namespace Installers
         {
             Container.BindInterfacesAndSelfTo<GSM>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<SceneLoader>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<MoneyService>().AsSingle().NonLazy();
         }
 
         private void BindPlayerInput()
