@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using Game.Player.Money;
 using Player.Collision;
 using Player.Health;
 using Player.Movement;
@@ -19,6 +20,7 @@ namespace Game.Player.Manager
         [SerializeField] private PlayerHealth _playerHealth = null;
         [SerializeField] private PlayerCollision _playerCollision = null;
         [SerializeField] private PlayerShoot _playerShoot = null;
+        [SerializeField] private PlayerMoney _playerMoney = null;
         public GameObject Player { get { return _player; } }
         public Transform PlayerTransform { get => _player.transform; }
 
@@ -35,6 +37,8 @@ namespace Game.Player.Manager
                 .AddTo(_disposable);
 
             _playerShoot.Init();
+
+            _playerMoney.Init();
         }
 
         public void Damage()

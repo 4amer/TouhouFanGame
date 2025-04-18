@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 095041c247066a2458df33bcc18b950e, type: 3}
   m_Name: TestStage
   m_EditorClassIdentifier: 
+  _music: 101
   _selectablePart: {fileID: 7286108707092878384, guid: 054e24aa36755cc469f494ce5265f224, type: 3}
   initialParts:
   - {fileID: 2205321750381239115, guid: b368407e2fb68124895755cb1e9ceaa4, type: 3}

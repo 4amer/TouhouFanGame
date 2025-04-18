@@ -4980,3 +4980,6 @@ MonoBehaviour:
   - dropItem: {fileID: 6405820775353968723, guid: 74f633f0c36627547a78545b464b7b6c, type: 3}
     rangeToDrop: 1
     amount: 3
+  - dropItem: {fileID: 6405820775353968723, guid: 10605bc75727c5a4fbe430c0d6546462, type: 3}
+    rangeToDrop: 0.5
+    amount: 3

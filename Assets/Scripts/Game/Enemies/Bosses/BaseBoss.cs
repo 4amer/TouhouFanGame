@@ -13,6 +13,12 @@ namespace Enemies.Bosses
 {
     public class BaseBoss : MonoBehaviour, IInitBaseBoss, IBaseBossActions, IBaseBossInfo, IBaseBoss, IDamagable
     {
+
+        [Header("Music")]
+        [SerializeField] private EMusicTypes _music = EMusicTypes.None;
+
+        [Space(10)]
+        [Header("BossSetup")]
         [SerializeField] private BossAttack[] _attacks = new BossAttack[1];
 
         [SerializeField] private GameObject _bossObject = null;
@@ -59,7 +65,7 @@ namespace Enemies.Bosses
             _damagableManager.AddDamagable(this);
 
             StartAttack(_currentPhaseIndex);
-            _audioManager.Play(EMusicTypes.TestMusic);
+            _audioManager.PlayLoop(_music);
 
             HealthControllerSetup();
         }

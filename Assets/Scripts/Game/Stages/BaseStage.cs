@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Audio;
+using Audio.Types.Music;
 using Stages.Manager;
 using Stages.Parts;
 using Stages.Parts.Selection;
@@ -11,6 +13,11 @@ namespace Stages
     [CreateAssetMenu(fileName = "BaseStage", menuName = "TouhouLike/Stages/BaseStage", order = 1)]
     public class BaseStage : ScriptableObject, IBaseStage
     {
+        [Header("Music")]
+        [SerializeField] private EMusicTypes _music = EMusicTypes.None;
+
+        [Space(10)]
+        [Header("Stage Setup")]
         [SerializeField] private SelectionPart _selectablePart = null; 
 
         [SerializeField] private APart[] initialParts = new APart[0];
@@ -20,6 +27,8 @@ namespace Stages
         [SerializeField] private GameplayPart[] quaternaryParts = new GameplayPart[0];
         [SerializeField] private APart[] secondPassiveParts = new APart[0];
         [SerializeField] private BossPart bossPart = default;
+
+
 
         public Subject<APart> PartClear { get; set; } = new Subject<APart>();
         public Subject<Unit> SelectingPart { get; set; } = new Subject<Unit>();
@@ -38,11 +47,15 @@ namespace Stages
 
         private IStageManagerTimer _managerActions = null;
 
+        private IAudioManager _audioManager = null;
+
         private DiContainer _diContainer = null;
 
         [Inject]
-        private void Construct(DiContainer diContainer)
+        private void Construct(DiContainer diContainer, IAudioManager audioManager)
         {
+            _audioManager = audioManager;
+
             _diContainer = diContainer;
         }
 
@@ -58,6 +71,8 @@ namespace Stages
                 .TimeChanged
                 .Subscribe(_ => OnTimerUpdated(_))
                 .AddTo(_disposable);
+
+            _audioManager.PlayLoop(_music);
 
             InitFirstPart();
         }
@@ -206,6 +221,12 @@ namespace Stages
             _disposable.Clear();
             _currentPart.Dispose();
             Destroy(_currentPart.gameObject);
+        }
+
+        private void OnDestroy()
+        {
+            _audioManager.Stop(_music);
+            _disposable?.Clear();
         }
 
         private void CheckForArrayAmount()

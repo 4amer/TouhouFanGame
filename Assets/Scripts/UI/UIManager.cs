@@ -47,8 +47,11 @@ namespace UI
 
         public void Show(ABaseWindow window) 
         {
+            string windowType = window.GetType().ToString();
+
             window.Show();
-            _shownWindows.Add(window.GetType().ToString(), window);
+            if (_shownWindows.ContainsKey(windowType)) return;
+            _shownWindows.Add(windowType, window);
         }
 
         public void Hide<T>() where T : ABaseWindow

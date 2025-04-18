@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace Audio.Types
@@ -10,7 +11,7 @@ namespace Audio.Types
 
         [SerializeField] private AudioStorage<T>[] _audioStorages = null;
 
-        private Dictionary<string, AudioClip> _stringForAudio = new Dictionary<string, AudioClip>();
+        private Dictionary<T, AudioClip> _stringForAudio = new Dictionary<T, AudioClip>();
 
         internal float Volume { get => _audioSource.volume; set => _audioSource.volume = value; }
 
@@ -18,23 +19,42 @@ namespace Audio.Types
         {
             foreach(AudioStorage<T> audioStorage in _audioStorages)
             {
-                string name = audioStorage.GetType.GetType().ToString();
+                T name = audioStorage.GetSoundType;
                 _stringForAudio.Add(name, audioStorage.GetAudioClip);
             }
         }
 
         internal virtual void Play(T soundName)
         {
-            AudioClip clip = null;
-            string name = soundName.GetType().ToString();
-            _stringForAudio.TryGetValue(name, out clip);
+            _audioSource.loop = false;
+            AudioClip clip = FindAudioClip(soundName);
             _audioSource.clip = clip;
             _audioSource.PlayOneShot(clip);
+        }
+
+        internal virtual void PlayLoop(T soundName)
+        {
+            AudioClip clip = FindAudioClip(soundName);
+            _audioSource.clip = clip;
+            _audioSource.loop = true;
+            _audioSource.Play();
         }
 
         internal virtual void Pause()
         {
             _audioSource.Pause();
+        }
+
+        internal virtual void Stop()
+        {
+            _audioSource.Stop();
+        }
+
+        private AudioClip FindAudioClip(T cliptoplay)
+        {
+            AudioClip clip = null;
+            _stringForAudio.TryGetValue(cliptoplay, out clip);
+            return clip;
         }
     }
 }

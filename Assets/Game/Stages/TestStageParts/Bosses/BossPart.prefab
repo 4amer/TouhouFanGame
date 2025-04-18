@@ -101,6 +101,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5404097196246410670, guid: 46035b032a2500c4393e425fe95ecb16, type: 3}
+      propertyPath: _music
+      value: 102
+      objectReference: {fileID: 0}
+    - target: {fileID: 5404097196246410670, guid: 46035b032a2500c4393e425fe95ecb16, type: 3}
       propertyPath: _attacks.Array.data[1]._hpOnPhase
       value: 100
       objectReference: {fileID: 0}

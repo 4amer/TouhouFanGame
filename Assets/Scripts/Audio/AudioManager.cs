@@ -4,6 +4,7 @@ using Audio.Types;
 using Audio.Types.Music;
 using Audio.Types.SFX;
 using Audio.Types.UI;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Audio
@@ -36,25 +37,39 @@ namespace Audio
 
         public void Play<E>(E audioType) where E : Enum
         {
-            string audioName = typeof(BaseAudioUtility<E>).ToString();
-            BaseAudioUtility<E> baseAudio = keyValueAudio[audioName] as BaseAudioUtility<E>;
+            BaseAudioUtility<E> baseAudio = GetBaseAudio(audioType);
             baseAudio.Play(audioType);
+        }
+
+        public void PlayLoop<E>(E audioType) where E : Enum
+        {
+            BaseAudioUtility<E> baseAudio = GetBaseAudio(audioType);
+            baseAudio.PlayLoop(audioType);
         }
 
         public void Pause<E>(E audioType) where E : Enum
         {
-
+            BaseAudioUtility<E> baseAudio = GetBaseAudio(audioType);
+            baseAudio.Pause();
         }
 
         public void Stop<E>(E audioType) where E : Enum
         {
+            BaseAudioUtility<E> baseAudio = GetBaseAudio(audioType);
+            baseAudio.Stop();
+        }
 
+        private BaseAudioUtility<E> GetBaseAudio<E>(E audioType) where E : Enum
+        {
+            string audioName = typeof(BaseAudioUtility<E>).ToString();
+            return keyValueAudio[audioName] as BaseAudioUtility<E>;
         }
     }
 
     internal interface IAudioManager
     {
         public void Play<E>(E audioType) where E : Enum;
+        public void PlayLoop<E>(E audioType) where E : Enum;
         public void Pause<E>(E audioType) where E : Enum;
         public void Stop<E>(E audioType) where E : Enum;
     }

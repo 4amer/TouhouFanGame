@@ -10,6 +10,6 @@ namespace Audio.Types
         [SerializeField] private T _soundType;
 
         public AudioClip GetAudioClip => _audioClip;
-        public T GetType => _soundType;
+        public T GetSoundType => _soundType;
     }
 }

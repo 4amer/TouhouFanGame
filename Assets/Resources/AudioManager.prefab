@@ -145,6 +145,10 @@ MonoBehaviour:
   _audioStorages:
   - _audioClip: {fileID: 8300000, guid: c50f1a35bb8b7334ab95e0735bf27b16, type: 3}
     _soundType: 2
+  - _audioClip: {fileID: 8300000, guid: 22e08285325beca4c99503cf15efa2bf, type: 3}
+    _soundType: 101
+  - _audioClip: {fileID: 8300000, guid: cd6e2be9ce7ee724bbae3e746c40aab4, type: 3}
+    _soundType: 102
 --- !u!1 &2751158406976980609
 GameObject:
   m_ObjectHideFlags: 0
