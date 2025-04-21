@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Audio;
 using Audio.Types.Music;
+using Game.BackGround.Manager;
 using Stages.Manager;
 using Stages.Parts;
 using Stages.Parts.Selection;
@@ -49,14 +50,18 @@ namespace Stages
 
         private IAudioManager _audioManager = null;
 
+        private IBGManager _bGManager = null;
+
         private DiContainer _diContainer = null;
 
         [Inject]
-        private void Construct(DiContainer diContainer, IAudioManager audioManager)
+        private void Construct(DiContainer diContainer, IAudioManager audioManager, IBGManager bGManager)
         {
             _audioManager = audioManager;
 
             _diContainer = diContainer;
+
+            _bGManager = bGManager;
         }
 
         public void Init(Transform partParent, IStageManagerTimer managerActions)
@@ -74,7 +79,18 @@ namespace Stages
 
             _audioManager.PlayLoop(_music);
 
+            SetupBGManager();
+
             InitFirstPart();
+        }
+
+        private void SetupBGManager()
+        {
+            ParalaxManager[] paralaxManagers = _bGManager.GetParalaxManagers;
+            foreach (ParalaxManager paralaxManager in paralaxManagers)
+            {
+                paralaxManager?.Init();
+            }
         }
 
         private void InitFirstPart()

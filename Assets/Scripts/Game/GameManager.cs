@@ -1,5 +1,6 @@
 using Game.BulletSystem.Manager;
 using UniRx;
+using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
@@ -9,6 +10,7 @@ namespace Game
     {
         public Subject<float> Updated { get; set; } = new Subject<float>();
         public Subject<float> LateUpdated { get; set; } = new Subject<float>();
+        public Subject<float> FixedUpdated { get; set; } = new Subject<float>();
 
         public void Init()
         {
@@ -24,6 +26,11 @@ namespace Game
         {
             LateUpdated.OnNext(Time.deltaTime);
         }
+
+        private void FixedUpdate()
+        {
+            FixedUpdated.OnNext(Time.deltaTime);
+        }
     }
 
     internal interface IGameManagerInit
@@ -35,5 +42,6 @@ namespace Game
     {
         public Subject<float> Updated { get; set; }
         public Subject<float> LateUpdated { get; set; }
+        public Subject<float> FixedUpdated { get; set; }
     }
 }
