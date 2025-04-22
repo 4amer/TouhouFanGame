@@ -21,6 +21,8 @@ namespace Player.Movement
 
         private CompositeDisposable _disposable = new CompositeDisposable();
 
+        private bool _isInited = false;
+
         [Inject]
         private void Construct(PlayerInput playerInput, IGameManager gameManager)
         {
@@ -36,10 +38,14 @@ namespace Player.Movement
         {
             _playerObject = player;
             _playerRigidBody = player?.GetComponent<Rigidbody>();
+
+            _isInited = true;
         }
 
         private void UpdatePlayer(float delta)
         {
+            if (_isInited == false) return; 
+
             float speed = _defaultSpeed;
             if (_isSlowed)
             {

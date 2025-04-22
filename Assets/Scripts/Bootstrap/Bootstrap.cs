@@ -32,6 +32,13 @@ namespace BootstrapService
 
             _gameStateMachine.Init();
             _gameStateMachine.ChangeState<GameState>();
+
+            StartLoadingScreen();
+        }
+
+        private void StartLoadingScreen()
+        {
+
         }
     }
 }

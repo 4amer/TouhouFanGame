@@ -7,6 +7,8 @@ using UnityEngine.InputSystem;
 using UnityEditor.ShaderGraph.Internal;
 using System.Collections.Generic;
 using UnityEditor.Search;
+using System.Security.Cryptography;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -94,17 +96,19 @@ namespace BezierMovementSystem
                 return;
 
             Vector3 objectPosition = transform.position;
-            Vector3 initialCurveStartOffset = _bezierCurves[0].StartPositions - objectPosition; // Always zero initially
-
-            foreach (BezierCurve curve in _bezierCurves)
+            Vector3 initialCurveStartOffset = _bezierCurves[0].StartPositions;
+            
+            for (int i = 0; i <= (_bezierCurves.Count - 1); i++)
             {
-                Vector3 startOffset = curve.StartPositions - _bezierCurves[0].StartPositions;
-                Vector3 centerOffset = curve.CentralPositions - _bezierCurves[0].StartPositions;
-                Vector3 endOffset = curve.EndPositions - _bezierCurves[0].StartPositions;
+                BezierCurve curve = _bezierCurves[i];
+
+                Vector3 startOffset = curve.StartPositions - initialCurveStartOffset;
+                Vector3 centerOffset = curve.CentralPositions - initialCurveStartOffset;
+                Vector3 endOffset = curve.EndPositions - initialCurveStartOffset;
 
                 curve.StartPositions = objectPosition + startOffset;
                 curve.CentralPositions = objectPosition + centerOffset;
-                curve.EndPositions = objectPosition + endOffset;
+                curve.EndPositions = objectPosition + endOffset;    
             }
         }
 

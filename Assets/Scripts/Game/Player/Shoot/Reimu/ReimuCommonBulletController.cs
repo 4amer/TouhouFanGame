@@ -85,6 +85,8 @@ namespace Player.Shoot.Reimu
 
         private void UpdateComponent(float delay)
         {
+            if (_transformAccessArray.isCreated == false) return;
+
             _enemiesPositions = new NativeArray<float3>(_damagableManager.Damagables.Count, Allocator.TempJob);
             Vector3[] positions = _damagableManager.GetAllEnemiesPosition();
             for (int i = 0; i < _enemiesPositions.Length; i++)

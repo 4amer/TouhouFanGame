@@ -1,7 +1,8 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEditor;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -11,7 +12,7 @@ using Zenject;
 
 namespace Services.SceneLoaderC
 {
-    public class SceneLoader : ISceneLoader
+    public class SceneLoader : ISceneLoader, ISceneLoaderActions
     {
         public Subject<Unit> SceneStartLoad { get; set; } = new Subject<Unit>();
         public Subject<float> SceneLoadUpdated { get; set; } = new Subject<float>();
@@ -24,30 +25,35 @@ namespace Services.SceneLoaderC
             LoadSceneAsync(sceneKey);
         }
 
-        private async Task LoadSceneAsync(string sceneKey)
+        public async UniTask LoadSceneAsync(string sceneKey)
         {
-            _sceneHandle = Addressables.LoadSceneAsync(sceneKey, LoadSceneMode.Single, activateOnLoad: false);
+            // 1. Загружаем сцену в фоне БЕЗ активации
+            var handle = Addressables.LoadSceneAsync(
+                sceneKey,
+                LoadSceneMode.Single,
+                activateOnLoad: false // Важно!
+            );
 
             SceneStartLoad?.OnNext(Unit.Default);
 
-            while (!_sceneHandle.IsDone)
+            // 2. Ждем полной загрузки (до 90%)
+            while (handle.PercentComplete < 0.9f)
             {
-                float progress = _sceneHandle.PercentComplete;
-                SceneLoadUpdated?.OnNext(progress);
-                Debug.Log($"Loading progress: {progress:P}");
-
-                await Task.Yield();
+                SceneLoadUpdated?.OnNext(handle.PercentComplete);
+                await UniTask.Yield();
             }
 
-            if (_sceneHandle.Status == AsyncOperationStatus.Succeeded)
-            {
-                await _sceneHandle.Result.ActivateAsync();
-                SceneEndLoad?.OnNext(Unit.Default);
-            } 
-            else
-            {
-                Debug.LogError($"Failed to load scene: {sceneKey}");
-            }
+            var activationOp = handle.Result.ActivateAsync();
+            activationOp.allowSceneActivation = false;
+
+            SceneLoadUpdated?.OnNext(1f);
+
+            await UniTask.Delay(5000);
+
+            activationOp.allowSceneActivation = true;
+            await activationOp; // Ждем реальной активации
+
+            SceneEndLoad?.OnNext(Unit.Default);
         }
 
         public void UnloadScene()
@@ -59,12 +65,15 @@ namespace Services.SceneLoaderC
         }
     }
 
-    public interface ISceneLoader
+    public interface ISceneLoaderActions
     {
         public Subject<Unit> SceneStartLoad { get; set; }
         public Subject<float> SceneLoadUpdated { get; set; }
         public Subject<Unit> SceneEndLoad { get; set; }
+    }
 
+    public interface ISceneLoader
+    {
         public void LoadScene(string sceneName);
         public void UnloadScene();
     }

@@ -283,7 +283,7 @@ namespace Enemies
             OnDamaged?.OnNext(damage);
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             _disposable?.Clear();
         }
