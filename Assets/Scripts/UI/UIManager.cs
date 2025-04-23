@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UI.Windows;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -36,6 +37,7 @@ namespace UI
             _isInited = true;
             PrepareCanvas();
             InitWindows();
+            PrepareLoadingWindow();
         }
 
         public T GetWindow<T>() where T : ABaseWindow
@@ -105,6 +107,13 @@ namespace UI
                 canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
                 canvasScaler.referenceResolution = new Vector2(1920, 1080);
             }
+        }
+
+        private void PrepareLoadingWindow()
+        {
+            AWindow<LoadingWindowData> window = GetWindow<LoadingWindow>();
+
+            Show(window);
         }
     }
 

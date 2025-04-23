@@ -3,6 +3,7 @@ using Game;
 using Services.GSMC;
 using Services.GSMC.States;
 using UI;
+using UI.Windows;
 using UnityEngine;
 using Zenject;
 
@@ -32,13 +33,6 @@ namespace BootstrapService
 
             _gameStateMachine.Init();
             _gameStateMachine.ChangeState<GameState>();
-
-            StartLoadingScreen();
-        }
-
-        private void StartLoadingScreen()
-        {
-
         }
     }
 }
