@@ -930,7 +930,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AShooting: {fileID: 2111894313}
-  PowerToNextLevel: 5
+  PowerToNextLevel: 100
   MaxPowerStage: 4
   _smallPower: 3
   _bigPower: 10
