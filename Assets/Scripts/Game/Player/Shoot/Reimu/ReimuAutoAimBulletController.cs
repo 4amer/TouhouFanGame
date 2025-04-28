@@ -233,6 +233,14 @@ namespace Player.Shoot.Reimu
                     _bulletToDamagable[bullet] = null;
                 })
                 .AddTo(_disposable);
+
+            closiestDamagable
+                .OnDisposed
+                .Subscribe(_ =>
+                {
+                    _bulletToDamagable[bullet] = null;
+                })
+                .AddTo(_disposable);
         }
 
         private void CreateBullet()

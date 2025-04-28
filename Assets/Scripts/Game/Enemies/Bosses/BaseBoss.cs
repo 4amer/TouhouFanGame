@@ -33,6 +33,7 @@ namespace Enemies.Bosses
 
         private BossPattern _currentPatternObject = null;
         public Subject<IDamagable> OnDead { get; set; } = new Subject<IDamagable>();
+        public Subject<IDamagable> OnDisposed { get; set; } = new Subject<IDamagable>();
         public Subject<float> OnDamaged { get; set; } = new Subject<float>();
         public Subject<BossAttack> OnSpellCardStart { get; set; } = new Subject<BossAttack>();
         public Subject<BossAttack> OnSpellCardEnd { get; set; } = new Subject<BossAttack>();

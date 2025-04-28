@@ -102,7 +102,7 @@ namespace Stages
 
         private void NextPart()
         {
-            DestroyCurrentPart();
+            HideCurrentPart();
 
             _currentStep += 1;
 
@@ -149,7 +149,7 @@ namespace Stages
 
             selectPartObject.OnPartSelected
                 .Subscribe(part => {
-                    DestroyCurrentPart();
+                    HideCurrentPart();
                     PreparePart(part);
                 })
                 .AddTo(_disposable);
@@ -232,11 +232,11 @@ namespace Stages
             return partObject.GetComponent<APart>();
         }
 
-        private void DestroyCurrentPart()
+        private void HideCurrentPart()
         {
             _disposable.Clear();
             _currentPart.Dispose();
-            Destroy(_currentPart.gameObject);
+            //Destroy(_currentPart.gameObject);
         }
 
         private void OnDestroy()

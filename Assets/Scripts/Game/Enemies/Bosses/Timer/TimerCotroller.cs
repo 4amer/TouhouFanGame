@@ -35,7 +35,7 @@ namespace Enemies.Bosses.Timer
 
         private void TimeChanged(float timerTime)
         {
-            float time = (_timeShift - timerTime) + _currentTimerTime;
+            float time = (timerTime - _timeShift) + _currentTimerTime;
             int roundTime = Mathf.RoundToInt(time);
             if(roundTime > -1)
                 _timerText.text = $"{roundTime}";

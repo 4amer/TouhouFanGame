@@ -27,31 +27,25 @@ namespace Services.SceneLoaderC
 
         public async UniTask LoadSceneAsync(string sceneKey)
         {
-            // 1. Загружаем сцену в фоне БЕЗ активации
             var handle = Addressables.LoadSceneAsync(
                 sceneKey,
                 LoadSceneMode.Single,
-                activateOnLoad: false // Важно!
+                activateOnLoad: false
             );
 
             SceneStartLoad?.OnNext(Unit.Default);
 
-            // 2. Ждем полной загрузки (до 90%)
             while (handle.PercentComplete < 0.9f)
             {
                 SceneLoadUpdated?.OnNext(handle.PercentComplete);
                 await UniTask.Yield();
             }
 
-            var activationOp = handle.Result.ActivateAsync();
-            activationOp.allowSceneActivation = false;
-
-            SceneLoadUpdated?.OnNext(1f);
-
             await UniTask.Delay(5000);
 
+            var activationOp = handle.Result.ActivateAsync();
             activationOp.allowSceneActivation = true;
-            await activationOp; // Ждем реальной активации
+            await activationOp;
 
             SceneEndLoad?.OnNext(Unit.Default);
         }

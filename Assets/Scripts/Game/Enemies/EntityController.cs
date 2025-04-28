@@ -45,6 +45,7 @@ namespace Enemies
         public bool IsSequenceCycled { get => _isSequenceCycled; }
         public Queue<EventSequence> EventSequencesQueue { get => _eventSequencesQueue; }
         public Subject<IDamagable> OnDead { get; set; } = new Subject<IDamagable>();
+        public Subject<IDamagable> OnDisposed { get; set; } = new Subject<IDamagable>();
         public Subject<float> OnDamaged { get; set; } = new Subject<float>();
 
         public Transform Transform => transform;
@@ -155,6 +156,7 @@ namespace Enemies
 
         public void StopShoot()
         {
+            if (_iBulletComponents == null) return;
             foreach (IBulletComponent bulletComponent in _iBulletComponents)
             {
                 bulletComponent.StopShooting();
@@ -254,7 +256,8 @@ namespace Enemies
 
         private void Hide()
         {
-            gameObject.active = false;
+            //gameObject.active = false;
+            GetComponent<SpriteRenderer>().enabled = false;
         }
 
         private void StopControll()
@@ -276,16 +279,19 @@ namespace Enemies
             StopControll();
             _damagableManager.RemoveDamagable(this);
             _disposable?.Clear();
+            OnDisposed?.OnNext(this);
         }
 
         public void Damage(float damage)
         {
+            if (IsVulnerable == false) return;
             OnDamaged?.OnNext(damage);
         }
 
         private void OnDestroy()
         {
             _disposable?.Clear();
+            OnDisposed?.OnNext(this);
         }
     }
 
