@@ -28,7 +28,7 @@ namespace Stages.Parts
         public string PartName => _partName;
         public virtual void Init()
         {
-            PartClear.OnNext(this);
+            //PartClear.OnNext(this);
         }
 
         public virtual void Clear()

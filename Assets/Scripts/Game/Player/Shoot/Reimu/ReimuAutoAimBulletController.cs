@@ -144,6 +144,7 @@ namespace Player.Shoot.Reimu
                 if (Vector3.Distance(bulletPosition, damagablePosition) < 1f)
                 {
                     damagable.Damage(bullet.Damage);
+                    bullet.PlayDestroyParticle();
                     _bulletPool.Release(bullet);
                 }
             }

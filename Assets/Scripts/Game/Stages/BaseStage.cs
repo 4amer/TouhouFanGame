@@ -154,6 +154,13 @@ namespace Stages
                 })
                 .AddTo(_disposable);
 
+            selectPartObject.PartClear
+                .Subscribe(_ => {
+                    HideCurrentPart();
+                    NextPart();
+                })
+                .AddTo(_disposable);
+
             selectPartObject.Init();
 
             _currentPart = selectPartObject;

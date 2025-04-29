@@ -8,11 +8,14 @@ namespace Stages.Parts.Selection
     public class SelectionPart : APart, ISelectionPart
     {
         [SerializeField] private SelectionArea[] _selecteAreas = new SelectionArea[1];
-        [SerializeField] private float _timeForSelect = 5f;
+        [SerializeField] private float _timeForSelect = 3f;
+        [SerializeField] private float _partTime = 10f;
         public Subject<APart> OnPartSelected { get; set; } = new Subject<APart>();
 
         private ISelectionArea[] _iSelecteAreas = new ISelectionArea[1];
         private Queue<APart> _passivePartsQueue = new Queue<APart>();
+
+        private Utils.Timer _timer = null;
 
         public void PrepareParts(APart[] PassiveParts)
         {
@@ -34,6 +37,14 @@ namespace Stages.Parts.Selection
 
                 area.Init(_timeForSelect, part);
             }
+
+            _timer = new Utils.Timer(); 
+
+            _timer.duration = _partTime;
+            _timer.OnTimerFinish += () => {
+                Clear();
+            };
+            _timer.Start();
         }
 
         private void PartSelected(APart part)
