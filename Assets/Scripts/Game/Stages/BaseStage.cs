@@ -236,7 +236,10 @@ namespace Stages
         {
             _disposable.Clear();
             _currentPart.Dispose();
-            //Destroy(_currentPart.gameObject);
+            if(_currentPart.GetType() == typeof(SelectionPart))
+            {
+                Destroy(_currentPart.gameObject);
+            }
         }
 
         private void OnDestroy()

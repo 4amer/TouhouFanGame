@@ -257,7 +257,9 @@ namespace Enemies
         private void Hide()
         {
             //gameObject.active = false;
-            GetComponent<SpriteRenderer>().enabled = false;
+            SpriteRenderer sprite = GetComponent<SpriteRenderer>();
+            if (sprite == null) return;
+            sprite.enabled = false;
         }
 
         private void StopControll()
@@ -271,6 +273,7 @@ namespace Enemies
         private void Dead()
         {
             StopControll();
+            _disposable?.Clear();
             OnDead?.OnNext(this);
         }
 

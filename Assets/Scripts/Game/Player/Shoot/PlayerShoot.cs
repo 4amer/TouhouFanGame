@@ -28,6 +28,7 @@ namespace Player.Shoot
         private int _currentPowerStage = 0;
 
         private bool _isShifting = false;
+        private bool _isShooring = false;
 
         private PlayerInput _playerInput = null;
 
@@ -62,16 +63,22 @@ namespace Player.Shoot
             {
                 AShooting.DoNormalShoot();
             }
+            _isShooring = true;
         }
 
         private void StopShoot()
         {
             AShooting.StopShoot();
+            _isShooring = false;
         }
 
         private void Shifting(bool shift)
         {
             _isShifting = shift;
+            if (_isShooring)
+            {
+                Shoot();
+            }
         }
 
         public void AddPower(int amount)

@@ -459,9 +459,21 @@ PrefabInstance:
       value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
       propertyPath: EmissionModule.rateOverTime.scalar
       value: 4.8
       objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.sprites.Array.data[0].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f50f833e79c8c5346884c5fd909e5b33, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -772,9 +784,21 @@ PrefabInstance:
       value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
       propertyPath: EmissionModule.rateOverTime.scalar
       value: 4.8
       objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.sprites.Array.data[0].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f50f833e79c8c5346884c5fd909e5b33, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1085,8 +1109,16 @@ PrefabInstance:
       value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
       propertyPath: autoRandomSeed
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
       propertyPath: ShapeModule.arc.mode
@@ -1108,6 +1140,10 @@ PrefabInstance:
       propertyPath: EmissionModule.rateOverTime.scalar
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.sprites.Array.data[0].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f50f833e79c8c5346884c5fd909e5b33, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1418,8 +1454,16 @@ PrefabInstance:
       value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
       propertyPath: autoRandomSeed
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
       propertyPath: ShapeModule.arc.speed.scalar
@@ -1433,6 +1477,10 @@ PrefabInstance:
       propertyPath: EmissionModule.rateOverTime.scalar
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.sprites.Array.data[0].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f50f833e79c8c5346884c5fd909e5b33, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1747,9 +1795,21 @@ PrefabInstance:
       value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
       propertyPath: EmissionModule.rateOverTime.scalar
       value: 4.8
       objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.sprites.Array.data[0].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f50f833e79c8c5346884c5fd909e5b33, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2060,9 +2120,21 @@ PrefabInstance:
       value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
       propertyPath: EmissionModule.rateOverTime.scalar
       value: 4.8
       objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.sprites.Array.data[0].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f50f833e79c8c5346884c5fd909e5b33, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2369,9 +2441,21 @@ PrefabInstance:
       value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
       propertyPath: EmissionModule.rateOverTime.scalar
       value: 4.8
       objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.sprites.Array.data[0].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f50f833e79c8c5346884c5fd909e5b33, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2405,6 +2489,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BaseEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 3087464495405386414, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 4917557193868990363, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
       propertyPath: _dropProperties.Array.size
       value: 1
@@ -2674,9 +2762,21 @@ PrefabInstance:
       value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
       propertyPath: EmissionModule.rateOverTime.scalar
       value: 4.8
       objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.sprites.Array.data[0].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f50f833e79c8c5346884c5fd909e5b33, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2987,9 +3087,21 @@ PrefabInstance:
       value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
       propertyPath: EmissionModule.rateOverTime.scalar
       value: 4.8
       objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.sprites.Array.data[0].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f50f833e79c8c5346884c5fd909e5b33, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3300,8 +3412,16 @@ PrefabInstance:
       value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
       propertyPath: autoRandomSeed
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
       propertyPath: ShapeModule.arc.speed.scalar
@@ -3315,6 +3435,10 @@ PrefabInstance:
       propertyPath: EmissionModule.rateOverTime.scalar
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.sprites.Array.data[0].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f50f833e79c8c5346884c5fd909e5b33, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3348,6 +3472,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BaseEnemy (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 3087464495405386414, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 4917557193868990363, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
       propertyPath: _dropProperties.Array.size
       value: 1
@@ -3617,9 +3745,21 @@ PrefabInstance:
       value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
       propertyPath: EmissionModule.rateOverTime.scalar
       value: 4.8
       objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.sprites.Array.data[0].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f50f833e79c8c5346884c5fd909e5b33, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3934,9 +4074,21 @@ PrefabInstance:
       value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
       propertyPath: EmissionModule.rateOverTime.scalar
       value: 4.8
       objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.sprites.Array.data[0].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f50f833e79c8c5346884c5fd909e5b33, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3970,6 +4122,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BaseEnemy (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 3087464495405386414, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 4917557193868990363, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
       propertyPath: _dropProperties.Array.size
       value: 1
@@ -4239,9 +4395,21 @@ PrefabInstance:
       value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
       propertyPath: EmissionModule.rateOverTime.scalar
       value: 4.8
       objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.sprites.Array.data[0].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f50f833e79c8c5346884c5fd909e5b33, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4556,9 +4724,21 @@ PrefabInstance:
       value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
       propertyPath: EmissionModule.rateOverTime.scalar
       value: 4.8
       objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.sprites.Array.data[0].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f50f833e79c8c5346884c5fd909e5b33, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4592,6 +4772,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BaseEnemy (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3087464495405386414, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 4917557193868990363, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
       propertyPath: _dropProperties.Array.size
       value: 1
@@ -4861,9 +5045,21 @@ PrefabInstance:
       value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
       propertyPath: EmissionModule.rateOverTime.scalar
       value: 4.8
       objectReference: {fileID: 0}
+    - target: {fileID: 8813506047635967819, guid: 0ae9cdfb1d1f0eb4ea9c1745ec0e02af, type: 3}
+      propertyPath: UVModule.sprites.Array.data[0].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f50f833e79c8c5346884c5fd909e5b33, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

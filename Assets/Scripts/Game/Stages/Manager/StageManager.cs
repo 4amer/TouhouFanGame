@@ -66,7 +66,6 @@ namespace Stages.Manager
             _timer.EventOnUpdate = () =>
             {
                 TimeChanged.OnNext(_timer.GetCurrentTime);
-                Debug.Log("Time changed");
             };
             _timer.StartInfinity();
         }

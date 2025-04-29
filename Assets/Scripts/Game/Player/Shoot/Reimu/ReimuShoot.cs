@@ -58,18 +58,6 @@ namespace Player.Shoot.Reimu
 
         }
 
-        public override void DoNormalShoot()
-        {
-            foreach (ReimuCommonBulletController controller in _commonBulletControllers)
-            {
-                controller.AllowShooting();
-            }
-
-            foreach (ReimuAutoAimBulletController controller in _autoAimBulletControllers)
-            {
-                controller.AllowShooting();
-            }
-        }
         public override void StopShoot()
         {
             foreach (ReimuCommonBulletController controller in _commonBulletControllers)
@@ -82,9 +70,27 @@ namespace Player.Shoot.Reimu
             }
         }
 
+        public override void DoNormalShoot()
+        {
+            StopShoot();
+            foreach (ReimuCommonBulletController controller in _commonBulletControllers)
+            {
+                controller.AllowShooting();
+            }
+
+            foreach (ReimuAutoAimBulletController controller in _autoAimBulletControllers)
+            {
+                controller.AllowShooting();
+            }
+        }
+
         public override void DoShiftShoot()
         {
-
+            StopShoot();
+            foreach (ReimuCommonBulletController controller in _commonBulletControllers)
+            {
+                controller.AllowShooting();
+            }
         }
 
         public override void DecreasePower(int powerLevel)
