@@ -6,7 +6,7 @@ namespace Stages.Parts
     {
         public override void Init()
         {
-            throw new System.NotImplementedException();
+            
         }
     }
 }

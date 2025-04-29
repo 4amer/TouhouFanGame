@@ -105,6 +105,8 @@ namespace Player.Shoot.Reimu
         {
             for (int i = 0; powerLevel >= i; i++)
             {
+                
+                if (_autoAimBulletControllers.Length <= i) continue;
                 _autoAimBulletControllers[i].Show();
             }
         }

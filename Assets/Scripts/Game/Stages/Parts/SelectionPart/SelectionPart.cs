@@ -49,6 +49,7 @@ namespace Stages.Parts.Selection
 
         private void PartSelected(APart part)
         {
+            _timer.Reset();
             OnPartSelected?.OnNext(part);
         }
     }
