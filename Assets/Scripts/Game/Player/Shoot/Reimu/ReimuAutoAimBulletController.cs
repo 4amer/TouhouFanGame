@@ -17,11 +17,7 @@ namespace Player.Shoot.Reimu
         [SerializeField] private float _speed = 8f;
         [SerializeField] private float _reloadDelay = 0.2f;
         [SerializeField] private int _maxBulletAmount = 20;
-
-        private float _bulletDamage = 0f;
-        private float _bulletRange = 0f;
-
-        private Utils.Timer timer = null;
+        private Utils.Timer _timer = null;
 
         private bool _isShootingAllowed = false;
 
@@ -61,14 +57,11 @@ namespace Player.Shoot.Reimu
         {
             _bulletPrefab = prefab;
 
-            _bulletDamage = prefab.Damage;
-            _bulletRange = prefab.Range;
-
-            timer = new Utils.Timer();
-            timer.duration = _reloadDelay;
-            timer.timeStep = 0.1f;
-            timer.EventOnFinish = Shoot;
-            timer.Start();
+            _timer = new Utils.Timer();
+            _timer.duration = _reloadDelay;
+            _timer.timeStep = 0.1f;
+            _timer.EventOnFinish = Shoot;
+            _timer.Start();
 
             for (int i = 0; _maxBulletAmount >= i; i++)
             {
@@ -163,7 +156,7 @@ namespace Player.Shoot.Reimu
         private void Shoot()
         {
             if (_isShootingAllowed == false) return;
-            timer.Start();
+            _timer.Start();
             if (_isActive == false) return;
             ReInitBullet();
         }

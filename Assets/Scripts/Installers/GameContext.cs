@@ -3,6 +3,7 @@ using Game.BackGround.Manager;
 using Game.BulletSystem.Damage;
 using Game.BulletSystem.Manager;
 using Game.BulletSystem.Pool;
+using Game.Player.Ability;
 using Game.Player.Manager;
 using Services.Money;
 using Stages.Manager;
@@ -20,6 +21,7 @@ namespace Installers
         [SerializeField] private BulletPool _bulletPool = null;
         [SerializeField] private DropItemPool _dropItemPool = null;
         [SerializeField] private BGManager _bgManager = null;
+        [SerializeField] private AbilityManager _abilityManager = null;
         public override void InstallBindings()
         {
             BindManagers();
@@ -32,6 +34,7 @@ namespace Installers
             Container.BindInterfacesAndSelfTo<BulletComponentManager>().FromInstance(_bulletComponentManager);
             Container.BindInterfacesAndSelfTo<StageManager>().FromInstance(_stageManager);
             Container.BindInterfacesAndSelfTo<BGManager>().FromInstance(_bgManager);
+            Container.BindInterfacesAndSelfTo<AbilityManager>().FromInstance(_abilityManager);
 
             Container.BindInterfacesAndSelfTo<DamagableManager>().AsSingle().NonLazy();
         }

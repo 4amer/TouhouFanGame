@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using Game.Player.Ability;
 using Game.Player.Money;
 using Player.Collision;
 using Player.Health;
@@ -21,12 +22,18 @@ namespace Game.Player.Manager
         [SerializeField] private PlayerCollision _playerCollision = null;
         [SerializeField] private PlayerShoot _playerShoot = null;
         [SerializeField] private PlayerMoney _playerMoney = null;
+
+        [Space(10)]
+        [Header("Managers")]
+        [SerializeField] private AbilityManager _abilityManager = null;
         public GameObject Player { get { return _player; } }
         public Transform PlayerTransform { get => _player.transform; }
 
         public CompositeDisposable _disposable = new CompositeDisposable();
         public void Init()
         {
+            _abilityManager.Init(PlayerTransform);
+
             _playerMovemnt.Init(_player);
 
             _playerHealth.Init(_player);
