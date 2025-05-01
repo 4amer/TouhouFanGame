@@ -91,6 +91,10 @@ namespace Player.Shoot.Reimu
             {
                 controller.AllowShooting();
             }
+            foreach (ReimuAutoAimBulletController controller in _autoAimBulletControllers)
+            {
+                controller.AllowShooting();
+            }
         }
 
         public override void DecreasePower(int powerLevel)

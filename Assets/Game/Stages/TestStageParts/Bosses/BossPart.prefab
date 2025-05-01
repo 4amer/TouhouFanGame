@@ -105,8 +105,20 @@ PrefabInstance:
       value: 102
       objectReference: {fileID: 0}
     - target: {fileID: 5404097196246410670, guid: 46035b032a2500c4393e425fe95ecb16, type: 3}
+      propertyPath: _attacks.Array.data[0]._hpOnPhase
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 5404097196246410670, guid: 46035b032a2500c4393e425fe95ecb16, type: 3}
       propertyPath: _attacks.Array.data[1]._hpOnPhase
-      value: 100
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 5404097196246410670, guid: 46035b032a2500c4393e425fe95ecb16, type: 3}
+      propertyPath: _attacks.Array.data[2]._hpOnPhase
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 5404097196246410670, guid: 46035b032a2500c4393e425fe95ecb16, type: 3}
+      propertyPath: _attacks.Array.data[3]._hpOnPhase
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 5404097196246410670, guid: 46035b032a2500c4393e425fe95ecb16, type: 3}
       propertyPath: _attacks.Array.data[0]._isSpellCard
@@ -130,7 +142,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5404097196246410670, guid: 46035b032a2500c4393e425fe95ecb16, type: 3}
       propertyPath: _attacks.Array.data[1]._timeToBeatInSeconds
-      value: 10
+      value: 99
       objectReference: {fileID: 0}
     - target: {fileID: 5404097196246410670, guid: 46035b032a2500c4393e425fe95ecb16, type: 3}
       propertyPath: _attacks.Array.data[2]._timeToBeatInSeconds
