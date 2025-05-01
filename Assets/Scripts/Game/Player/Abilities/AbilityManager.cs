@@ -27,10 +27,6 @@ namespace Game.Player.Ability
         public void Init(Transform player)
         {
             _playerTransform = player;
-
-            //Test
-
-            AddAbility(BaseAbility);
         }
 
         public void AddAbility(BaseAbility baseAbility)

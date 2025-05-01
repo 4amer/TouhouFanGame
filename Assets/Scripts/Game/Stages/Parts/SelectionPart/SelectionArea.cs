@@ -10,19 +10,18 @@ namespace Stages.Parts.Selection
         [SerializeField] private SpriteRenderer _spriteRenderer = null;
         [SerializeField] private TextMeshProUGUI _partLabel = null;
 
-        private float _timerToSelect = 0;
-
         private Timer _timer = null;
 
         public Subject<APart> OnAreaSelected { get; set; } = new Subject<APart>();
         public void Init(float timeToSelect, APart passivePart)
         {
-            _timerToSelect = timeToSelect;
-
-            _spriteRenderer.color = passivePart.PartColor;
-            _partLabel.text = passivePart.PartName;
-
+            if(passivePart != null)
+            {
+                _spriteRenderer.color = passivePart.PartColor;
+                _partLabel.text = passivePart.PartName;
+            }
             _timer = new Timer();
+            _timer.duration = timeToSelect;
             _timer.EventOnFinish = () =>
             {
                 OnAreaSelected?.OnNext(passivePart);

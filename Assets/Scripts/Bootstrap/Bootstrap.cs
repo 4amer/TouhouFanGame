@@ -2,6 +2,7 @@ using Audio;
 using Game;
 using Services.GSMC;
 using Services.GSMC.States;
+using Services.Money;
 using UI;
 using UI.Windows;
 using UnityEngine;
@@ -15,14 +16,18 @@ namespace BootstrapService
         private IGameManagerInit _gameManager = null;
         private IUIManagerInit _uIManager = null;
         private IAudioManagerInit _audioManager = null;
+        private IMoneyServiceInit _moneyService = null;
 
         [Inject]
-        private void Construct(IGameStateMachine gameStateMachine, IGameManagerInit gameManager, IUIManagerInit uIManager, IAudioManagerInit audioManager)
+        private void Construct(IGameStateMachine gameStateMachine, IGameManagerInit gameManager,
+            IUIManagerInit uIManager, IAudioManagerInit audioManager,
+            IMoneyServiceInit moneyService)
         {
             _gameStateMachine = gameStateMachine;
             _gameManager = gameManager;
             _uIManager = uIManager;
             _audioManager = audioManager;
+            _moneyService = moneyService;
         }
 
         private void Awake()
@@ -30,6 +35,8 @@ namespace BootstrapService
             _gameManager.Init();
             _uIManager.Init();
             _audioManager.Init();
+
+            _moneyService.Init();
 
             _gameStateMachine.Init();
             _gameStateMachine.ChangeState<GameState>();

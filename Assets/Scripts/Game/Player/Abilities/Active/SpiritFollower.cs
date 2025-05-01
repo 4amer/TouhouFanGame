@@ -83,6 +83,8 @@ namespace Game.Player.Ability.Active
             {
                 CreateBullet();
             }
+
+            transform.localPosition = _shiftFromPlayer;
         }
 
         private void Stay()
@@ -119,7 +121,7 @@ namespace Game.Player.Ability.Active
                     {
                         damagable.Damage(bullet.Damage);
                         bullet.PlayDestroyParticle();
-                        bullet.gameObject.SetActive(false);
+                        bullet.HideSprite();
                     }
                 }
             }
@@ -156,6 +158,7 @@ namespace Game.Player.Ability.Active
             Transform bulletTransform = bullet.transform;
             bulletTransform.localPosition = Vector3.zero;
             bulletTransform.gameObject.SetActive(true);
+            bullet.ShowSprite();
             _bulletQueue.Enqueue(bullet);
         }
 

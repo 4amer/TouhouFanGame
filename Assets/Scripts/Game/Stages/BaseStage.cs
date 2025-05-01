@@ -243,7 +243,9 @@ namespace Stages
         {
             _disposable.Clear();
             _currentPart.Dispose();
-            if(_currentPart.GetType() == typeof(SelectionPart))
+            System.Type currentPartName = _currentPart.GetType();
+            if (currentPartName == typeof(SelectionPart) ||
+                currentPartName == typeof(ShopPart))
             {
                 Destroy(_currentPart.gameObject);
             }

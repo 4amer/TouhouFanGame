@@ -97,6 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d859b357659ab64db0b840ae5d8ec99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _price: 10
+  _spriteShopItem: {fileID: 21300000, guid: 6bc649ef010a0414b82f63358e0e5230, type: 3}
   _onDefaultPosition: 0.2
   _shiftFromPlayer: {x: -2, y: 0, z: 0}
   _speed: 50

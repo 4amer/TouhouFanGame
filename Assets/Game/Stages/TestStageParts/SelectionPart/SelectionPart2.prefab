@@ -51,7 +51,8 @@ MonoBehaviour:
   _selecteAreas:
   - {fileID: 2578241738513552151}
   - {fileID: 7312121638425726198}
-  _timeForSelect: 5
+  _timeForSelect: 3
+  _partTime: 10
 --- !u!1001 &2506117347097698685
 PrefabInstance:
   m_ObjectHideFlags: 0

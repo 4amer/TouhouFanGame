@@ -14,7 +14,7 @@ namespace Services.Money
 
         public void Init()
         {
-
+            //Add(1000);
         }
 
         public void Add(int amount)

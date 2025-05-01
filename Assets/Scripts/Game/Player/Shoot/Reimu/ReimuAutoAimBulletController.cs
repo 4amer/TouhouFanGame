@@ -124,7 +124,9 @@ namespace Player.Shoot.Reimu
             IDamagable damagable = GetDamagableByBullet(bullet);
 
             Vector3 bulletPosition = bullet.transform.localPosition;
-            
+
+            if (bullet.IsHided == false) return;
+
             if (damagable == null)
             {
                 bullet.transform.localPosition = bulletPosition + Vector3.right * _speed * delay;
@@ -138,7 +140,8 @@ namespace Player.Shoot.Reimu
                 {
                     damagable.Damage(bullet.Damage);
                     bullet.PlayDestroyParticle();
-                    _bulletPool.Release(bullet);
+                    bullet.HideSprite();
+                    //_bulletPool.Release(bullet);
                 }
             }
         }
@@ -179,6 +182,7 @@ namespace Player.Shoot.Reimu
             bulletTransform.parent = this.transform;
             bulletTransform.localPosition = Vector3.zero;
             bulletTransform.gameObject.SetActive(true);
+            bullet.ShowSprite();
             bulletTransform.parent = null;
             _bulletsQueue.Enqueue(bullet);
             FindTheClosiestDamagable(bullet);

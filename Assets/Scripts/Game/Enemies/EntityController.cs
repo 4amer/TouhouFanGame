@@ -93,6 +93,7 @@ namespace Enemies
             } 
             else
             {
+                _enemyGameObject = this.gameObject;
                 _enemyDamagable = this;
             }
 
@@ -104,9 +105,12 @@ namespace Enemies
             _iMovementBezierComponent?.Init(_enemyGameObject.transform);
 
             _iBulletComponents = _bulletComponents;
-            foreach (IBulletComponent bulletComponent in _iBulletComponents)
+            if(_iBulletComponents != null)
             {
-                bulletComponent.Init(player);
+                foreach (IBulletComponent bulletComponent in _iBulletComponents)
+                {
+                    bulletComponent.Init(player);
+                }
             }
 
             SetupHealthController();
@@ -293,8 +297,7 @@ namespace Enemies
 
         private void OnDestroy()
         {
-            _disposable?.Clear();
-            OnDisposed?.OnNext(this);
+            Dispose();
         }
     }
 
