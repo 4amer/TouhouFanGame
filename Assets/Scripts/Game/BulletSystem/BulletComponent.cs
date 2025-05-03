@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Game.BulletSystem
 {
-    [RequireComponent(typeof(ParticleSystem))]
+    //[RequireComponent(typeof(ParticleSystem))]
     public class BulletComponent : MonoBehaviour, IBulletComponent
     {
         [Header("ParticleSystem")]
@@ -16,7 +16,10 @@ namespace Game.BulletSystem
 
         public void Init(Transform player)
         {
-            _particleSystem = GetComponent<ParticleSystem>();
+            if (_particleSystem == null)
+            {
+                _particleSystem = GetComponent<ParticleSystem>();
+            }
             _playerTransform = player;
         }
 
@@ -46,7 +49,7 @@ namespace Game.BulletSystem
             {
                 _particleSystem = GetComponent<ParticleSystem>();
             }
-            _particleSystem.Play();
+            _particleSystem.Play(false);
         }
 
         private void StopBulletComponent()
@@ -55,7 +58,7 @@ namespace Game.BulletSystem
             {
                 _particleSystem = GetComponent<ParticleSystem>();
             }
-            _particleSystem.Stop();
+            _particleSystem.Stop(false);
         }
 
         public void UpdateComponent(float delta)

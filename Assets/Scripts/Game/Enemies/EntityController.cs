@@ -36,6 +36,10 @@ namespace Enemies
         [SerializeField] private HealthController _healthController = null;
         [SerializeField] private DropController _dropController = null;
 
+        [Space(10)]
+        [Header("Die")]
+        [SerializeField] private ParticleSystem[] _particlesWhenDie = new ParticleSystem[1];
+
         private IBulletComponent[] _iBulletComponents = default;
         private IMovementBezierComponent _iMovementBezierComponent = default;
 
@@ -274,9 +278,18 @@ namespace Enemies
             Hide();
         }
 
+        private void PlayDieParticles()
+        {
+            foreach (ParticleSystem particleSystem in _particlesWhenDie)
+            {
+                particleSystem.Play();
+            }
+        }
+
         private void Dead()
         {
             StopControll();
+            PlayDieParticles();
             _disposable?.Clear();
             OnDead?.OnNext(this);
         }
