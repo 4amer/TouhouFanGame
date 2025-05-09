@@ -28,7 +28,7 @@ namespace Stages.Parts
 
         [Inject]
         private void Construct(IStageManagerTimer stageManagerTimer, IPlayerManagerTransform playerTransform,
-            IUIManager uIManager)
+            IUIManager uIManager, IPlayerManagerActions playerManager)
         {
             _uIManager = uIManager;
 
@@ -39,6 +39,11 @@ namespace Stages.Parts
             stageManagerTimer
                 .TimeChanged
                 .Subscribe(_ => TimerUpdated(_))
+                .AddTo(disposable);
+
+            playerManager
+                .OnPlayerDead
+                .Subscribe(_ => PlayerDead())
                 .AddTo(disposable);
         }
 
@@ -72,6 +77,11 @@ namespace Stages.Parts
 
             });
             _uIManager.Show(gameWindow);
+        }
+
+        private void PlayerDead()
+        {
+            _uIManager.Hide<GameWindow>();
         }
 
         public override void Clear()

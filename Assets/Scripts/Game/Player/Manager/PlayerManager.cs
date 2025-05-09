@@ -5,6 +5,7 @@ using Player.Collision;
 using Player.Health;
 using Player.Movement;
 using Player.Shoot;
+using UI;
 using UniRx;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -13,7 +14,7 @@ using Zenject;
 
 namespace Game.Player.Manager
 {
-    public class PlayerManager : MonoBehaviour, IPlayerManager, IPlayerManagerTransform
+    public class PlayerManager : MonoBehaviour, IPlayerManager, IPlayerManagerTransform, IPlayerManagerActions
     {
         [SerializeField] private GameObject _player = null;
 
@@ -30,6 +31,17 @@ namespace Game.Player.Manager
         public Transform PlayerTransform { get => _player.transform; }
 
         public CompositeDisposable _disposable = new CompositeDisposable();
+
+        public IUIManager _uIManager = null;
+
+        public Subject<UniRx.Unit> OnPlayerDead { get; set; } = new Subject<UniRx.Unit>();
+
+        [Inject]
+        private void Construct(IUIManager uIManager)
+        {
+            _uIManager = uIManager;
+        }
+
         public void Init()
         {
             _abilityManager.Init(PlayerTransform);
@@ -43,6 +55,11 @@ namespace Game.Player.Manager
                 .Subscribe(_ => Damage())
                 .AddTo(_disposable);
 
+            _playerHealth
+                .PlayerDead
+                .Subscribe(_ => PlayerDead())
+                .AddTo(_disposable);
+
             _playerShoot.Init();
 
             _playerMoney.Init();
@@ -52,11 +69,23 @@ namespace Game.Player.Manager
         {
             _playerHealth.DoDamage();
         }
+
+        private void PlayerDead()
+        {
+            OnPlayerDead?.OnNext(UniRx.Unit.Default);
+            _disposable?.Clear();
+            _disposable?.Dispose();
+        }
     }
 
     public interface IPlayerManagerTransform
     {
         public Transform PlayerTransform { get; }
+    }
+    
+    public interface IPlayerManagerActions
+    {
+        public Subject<UniRx.Unit> OnPlayerDead { get; set; }
     }
 
     public interface IPlayerManager

@@ -65,7 +65,8 @@ namespace Enemies
         private CompositeDisposable _disposable = new CompositeDisposable();
 
         [Inject]
-        private void Construct(IStageManagerTimer stageManagerTimer, IGameManager gameManager, IDamagableManager damagableManager)
+        private void Construct(IStageManagerTimer stageManagerTimer, IGameManager gameManager,
+            IDamagableManager damagableManager, IPlayerManagerActions playerManagerActions)
         {
             _damagableManager = damagableManager;
 
@@ -74,6 +75,11 @@ namespace Enemies
             stageManagerTimer
                 .TimeChanged
                 .Subscribe(_ => TimerUpdated(_))
+                .AddTo(_disposable);
+
+            playerManagerActions
+                .OnPlayerDead
+                .Subscribe(_ => Dispose())
                 .AddTo(_disposable);
 
             foreach (IBulletComponent bulletComponent in _bulletComponents)

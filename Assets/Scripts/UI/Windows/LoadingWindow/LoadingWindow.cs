@@ -12,8 +12,9 @@ namespace UI.Windows
     public class LoadingWindow : AWindow<LoadingWindowData>
     {
         [SerializeField] private Animator _cirnoAnimator = null;
+        [SerializeField] private float _timeToHide = 5f;
 
-        private CompositeDisposable _disposable = new CompositeDisposable();    
+        private CompositeDisposable _disposable = new CompositeDisposable(); 
 
         [Inject]
         private void Construct(ISceneLoaderActions sceneLoaderActions)
@@ -38,6 +39,11 @@ namespace UI.Windows
         private void CloseLoading()
         {
             _cirnoAnimator.SetBool("Open", false);
+            Utils.Timer timer = new Utils.Timer();
+            timer.SetupDelayWithAction(_timeToHide, () =>
+            {
+                Hide();
+            });
         }
 
         public override void Hide()

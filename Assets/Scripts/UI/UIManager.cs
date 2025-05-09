@@ -25,6 +25,8 @@ namespace UI
 
         private bool _isInited = false;
 
+        private CompositeDisposable _disposable = new CompositeDisposable();
+
         [Inject]
         private void Construct(DiContainer diContainer)
         {
@@ -78,6 +80,18 @@ namespace UI
                 ABaseWindow newWindow = SpawnWindow(baseWindow);
 
                 _windowsDictionaty.Add(key, newWindow);
+
+                newWindow
+                    .OnShow
+                    .Subscribe(_ => Show(_))
+                    .AddTo(_disposable);
+
+                newWindow
+                    .OnHide
+                    .Subscribe(_ => {
+                        //System.Type(key) window = (typeof(key))_;
+                    })
+                    .AddTo(_disposable);
             }
         }
 

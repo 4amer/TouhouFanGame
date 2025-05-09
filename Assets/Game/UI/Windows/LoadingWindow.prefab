@@ -356,6 +356,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cirnoAnimator: {fileID: 9008649861561622940}
+  _timeToHide: 5
 --- !u!1 &6916194462502939915
 GameObject:
   m_ObjectHideFlags: 0

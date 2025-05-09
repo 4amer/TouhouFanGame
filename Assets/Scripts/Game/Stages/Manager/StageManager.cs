@@ -2,6 +2,12 @@ using UniRx;
 using Utils;
 using UnityEngine;
 using Zenject;
+using Player.Health;
+using Game.Player.Manager;
+using UI;
+using UI.Windows;
+using Services.GSMC;
+using Services.GSMC.States;
 
 namespace Stages.Manager
 {
@@ -13,7 +19,11 @@ namespace Stages.Manager
 
         [SerializeField] private Transform _partsParentTransform = null;
 
+        private IPlayerManagerActions _playerManager = null;
+
         private IBaseStage _currentStage = default;
+        private IUIManager _uIManager = null;
+        private IGameStateMachine _gameStateMachine = null;
 
         public Subject<float> TimeChanged { get; set; } = new Subject<float>();
 
@@ -24,9 +34,13 @@ namespace Stages.Manager
         public float currentTime { get => (_timer != null) ? _timer.GetCurrentTime : 0; }
 
         [Inject]
-        public void Construct(DiContainer diContainer)
+        public void Construct(DiContainer diContainer, IPlayerManagerActions playerManager, IUIManager uIManager,
+            IGameStateMachine gameStateMachine)
         {
+            _gameStateMachine = gameStateMachine;
             _diContainer = diContainer;
+            _playerManager = playerManager;
+            _uIManager = uIManager;
         }
 
         public void Init()
@@ -44,6 +58,11 @@ namespace Stages.Manager
                 .Subscribe(_ => NextState())
                 .AddTo(_stageDisposables);*/
 
+            _playerManager
+                .OnPlayerDead
+                .Subscribe(_ => StopGame())
+                .AddTo(_stageDisposables);
+
             _diContainer.Inject(_currentStage);
 
             _currentStage.Init(_partsParentTransform, this);
@@ -57,6 +76,23 @@ namespace Stages.Manager
         private void NextState()
         {
             _stageDisposables.Clear();
+        }
+
+        private void OpenResultWindow()
+        {
+            AWindow<ResultWindowData> resultWindow = _uIManager.GetWindow<ResultWindow>();
+            resultWindow.SetData(new ResultWindowData
+            {
+                timeInSeconds = _timer.GetCurrentTime,
+                OnGoToMenu = GoToMenu,
+            });
+            _uIManager.Show(resultWindow);
+        }
+
+        private void StopGame()
+        {
+            _timer.Pause();
+            OpenResultWindow();
         }
 
         private void SetupTimer()
@@ -74,6 +110,11 @@ namespace Stages.Manager
         {
             _stageDisposables.Dispose();
             _timer?.Reset();
+        }
+
+        private void GoToMenu()
+        {
+            _gameStateMachine.ChangeState<MenuState>();
         }
     }
 

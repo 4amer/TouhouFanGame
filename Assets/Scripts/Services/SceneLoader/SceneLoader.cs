@@ -1,5 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using UI;
+using UI.Windows;
 using UniRx;
 using UnityEditor;
 using UnityEditor.SearchService;
@@ -20,9 +23,23 @@ namespace Services.SceneLoaderC
 
         private AsyncOperationHandle<SceneInstance> _sceneHandle;
 
+        private IUIManager _uIManager = null;
+
+        private const float _delayToStart = 2f;
+
+        [Inject]
+        private void Construct(IUIManager uIManager)
+        {
+            _uIManager = uIManager;
+        }
+
         public void LoadScene(string sceneKey)
         {
-            LoadSceneAsync(sceneKey);
+            ShowLoadingWindow();
+            SetupDelayTimer(() =>
+            {
+                LoadSceneAsync(sceneKey);
+            });
         }
 
         public async UniTask LoadSceneAsync(string sceneKey)
@@ -56,6 +73,23 @@ namespace Services.SceneLoaderC
             {
                 Addressables.UnloadSceneAsync(_sceneHandle);
             }
+        }
+
+        private void SetupDelayTimer(Action actionOnFinish)
+        {
+            Utils.Timer timer = new Utils.Timer();
+            timer.duration = _delayToStart;
+            timer.OnTimerFinish += () =>
+            {
+                actionOnFinish?.Invoke();
+            };
+            timer.Start();
+        }
+
+        private void ShowLoadingWindow()
+        {
+            AWindow<LoadingWindowData> aWindow = _uIManager.GetWindow<LoadingWindow>();
+            _uIManager.Show(aWindow);
         }
     }
 

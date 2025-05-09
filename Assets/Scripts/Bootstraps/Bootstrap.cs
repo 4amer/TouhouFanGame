@@ -39,7 +39,7 @@ namespace BootstrapService
             _moneyService.Init();
 
             _gameStateMachine.Init();
-            _gameStateMachine.ChangeState<GameState>();
+            _gameStateMachine.ChangeState<MenuState>();
         }
     }
 }

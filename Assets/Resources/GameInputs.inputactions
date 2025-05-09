@@ -178,7 +178,7 @@
             "id": "58b816a0-790e-4323-a500-ffe9eace291c",
             "actions": [
                 {
-                    "name": "Comfirm",
+                    "name": "Confirm",
                     "type": "Button",
                     "id": "27d40c58-9fa2-4adc-be29-ae855b7c0b70",
                     "expectedControlType": "Button",
@@ -222,7 +222,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Comfirm",
+                    "action": "Confirm",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

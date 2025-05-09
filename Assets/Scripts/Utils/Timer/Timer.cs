@@ -80,6 +80,17 @@ namespace Utils
 
         public bool IsPlaying => !_isTimerStoped;
 
+        public void SetupDelayWithAction(float delay, Action actionOnFinish)
+        {
+            Utils.Timer timer = new Utils.Timer();
+            timer.duration = delay;
+            timer.OnTimerFinish += () =>
+            {
+                actionOnFinish?.Invoke();
+            };
+            timer.Start();
+        }
+
         private void ResetTimer()
         {
             _currentTimerTime = 0;
