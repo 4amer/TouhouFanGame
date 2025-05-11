@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Enemies;
 using Game.Player.Ability;
 using TMPro;
@@ -12,6 +13,9 @@ namespace Stages.Parts.Shop
         [SerializeField] private TextMeshProUGUI _textMeshProUGUI = null;
         [SerializeField] private EntityController _entityController = null;
 
+        [SerializeField] private float _rotateinDegree = 10f;
+        [SerializeField] private float _rotationTime = 1f;
+
         private int _price = 0;
         private BaseAbility _baseAbility = null;
 
@@ -20,6 +24,8 @@ namespace Stages.Parts.Shop
         public BaseAbility GetBaseAbility => _baseAbility;
 
         public Subject<ShopItem> OnPicked { get; set; } = new Subject<ShopItem>();
+
+        private Sequence _wiggleTween = null;
 
         public void Init(BaseAbility ability, float timeToPickUpItem, Transform playerTransform)
         {
@@ -37,6 +43,21 @@ namespace Stages.Parts.Shop
             {
                 OnPicked?.OnNext(this);
             };
+            SetupTween();
+        }
+
+        private void SetupTween()
+        {
+            Vector3 rot1 = new Vector3(0, 0, _rotateinDegree);
+            Vector3 rot2 = new Vector3(0, 0, -_rotateinDegree);
+
+            _wiggleTween = DOTween.Sequence();
+
+            _wiggleTween.Append(transform.DOLocalRotate(rot1, _rotationTime).SetEase(Ease.InOutCubic))
+                .Append(transform.DOLocalRotate(rot2, _rotationTime).SetEase(Ease.InOutCubic))
+                .SetLoops(-1);
+
+            _wiggleTween.Restart();
         }
 
         public void OnTriggerEnter(Collider other)
@@ -53,6 +74,21 @@ namespace Stages.Parts.Shop
             {
                 _timer.Reset();
             }
+        }
+
+        private void Dispose()
+        {
+            _wiggleTween.Pause();
+        }
+
+        public void OnDisable()
+        {
+            Dispose();
+        }
+
+        public void OnDestroy()
+        {
+            Dispose();
         }
     }
 }

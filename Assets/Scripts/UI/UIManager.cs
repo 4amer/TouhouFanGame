@@ -81,7 +81,7 @@ namespace UI
 
                 _windowsDictionaty.Add(key, newWindow);
 
-                newWindow
+                /*newWindow
                     .OnShow
                     .Subscribe(_ => Show(_))
                     .AddTo(_disposable);
@@ -91,7 +91,7 @@ namespace UI
                     .Subscribe(_ => {
                         //System.Type(key) window = (typeof(key))_;
                     })
-                    .AddTo(_disposable);
+                    .AddTo(_disposable);*/
             }
         }
 
