@@ -54,7 +54,7 @@ namespace Player.Movement
 
             Vector3 playerPosition = _playerObject.transform.position;
             Vector3 direction = new Vector3(_playerMovementDirection.x, _playerMovementDirection.y, 0).normalized;
-            _playerRigidBody.MovePosition(playerPosition + direction * speed * delta);
+            _playerRigidBody.MovePosition(playerPosition + direction * speed * Time.fixedDeltaTime);
         }
 
         private void ChageMovementDirection(InputAction.CallbackContext context)
