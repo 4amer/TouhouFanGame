@@ -55,6 +55,7 @@ namespace Stages.Parts.Shop
 
             _wiggleTween.Append(transform.DOLocalRotate(rot1, _rotationTime).SetEase(Ease.InOutCubic))
                 .Append(transform.DOLocalRotate(rot2, _rotationTime).SetEase(Ease.InOutCubic))
+                .Append(transform.DOLocalRotate(rot1, _rotationTime).SetEase(Ease.InOutCubic))
                 .SetLoops(-1);
 
             _wiggleTween.Restart();

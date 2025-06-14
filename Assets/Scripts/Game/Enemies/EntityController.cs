@@ -241,6 +241,8 @@ namespace Enemies
 
         private void TimerUpdated(float time)
         {
+            if (EventSequencesQueue == null) return;
+
             if (EventSequencesQueue.Count == 0 && IsSequenceCycled)
             {
                 RestoreSequence();
