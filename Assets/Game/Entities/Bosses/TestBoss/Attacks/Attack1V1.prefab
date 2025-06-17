@@ -1488,7 +1488,7 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: 21300000, guid: f50f833e79c8c5346884c5fd909e5b33, type: 2}
+    - sprite: {fileID: 21300000, guid: 7dbb8e40d8ee1bb409bef63d2996c0a8, type: 2}
     flipU: 0
     flipV: 0
   VelocityModule:
@@ -4930,6 +4930,8 @@ MonoBehaviour:
   _enemyGameObject: {fileID: 0}
   _healthController: {fileID: 0}
   _dropController: {fileID: 0}
+  _particlesWhenDie:
+  - {fileID: 0}
 --- !u!114 &997260555050911091
 MonoBehaviour:
   m_ObjectHideFlags: 0

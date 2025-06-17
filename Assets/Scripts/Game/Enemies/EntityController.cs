@@ -26,6 +26,8 @@ namespace Enemies
         [SerializeField] private BulletComponent[] _bulletComponents = default;
         [SerializeField] private MovementComponent _movementBezierComponent = default;
 
+        [SerializeField] private bool _isInCenter = false;
+
         [Space(10)]
         [Header("Enemy Object")]
         [SerializeField] private GameObject _enemyGameObject = null;
@@ -93,6 +95,11 @@ namespace Enemies
         }
         public void Init(Transform player, IDamagable entity = null)
         {
+            if (_isInCenter)
+            {
+                this.transform.position = Vector3.zero;
+            }
+
             _damagableManager.AddDamagable(this);
             _dropController?.Init(this);
 

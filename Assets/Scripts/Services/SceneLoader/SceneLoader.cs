@@ -35,6 +35,7 @@ namespace Services.SceneLoaderC
 
         public void LoadScene(string sceneKey)
         {
+            if (_sceneHandle.IsDone == false) return;
             ShowLoadingWindow();
             SetupDelayTimer(() =>
             {

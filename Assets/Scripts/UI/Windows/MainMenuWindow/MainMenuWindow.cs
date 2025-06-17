@@ -34,7 +34,13 @@ namespace UI.Windows
 
         private const float _delayBeforeHide = 2f;
 
-        private Sequence _arrowSwingAnimation = DOTween.Sequence();
+        private Sequence _arrowSwingAnimation;
+
+        private InputActionMap _map;
+        private System.Action<InputAction.CallbackContext> _upCallback;
+        private System.Action<InputAction.CallbackContext> _downCallback;
+        private System.Action<InputAction.CallbackContext> _declineCallback;
+        private System.Action<InputAction.CallbackContext> _confirmCallback;
 
         [Inject]
         private void Construct(PlayerInput playerInput, IGameStateMachine gameStateMachine)
@@ -46,6 +52,7 @@ namespace UI.Windows
         public override void Show()
         {
             base.Show();
+            _arrowSwingAnimation = DOTween.Sequence();
             SubscribeOnInput();
             _currentButton = _buttons[_currentSelectedButtonIndex];
             DoStartButtonAnimation();
@@ -165,21 +172,25 @@ namespace UI.Windows
         {
             _playerInput.SwitchCurrentActionMap("UI");
 
-            InputActionMap map = _playerInput.currentActionMap;
+            _map = _playerInput.actions.FindActionMap("UI");
 
-            map["Up"].started += (ctx) => SelectButtonAbove();
-            map["Down"].started += (ctx) => SelectButtonBelow();
-            map["Decline"].started += (ctx) => OnDecline();
-            map["Confirm"].started += (ctx) => SelectButton();
+            _upCallback = (ctx) => SelectButtonAbove();
+            _downCallback = (ctx) => SelectButtonBelow();
+            _declineCallback = (ctx) => OnDecline();
+            _confirmCallback = (ctx) => SelectButton();
+
+            _map["Up"].started += _upCallback;
+            _map["Down"].started += _downCallback;
+            _map["Decline"].started += _declineCallback;
+            _map["Confirm"].started += _confirmCallback;
         }
         private void UnsubscribeOnInput()
         {
-            InputActionMap map = _playerInput.actions.FindActionMap("UI");
-
-            map["Up"].started -= (ctx) => SelectButtonAbove();
-            map["Down"].started -= (ctx) => SelectButtonBelow();
-            map["Decline"].started -= (ctx) => OnDecline();
-            map["Confirm"].started -= (ctx) => SelectButton();
+            if (_upCallback == null) return;
+            _map["Up"].started -= _upCallback;
+            _map["Down"].started -= _downCallback;
+            _map["Decline"].started -= _declineCallback;
+            _map["Confirm"].started -= _confirmCallback;
         }
     }
 }

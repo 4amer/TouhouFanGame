@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
 using DG.Tweening;
+using Stages.Manager;
 
 namespace Player.Shoot.Reimu
 {
@@ -36,7 +37,8 @@ namespace Player.Shoot.Reimu
         private CompositeDisposable _disposable = new CompositeDisposable();
 
         [Inject]
-        private void Construct(IGameManager gameManager, IPool<Bullet> bulletPool, IDamagableManager damagableManager)
+        private void Construct(IGameManager gameManager, IPool<Bullet> bulletPool,
+            IDamagableManager damagableManager, IStageManagerActions stageManagerActions)
         {
             gameManager
                 .Updated
@@ -46,6 +48,11 @@ namespace Player.Shoot.Reimu
             gameManager
                 .LateUpdated
                 .Subscribe(_ => LateUpdateComponent(_))
+                .AddTo(_disposable);
+
+            stageManagerActions
+                .OnSceneChanged
+                .Subscribe(_ => Dispose())
                 .AddTo(_disposable);
 
             _bulletPool = bulletPool;
@@ -186,6 +193,17 @@ namespace Player.Shoot.Reimu
             bulletTransform.parent = null;
             _bulletsQueue.Enqueue(bullet);
             FindTheClosiestDamagable(bullet);
+        }
+
+        private void OnDisable()
+        {
+            Dispose();
+        }
+
+        private void Dispose()
+        {
+            _disposable.Clear();
+            _disposable.Dispose();
         }
 
         private void FindTheClosiestDamagable(Bullet bullet)

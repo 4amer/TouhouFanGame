@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Game;
 using UniRx;
+using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
@@ -105,8 +106,18 @@ namespace Enemies.Drop
 
         private void Disable()
         {
-            _disposable?.Clear();
+            Dispose();
             PickedUp?.OnNext(this);
+        }
+
+        private void OnDisable()
+        {
+            Dispose();
+        }
+
+        private void Dispose()
+        {
+            _disposable?.Clear();
         }
 
         private void OnTriggerEnter(Collider other)

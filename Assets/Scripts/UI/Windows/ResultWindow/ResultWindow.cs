@@ -32,7 +32,7 @@ namespace UI.Windows
 
         private IMoneyService _moneyService = null;
 
-        private Sequence _showAnimtaion = DOTween.Sequence();
+        private Sequence _showAnimtaion;
 
         private float _completeTime = 0f;
 
@@ -40,6 +40,13 @@ namespace UI.Windows
         private PlayerInput _playerInput = null;
 
         private ResultWindowData _data = null;
+
+        private InputActionMap _map;
+        private System.Action<InputAction.CallbackContext> _goToMenu;
+
+        private bool _isSubscribed = false;
+
+        private bool isToMainMenuCalled = false;
 
         [Inject]
         private void Construct(IMoneyService moneyService, PlayerInput playerInput)
@@ -51,6 +58,10 @@ namespace UI.Windows
         public override void Show()
         {
             base.Show();
+
+            _showAnimtaion = DOTween.Sequence();
+
+            isToMainMenuCalled = false;
 
             Color textColor = _proceedText.color;
 
@@ -92,11 +103,15 @@ namespace UI.Windows
         {
             _animator.SetTrigger("GoToStart");
             Dispose();
+            UnsubscribeOnActionEvents();
             base.Hide();
         }
 
         private void ToMainMenu()
         {
+            if (isToMainMenuCalled) return;
+            isToMainMenuCalled = true;
+
             _data.OnGoToMenu?.Invoke();
 
             Utils.Timer timer = new Utils.Timer();
@@ -108,20 +123,27 @@ namespace UI.Windows
 
         private void SubscribeOnActionEvents()
         {
+
+            if (_isSubscribed) return;
+            _isSubscribed = true;
             _playerInput.SwitchCurrentActionMap("UI");
 
             InputActionMap map = _playerInput.currentActionMap;
 
-            map["Confirm"].started += (ctx) => ToMainMenu();
+            _map = map;
+            _goToMenu = (ctx) => ToMainMenu();
+
+            map["Confirm"].started += _goToMenu;
         }
 
         private void UnsubscribeOnActionEvents()
         {
+            _isSubscribed = false;
+            if (_goToMenu == null) return;
+
             _playerInput.SwitchCurrentActionMap("GamePlay");
 
-            InputActionMap map = _playerInput.actions.FindActionMap("UI");
-
-            map["Confirm"].started += (ctx) => ToMainMenu();
+            _map["Confirm"].started -= _goToMenu;
         }
 
         private void OnDestroy()

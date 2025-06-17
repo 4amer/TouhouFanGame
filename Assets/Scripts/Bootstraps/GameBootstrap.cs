@@ -33,5 +33,11 @@ namespace BootstrapService
             _stageManager.Init();
             //_bulletComponentManager.Init();
         }
+
+        private void OnDestroy()
+        {
+            _disposable?.Clear();
+            _disposable?.Dispose();
+        }
     }
 }

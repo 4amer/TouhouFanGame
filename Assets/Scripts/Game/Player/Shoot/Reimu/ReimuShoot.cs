@@ -75,11 +75,13 @@ namespace Player.Shoot.Reimu
             StopShoot();
             foreach (ReimuCommonBulletController controller in _commonBulletControllers)
             {
+                if (controller == null) continue;
                 controller.AllowShooting();
             }
 
             foreach (ReimuAutoAimBulletController controller in _autoAimBulletControllers)
             {
+                if (controller == null) continue;
                 controller.AllowShooting();
             }
         }
@@ -89,10 +91,12 @@ namespace Player.Shoot.Reimu
             StopShoot();
             foreach (ReimuCommonBulletController controller in _commonBulletControllers)
             {
+                if (controller == null) continue;
                 controller.AllowShooting();
             }
             foreach (ReimuAutoAimBulletController controller in _autoAimBulletControllers)
             {
+                if (controller == null) continue;
                 controller.AllowShooting();
             }
         }

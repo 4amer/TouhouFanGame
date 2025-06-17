@@ -8,10 +8,11 @@ using UI;
 using UI.Windows;
 using Services.GSMC;
 using Services.GSMC.States;
+using JetBrains.Annotations;
 
 namespace Stages.Manager
 {
-    public class StageManager : MonoBehaviour, IStageManager, IStageManagerTimer
+    public class StageManager : MonoBehaviour, IStageManager, IStageManagerTimer, IStageManagerActions
     {
         [SerializeField] private BaseStage[] _stages = new BaseStage[6];
 
@@ -24,6 +25,8 @@ namespace Stages.Manager
         private IBaseStage _currentStage = default;
         private IUIManager _uIManager = null;
         private IGameStateMachine _gameStateMachine = null;
+
+        public Subject<Unit> OnSceneChanged { get; set; } = new Subject<Unit>();
 
         public Subject<float> TimeChanged { get; set; } = new Subject<float>();
 
@@ -53,10 +56,10 @@ namespace Stages.Manager
         {
             _currentStage = _stages[index];
 
-            /*_currentStage
+            _currentStage
                 .StageClear
                 .Subscribe(_ => NextState())
-                .AddTo(_stageDisposables);*/
+                .AddTo(_stageDisposables);
 
             _playerManager
                 .OnPlayerDead
@@ -76,6 +79,14 @@ namespace Stages.Manager
         private void NextState()
         {
             _stageDisposables.Clear();
+            HideAllGameWindows();
+            OpenResultWindow();
+        }
+
+        private void HideAllGameWindows()
+        {
+            _uIManager.Hide<BossWindow>();
+            _uIManager.Hide<GameWindow>();
         }
 
         private void OpenResultWindow()
@@ -114,6 +125,7 @@ namespace Stages.Manager
 
         private void GoToMenu()
         {
+            OnSceneChanged?.OnNext(Unit.Default);
             _gameStateMachine.ChangeState<MenuState>();
         }
     }
@@ -122,6 +134,12 @@ namespace Stages.Manager
     {
         public Subject<float> TimeChanged { get; set; }
         public float currentTime { get; }
+    }
+
+    public interface IStageManagerActions
+    {
+        public Subject<float> TimeChanged { get; set; }
+        public Subject<Unit> OnSceneChanged { get; set; }
     }
 
     public interface IStageManager 

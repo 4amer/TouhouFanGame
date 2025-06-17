@@ -124,6 +124,10 @@ namespace Player.Shoot.Reimu
                     _damagableManager.Damagables[enemyId].Damage(_bulletDamage);
                 }
             }
+
+            _enemiesPositions.Dispose();
+            _enemiesRanges.Dispose();
+            _enemyToDamage.Dispose();
         }
 
         private void Shoot()
@@ -157,6 +161,11 @@ namespace Player.Shoot.Reimu
             Bullet bullet = _bulletPool.Spawn(_bulletPrefab, this.transform, Vector3.zero);
             bullet.gameObject.SetActive(false);
             bulletTransforms.Enqueue(bullet.transform);
+        }
+
+        private void OnDestroy()
+        {
+            _disposable.Clear();
         }
     }
 

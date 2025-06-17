@@ -102,6 +102,12 @@ namespace Stages
 
         private void NextPart()
         {
+            if (_currentPart.GetType() == typeof(BossPart))
+            {
+                StageClear?.OnNext(this);
+                return;
+            }
+
             HideCurrentPart();
 
             _currentStep += 1;

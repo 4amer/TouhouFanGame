@@ -100,6 +100,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4416451829914959776, guid: 46035b032a2500c4393e425fe95ecb16, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4416451829914959776, guid: 46035b032a2500c4393e425fe95ecb16, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5404097196246410670, guid: 46035b032a2500c4393e425fe95ecb16, type: 3}
       propertyPath: _music
       value: 102

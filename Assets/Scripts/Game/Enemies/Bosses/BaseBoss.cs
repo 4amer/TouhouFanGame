@@ -1,12 +1,14 @@
 using System;
 using Audio;
 using Audio.Types.Music;
+using DG.Tweening;
 using Enemies.Bosses.Attack;
 using Enemies.Bosses.HP;
 using Enemies.Bosses.Phase;
 using Game.BulletSystem.Damage;
 using UniRx;
 using UnityEngine;
+using Utils;
 using Zenject;
 
 namespace Enemies.Bosses
@@ -24,6 +26,8 @@ namespace Enemies.Bosses
         [SerializeField] private GameObject _bossObject = null;
 
         [SerializeField] private HealthController _healthController = null;
+        [SerializeField] private ParticleSystem _deathParticle = null;
+        [SerializeField] private SpriteRenderer _bossSpriteRenderer = null;
 
         private int _currentPhaseIndex = 0;
 
@@ -168,9 +172,38 @@ namespace Enemies.Bosses
             Destroy(_currentPatternObject.gameObject);
         }
 
+        private void DeathCutscene()
+        {
+            _deathParticle.Play();
+            float duration = _deathParticle.duration;
+            Color alpfaColor = new Color(1f, 1f, 1f, 0f);
+            _bossSpriteRenderer.DOColor(alpfaColor, duration);
+            Utils.Timer timer = new Utils.Timer();
+            timer.duration = duration;
+            timer.EventOnFinish += () =>
+            {
+                OnDead?.OnNext(this);
+            };
+            timer.Start();
+        }
+
         private void Dead()
         {
-            OnDead?.OnNext(this);
+            Dispose();
+            DestroyPattern();
+            DeathCutscene();
+        }
+
+        private void Dispose()
+        {
+            _disposable.Clear();
+            _disposable.Dispose();
+            _audioManager.Stop(_music);
+        }
+
+        private void OnDestroy()
+        {
+            Dispose();
         }
 
         public void Damage(float damage)
