@@ -145,7 +145,7 @@ MonoBehaviour:
   _audioStorages:
   - _audioClip: {fileID: 8300000, guid: c50f1a35bb8b7334ab95e0735bf27b16, type: 3}
     _soundType: 2
-  - _audioClip: {fileID: 8300000, guid: 22e08285325beca4c99503cf15efa2bf, type: 3}
+  - _audioClip: {fileID: 8300000, guid: c278990f2846de54da1f1faec735d73c, type: 3}
     _soundType: 101
   - _audioClip: {fileID: 8300000, guid: cd6e2be9ce7ee724bbae3e746c40aab4, type: 3}
     _soundType: 102
@@ -245,7 +245,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -345,6 +345,14 @@ MonoBehaviour:
   _audioStorages:
   - _audioClip: {fileID: 8300000, guid: 1cb6e71f2f6e3164eadccc56d32672cb, type: 3}
     _soundType: 3
+  - _audioClip: {fileID: 8300000, guid: 3ad834fe8186a8e48a2d35323786f4c6, type: 3}
+    _soundType: 8
+  - _audioClip: {fileID: 8300000, guid: ec60a0c9d71d7c1439182715fc397fa0, type: 3}
+    _soundType: 4
+  - _audioClip: {fileID: 8300000, guid: d2af370c6d3f56244aff454b3393b1ad, type: 3}
+    _soundType: 1
+  - _audioClip: {fileID: 8300000, guid: f93474bd55f0a7c4eb2770a4530687c5, type: 3}
+    _soundType: 5
 --- !u!1 &5695927708805048611
 GameObject:
   m_ObjectHideFlags: 0
@@ -487,4 +495,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _audioSource: {fileID: 5687307712613425396}
-  _audioStorages: []
+  _audioStorages:
+  - _audioClip: {fileID: 8300000, guid: 1777ec61cc1215e44b3d28b13b699cd9, type: 3}
+    _soundType: 2
+  - _audioClip: {fileID: 8300000, guid: aa476408d5d14da4c806ff19f3871e9d, type: 3}
+    _soundType: 1

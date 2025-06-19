@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 624689832788488836}
   m_Layer: 0
   m_Name: RushAttack
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4778,7 +4778,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4937,6 +4937,7 @@ MonoBehaviour:
   _bulletComponents:
   - {fileID: 624689832788488836}
   _movementBezierComponent: {fileID: 997260555050911091}
+  _isInCenter: 0
   _enemyGameObject: {fileID: 0}
   _healthController: {fileID: 0}
   _dropController: {fileID: 0}
@@ -4995,6 +4996,7 @@ MonoBehaviour:
     _followPlayersYDelay: 0
     _moveEase: 8
     _hideGizmos: 0
+  _doNextEventAfterComplete: 1
   _linesInTheCurve: 10
   _pointSphereRadious: 0.2
 --- !u!114 &6484103334397175615
@@ -5024,7 +5026,7 @@ GameObject:
   - component: {fileID: 1677826970084946965}
   m_Layer: 0
   m_Name: SlowAttack
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9788,7 +9790,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9875,6 +9877,7 @@ MonoBehaviour:
   _bulletComponents:
   - {fileID: 3680414803998364926}
   _movementBezierComponent: {fileID: 0}
+  _isInCenter: 0
   _enemyGameObject: {fileID: 0}
   _healthController: {fileID: 0}
   _dropController: {fileID: 0}

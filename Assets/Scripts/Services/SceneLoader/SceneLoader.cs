@@ -4,9 +4,6 @@ using Cysharp.Threading.Tasks;
 using UI;
 using UI.Windows;
 using UniRx;
-using UnityEditor;
-using UnityEditor.SearchService;
-using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
@@ -33,10 +30,10 @@ namespace Services.SceneLoaderC
             _uIManager = uIManager;
         }
 
-        public void LoadScene(string sceneKey)
+        public void LoadScene(string sceneKey, float delayToHideLoadingScreen)
         {
             if (_sceneHandle.IsDone == false) return;
-            ShowLoadingWindow();
+            ShowLoadingWindow(delayToHideLoadingScreen);
             SetupDelayTimer(() =>
             {
                 LoadSceneAsync(sceneKey);
@@ -87,9 +84,13 @@ namespace Services.SceneLoaderC
             timer.Start();
         }
 
-        private void ShowLoadingWindow()
+        private void ShowLoadingWindow(float newTimeToHide)
         {
             AWindow<LoadingWindowData> aWindow = _uIManager.GetWindow<LoadingWindow>();
+            aWindow.SetData(new LoadingWindowData
+            {
+                timeToHide = newTimeToHide
+            });
             _uIManager.Show(aWindow);
         }
     }
@@ -103,7 +104,7 @@ namespace Services.SceneLoaderC
 
     public interface ISceneLoader
     {
-        public void LoadScene(string sceneName);
+        public void LoadScene(string sceneName, float delayToHideLoadingScreen);
         public void UnloadScene();
     }
 }

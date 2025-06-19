@@ -1,3 +1,5 @@
+using Audio;
+using Audio.Types;
 using DG.Tweening;
 using Services.GSMC;
 using Services.GSMC.States;
@@ -42,11 +44,16 @@ namespace UI.Windows
         private System.Action<InputAction.CallbackContext> _declineCallback;
         private System.Action<InputAction.CallbackContext> _confirmCallback;
 
+        private IAudioManager _audioManager = null;
+
         [Inject]
-        private void Construct(PlayerInput playerInput, IGameStateMachine gameStateMachine)
+        private void Construct(PlayerInput playerInput, IGameStateMachine gameStateMachine,
+            IAudioManager audioManager)
         {
             _gameStateMachine = gameStateMachine;
             _playerInput = playerInput;
+
+            _audioManager = audioManager;
         }
 
         public override void Show()
@@ -87,6 +94,7 @@ namespace UI.Windows
 
         private void OnTweenButton()
         {
+            _audioManager.Play(EUIAudioTypes.ButtonSelected);
             TweenButton();
             _currentButton = _buttons[_currentSelectedButtonIndex];
         }
@@ -125,6 +133,7 @@ namespace UI.Windows
 
         private void SelectButton()
         {
+            _audioManager.Play(EUIAudioTypes.Confirm);
             _buttons[_currentSelectedButtonIndex].onClick.Invoke();
         }
 
@@ -143,6 +152,11 @@ namespace UI.Windows
             {
                 Hide();
             });
+        }
+
+        public void Quit()
+        {
+            Application.Quit();
         }
 
         private void DoStartButtonAnimation()

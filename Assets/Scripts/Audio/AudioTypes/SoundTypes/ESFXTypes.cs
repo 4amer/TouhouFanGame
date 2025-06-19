@@ -6,8 +6,10 @@ namespace Audio.Types
         Shoot = 1,
         Graze = 2,
         Explode = 3,
-        SpellCardActivated = 4,
-        SpellCardDeactivated = 5,
-        Death = 6,
+        BossDeath = 4,
+        EnemyDamaged = 5,
+        SpellCardActivated = 6,
+        SpellCardDeactivated = 7,
+        EnemyDeath = 8,
     }
 }

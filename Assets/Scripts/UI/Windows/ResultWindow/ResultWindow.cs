@@ -1,4 +1,6 @@
 using System;
+using Audio;
+using Audio.Types;
 using DG.Tweening;
 using Services.Money;
 using TMPro;
@@ -48,9 +50,12 @@ namespace UI.Windows
 
         private bool isToMainMenuCalled = false;
 
+        private IAudioManager _audioManager = null;
+
         [Inject]
-        private void Construct(IMoneyService moneyService, PlayerInput playerInput)
+        private void Construct(IMoneyService moneyService, PlayerInput playerInput, IAudioManager audioManager)
         {
+            _audioManager = audioManager;
             _moneyService = moneyService;
             _playerInput = playerInput;
         }
@@ -111,6 +116,8 @@ namespace UI.Windows
         {
             if (isToMainMenuCalled) return;
             isToMainMenuCalled = true;
+
+            _audioManager.Play(EUIAudioTypes.Confirm);
 
             _data.OnGoToMenu?.Invoke();
 

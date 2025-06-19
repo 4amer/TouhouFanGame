@@ -1,5 +1,6 @@
 using System;
 using Audio;
+using Audio.Types;
 using Audio.Types.Music;
 using DG.Tweening;
 using Enemies.Bosses.Attack;
@@ -57,7 +58,8 @@ namespace Enemies.Bosses
         private CompositeDisposable _disposable = new CompositeDisposable();
 
         [Inject]
-        private void Construct(DiContainer diContainer, IAudioManager audioManager, IDamagableManager damagableManager)
+        private void Construct(DiContainer diContainer, IAudioManager audioManager,
+            IDamagableManager damagableManager)
         {
             _diContainer = diContainer;
             _audioManager = audioManager;
@@ -175,6 +177,7 @@ namespace Enemies.Bosses
         private void DeathCutscene()
         {
             _deathParticle.Play();
+            _audioManager.Play(ESFXTypes.BossDeath);
             float duration = _deathParticle.duration;
             Color alpfaColor = new Color(1f, 1f, 1f, 0f);
             _bossSpriteRenderer.DOColor(alpfaColor, duration);

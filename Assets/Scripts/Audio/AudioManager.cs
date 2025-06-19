@@ -27,7 +27,7 @@ namespace Audio
             _MusicUtility.Init();
 
             _UIAudioUtility.Volume = _baseVolume;
-            _SFXUtility.Volume = _baseVolume;
+            _SFXUtility.Volume = 0.2f;
             _MusicUtility.Volume = _baseVolume;
 
             keyValueAudio.Add(_UIAudioUtility.GetType().BaseType.ToString(), _UIAudioUtility);

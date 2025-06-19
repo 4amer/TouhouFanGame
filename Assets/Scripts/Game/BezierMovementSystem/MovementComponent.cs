@@ -1,13 +1,8 @@
 using System;
-using System.Text;
 using DG.Tweening;
 using UniRx;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEditor.ShaderGraph.Internal;
 using System.Collections.Generic;
-using UnityEditor.Search;
-using System.Security.Cryptography;
 
 
 #if UNITY_EDITOR
@@ -20,6 +15,7 @@ namespace BezierMovementSystem
     {
         [Header("Movement")]
         [SerializeField] private List<BezierCurve> _bezierCurves = new List<BezierCurve>();
+        [SerializeField] private bool _doNextEventAfterComplete = true;
 
         [Space(10)]
         [Header("Editor")]
@@ -35,7 +31,8 @@ namespace BezierMovementSystem
 
         private Sequence _currentMovingSequence = null;
 
-        public Subject<Unit> MoveCompleted = new Subject<Unit>();
+        public Subject<Unit> MoveCompleted { get; set; } = new Subject<Unit>();
+        public Subject<Unit> OnDoNextEvent { get; set; } = new Subject<Unit>();
 
         private const float ADITIONAL_TIME_TO_TIMER = 0.05f;
 
@@ -58,12 +55,16 @@ namespace BezierMovementSystem
                 interpolateValue = t;
                 _enemyTransform.position = bezierCurve.GetPoint(t);
 
-            }, 1, (bezierCurve.Duration + ADITIONAL_TIME_TO_TIMER))
+            }, 1, (bezierCurve.Duration))
                 .SetEase(bezierCurve.MoveEase)
                 .OnComplete(() =>
                 {
                     _isMoving = false;
                     MoveCompleted?.OnNext(Unit.Default);
+                    if (_doNextEventAfterComplete)
+                    {
+                        OnDoNextEvent?.OnNext(Unit.Default);
+                    }
                 }));
 
             _currentMovingSequence.Play();
@@ -195,6 +196,8 @@ namespace BezierMovementSystem
 
     public interface IMovementBezierComponent
     {
+        public Subject<Unit> MoveCompleted { get; set; }
+        public Subject<Unit> OnDoNextEvent { get; set; }
         public void Init(Transform entity);
         public void PrepareStartPosition(float timeForMovement);
         public void StartMovement();

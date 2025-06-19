@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UniRx;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Stages.Parts.Selection
 {
@@ -10,6 +12,9 @@ namespace Stages.Parts.Selection
         [SerializeField] private SelectionArea[] _selecteAreas = new SelectionArea[1];
         [SerializeField] private float _timeForSelect = 3f;
         [SerializeField] private float _partTime = 10f;
+
+        [SerializeField] private Image _clockImage = null;
+
         public Subject<APart> OnPartSelected { get; set; } = new Subject<APart>();
 
         private ISelectionArea[] _iSelecteAreas = new ISelectionArea[1];
@@ -45,6 +50,12 @@ namespace Stages.Parts.Selection
                 Clear();
             };
             _timer.Start();
+            DoClockAnimation();
+        }
+
+        public void DoClockAnimation()
+        {
+            _clockImage.DOFillAmount(0f, _partTime).SetEase(Ease.Linear);
         }
 
         private void PartSelected(APart part)

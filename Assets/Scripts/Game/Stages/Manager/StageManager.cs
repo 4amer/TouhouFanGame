@@ -79,7 +79,6 @@ namespace Stages.Manager
         private void NextState()
         {
             _stageDisposables.Clear();
-            HideAllGameWindows();
             OpenResultWindow();
         }
 
@@ -125,6 +124,7 @@ namespace Stages.Manager
 
         private void GoToMenu()
         {
+            HideAllGameWindows();
             OnSceneChanged?.OnNext(Unit.Default);
             _gameStateMachine.ChangeState<MenuState>();
         }

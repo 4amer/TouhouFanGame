@@ -1,3 +1,5 @@
+using System.Collections;
+using System;
 using System.Collections.Generic;
 using BezierMovementSystem;
 using Enemies.Bosses.HP;
@@ -120,6 +122,11 @@ namespace Enemies
 
             _iMovementBezierComponent = _movementBezierComponent;
             _iMovementBezierComponent?.Init(_enemyGameObject.transform);
+
+            _iMovementBezierComponent
+                .OnDoNextEvent
+                .Subscribe(_ => DoNextEvent())
+                .AddTo(_disposable);
 
             _iBulletComponents = _bulletComponents;
             if(_iBulletComponents != null)
@@ -244,6 +251,22 @@ namespace Enemies
                         break;
                 }
             }
+        }
+
+        private void DoNextEvent()
+        {
+            if (EventSequencesQueue.Count == 0 && IsSequenceCycled)
+            {
+                RestoreSequence();
+                _lastTimeEvent = 0;
+            }
+
+            EventSequence currentSequence = EventSequencesQueue.Peek();
+            float scheduledTime = _lastTimeEvent + currentSequence.Delay;
+
+            currentSequence.Event.Invoke();
+            _lastTimeEvent = scheduledTime;
+            EventSequencesQueue.Dequeue();
         }
 
         private void TimerUpdated(float time)

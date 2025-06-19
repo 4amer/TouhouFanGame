@@ -1,7 +1,10 @@
 using System.Collections.Generic;
+using Audio;
+using Audio.Types;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Zenject;
 
 namespace Game.BulletSystem.Damage
 {
@@ -13,11 +16,20 @@ namespace Game.BulletSystem.Damage
 
         private CompositeDisposable _disposables = new CompositeDisposable();
 
+        [Inject] private IAudioManager _audioManager = null;
+
+        private Utils.Timer _sfxTimer = null;
+
         public void AddDamagable(IDamagable damagable)
         {
             damagable
                 .OnDead
                 .Subscribe(_ => Dead(_))
+                .AddTo(_disposables);
+
+            damagable
+                .OnDamaged
+                .Subscribe(_ => PlayDamageSFX())
                 .AddTo(_disposables);
 
             _damagables.Add(damagable);
@@ -63,7 +75,23 @@ namespace Game.BulletSystem.Damage
                 .OnDead
                 .Dispose();
 
+            _audioManager.Play(ESFXTypes.EnemyDeath);
+
             damagable.IsVulnerable = false;
+        }
+
+        private void PlayDamageSFX()
+        {
+            /*if(_sfxTimer == null)
+            {
+                _sfxTimer = new Utils.Timer();
+                _sfxTimer.duration = 0.1f;
+                _sfxTimer.EventOnFinish += () => _audioManager.Play(ESFXTypes.EnemyDamaged);
+            }
+
+            if (_sfxTimer.IsPlaying) return;
+
+            _sfxTimer.Start();*/
         }
 
         private void OnDestroy()

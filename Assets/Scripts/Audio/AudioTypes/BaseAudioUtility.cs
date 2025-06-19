@@ -29,7 +29,7 @@ namespace Audio.Types
             _audioSource.loop = false;
             AudioClip clip = FindAudioClip(soundName);
             _audioSource.clip = clip;
-            _audioSource.PlayOneShot(clip);
+            _audioSource.Play();
         }
 
         internal virtual void PlayLoop(T soundName)

@@ -14,7 +14,7 @@ namespace Services.GSMC.States
         {
             base.Enter();
             Debug.Log("Menu Started");
-            _sceneLoader.LoadScene("MenuScene");
+            _sceneLoader.LoadScene("MenuScene", 1.5f);
             ChangeInputMap();
         }
 

@@ -33,7 +33,11 @@ namespace UI.Windows
 
         public override void SetData(LoadingWindowData data)
         {
-
+            float time = data.timeToHide;
+            if (time > -1f)
+            {
+                _timeToHide = time;
+            }
         }
 
         private void CloseLoading()

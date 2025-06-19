@@ -11,7 +11,7 @@ using Unity.Mathematics;
 using Game.BulletSystem.Pool;
 using System.Collections.Generic;
 using Game.BulletSystem.Damage;
-using UnityEditorInternal;
+using Audio;
 
 namespace Player.Shoot.Reimu
 {
@@ -46,8 +46,10 @@ namespace Player.Shoot.Reimu
         private bool _isShootingAllowed = false;
 
         [Inject]
-        private void Construct(IGameManager gameManager, IPool<Bullet> bulletPool, IDamagableManager damagableManager)
+        private void Construct(IGameManager gameManager, IPool<Bullet> bulletPool,
+            IDamagableManager damagableManager, IAudioManager audioManager )
         {
+
             gameManager
                 .Updated
                 .Subscribe(_ => UpdateComponent(_))
@@ -79,8 +81,6 @@ namespace Player.Shoot.Reimu
             }
 
             _transformAccessArray = new TransformAccessArray(bulletTransforms.ToArray());
-
-
         }
 
         private void UpdateComponent(float delay)

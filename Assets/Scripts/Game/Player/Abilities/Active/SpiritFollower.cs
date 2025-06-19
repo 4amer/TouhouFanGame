@@ -51,8 +51,8 @@ namespace Game.Player.Ability.Active
         private CompositeDisposable _disposable = new CompositeDisposable();
 
         [Inject]
-        private void Construct(PlayerInput playerInput, IPlayerManagerTransform playerManagerTransform
-            , IGameManager gameManager, IPool<Bullet> bulletPool, IDamagableManager damagableManager)
+        private void Construct(PlayerInput playerInput, IPlayerManagerTransform playerManagerTransform,
+            IGameManager gameManager, IPool<Bullet> bulletPool, IDamagableManager damagableManager)
         {
             _bulletPool = bulletPool;
             _playerInput = playerInput;
@@ -171,6 +171,7 @@ namespace Game.Player.Ability.Active
 
         private void OnEnable()
         {
+            if (_playerInput == null) return;
             InputActionMap map = _playerInput.actions.FindActionMap("GamePlay");
             InputAction shoot = map["Shoot"];
             InputAction shift = map["SlowMovement"];
@@ -184,6 +185,7 @@ namespace Game.Player.Ability.Active
 
         private void OnDisable()
         {
+            if (_playerInput == null) return;
             InputActionMap map = _playerInput.actions.FindActionMap("GamePlay");
             InputAction shoot = map["Shoot"];
             InputAction shift = map["SlowMovement"];
@@ -193,6 +195,12 @@ namespace Game.Player.Ability.Active
 
             shift.started -= ctx => Stay();
             shift.canceled -= ctx => MoveToPlayer();
+        }
+
+        private void OnDestroy()
+        {
+            _disposable.Clear();
+            _disposable.Dispose();
         }
 
         private async UniTask DoMoveToPoint(Vector3 startPosition, Vector3 endPosition, float time, CancellationToken token)

@@ -1,6 +1,9 @@
+using Audio;
+using Audio.Types;
 using DG.Tweening;
 using Game.BulletSystem;
 using UnityEngine;
+using Zenject;
 
 namespace Player.Shoot.Reimu
 {
@@ -22,8 +25,18 @@ namespace Player.Shoot.Reimu
 
         private int _currentPowerLevel = 0;
 
+        [Inject] private IAudioManager _audioManager = null;
+
+        private Utils.Timer _sfxTimer = null;
+
         public override void Init()
         {
+            /*_sfxTimer = new Utils.Timer();
+
+            _sfxTimer.EventOnUpdate += () => _audioManager.Play(ESFXTypes.Shoot);
+
+            _sfxTimer.timeStep = 0.3f;*/
+
             foreach (ReimuCommonBulletController controller in _commonBulletControllers)
             {
                 controller.Init(_commonBullet);
@@ -60,6 +73,7 @@ namespace Player.Shoot.Reimu
 
         public override void StopShoot()
         {
+            //_sfxTimer.Reset();
             foreach (ReimuCommonBulletController controller in _commonBulletControllers)
             {
                 controller.StopShooting();
@@ -73,6 +87,7 @@ namespace Player.Shoot.Reimu
         public override void DoNormalShoot()
         {
             StopShoot();
+            //_sfxTimer.StartInfinity();
             foreach (ReimuCommonBulletController controller in _commonBulletControllers)
             {
                 if (controller == null) continue;
@@ -89,6 +104,7 @@ namespace Player.Shoot.Reimu
         public override void DoShiftShoot()
         {
             StopShoot();
+            //_sfxTimer.StartInfinity();
             foreach (ReimuCommonBulletController controller in _commonBulletControllers)
             {
                 if (controller == null) continue;

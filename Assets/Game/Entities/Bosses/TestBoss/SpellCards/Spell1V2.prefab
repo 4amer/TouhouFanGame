@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7187312557827905309}
   m_Layer: 0
   m_Name: ArenaBounds
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 997260555050911091}
   m_Layer: 0
   m_Name: Spell1V2
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -149,6 +149,7 @@ MonoBehaviour:
     _followPlayersYDelay: 0
     _moveEase: 0
     _hideGizmos: 0
+  _doNextEventAfterComplete: 1
   _linesInTheCurve: 10
   _pointSphereRadious: 0.2
 --- !u!1 &6047758631074829701
@@ -165,7 +166,7 @@ GameObject:
   - component: {fileID: 1809137683845270403}
   m_Layer: 0
   m_Name: SmallWaves
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -179,7 +180,7 @@ Transform:
   m_GameObject: {fileID: 6047758631074829701}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.9, y: -4.69, z: 0}
+  m_LocalPosition: {x: -0.9, y: -2.89, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5028,7 +5029,7 @@ GameObject:
   - component: {fileID: 4288295689594278248}
   m_Layer: 0
   m_Name: BigWave
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5042,7 +5043,7 @@ Transform:
   m_GameObject: {fileID: 6354666764260920795}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.2, y: -4.48, z: 0}
+  m_LocalPosition: {x: -0.2, y: -2.68, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

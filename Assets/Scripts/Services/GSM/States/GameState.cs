@@ -13,7 +13,7 @@ namespace Services.GSMC.States
         {
             base.Enter();
             Debug.Log("Game Started");
-            _sceneLoader.LoadScene("GameScene");
+            _sceneLoader.LoadScene("GameScene", 5f);
             ChangeInputMap();
         }
 
