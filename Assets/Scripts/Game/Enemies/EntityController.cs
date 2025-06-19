@@ -123,7 +123,9 @@ namespace Enemies
             _iMovementBezierComponent = _movementBezierComponent;
             _iMovementBezierComponent?.Init(_enemyGameObject.transform);
 
-            _iMovementBezierComponent
+            Debug.Log("Inited!!!!!!");
+
+            _iMovementBezierComponent?
                 .OnDoNextEvent
                 .Subscribe(_ => DoNextEvent())
                 .AddTo(_disposable);
@@ -255,6 +257,7 @@ namespace Enemies
 
         private void DoNextEvent()
         {
+            Debug.Log("ACTION!!!!!!");
             if (EventSequencesQueue.Count == 0 && IsSequenceCycled)
             {
                 RestoreSequence();
@@ -277,10 +280,12 @@ namespace Enemies
             {
                 RestoreSequence();
                 _lastTimeEvent = 0;
-                _timeShift = time - 0.1f;
+                _timeShift = time;
             }
 
             float localTime = time - _timeShift;
+
+            Debug.Log($"TIME UPDATED!!!! {time}, {localTime}");
 
             while (EventSequencesQueue.Count > 0)
             {
@@ -289,6 +294,8 @@ namespace Enemies
 
                 if (scheduledTime <= localTime)
                 {
+                    Debug.Log($"TIMER!!!!!!!!! {scheduledTime}, {localTime}, {_lastTimeEvent}, {currentSequence.Event.GetType()}");
+
                     currentSequence.Event.Invoke();
                     _lastTimeEvent = scheduledTime;
                     EventSequencesQueue.Dequeue();

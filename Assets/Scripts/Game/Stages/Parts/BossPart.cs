@@ -40,9 +40,9 @@ namespace Stages.Parts
                 .Subscribe(_ => Clear())
                 .AddTo(disposable);
 
-            baseBoss.Init();
-
             SetupBossWindow();
+
+            baseBoss.Init();
         }
 
         private void SetupBossWindow()

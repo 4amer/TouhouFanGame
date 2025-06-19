@@ -23,8 +23,10 @@ MonoBehaviour:
   - {fileID: 6272302376288678164, guid: 690802636f2a2724fa76e9817bf67986, type: 3}
   tertioryParts:
   - {fileID: 2205321750381239115, guid: b368407e2fb68124895755cb1e9ceaa4, type: 3}
+  - {fileID: 2205321750381239115, guid: 4e34f75458f793d4da3b21ff8d83c1a3, type: 3}
   quaternaryParts:
   - {fileID: 2205321750381239115, guid: b368407e2fb68124895755cb1e9ceaa4, type: 3}
+  - {fileID: 2205321750381239115, guid: 4e34f75458f793d4da3b21ff8d83c1a3, type: 3}
   secondPassiveParts:
   - {fileID: 2024546689989488757, guid: 6d401adac156c1746aa1f100eff2ef71, type: 3}
   - {fileID: 6272302376288678164, guid: 690802636f2a2724fa76e9817bf67986, type: 3}

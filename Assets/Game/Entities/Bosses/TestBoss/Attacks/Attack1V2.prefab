@@ -4996,7 +4996,7 @@ MonoBehaviour:
     _followPlayersYDelay: 0
     _moveEase: 8
     _hideGizmos: 0
-  _doNextEventAfterComplete: 1
+  _doNextEventAfterComplete: 0
   _linesInTheCurve: 10
   _pointSphereRadious: 0.2
 --- !u!114 &6484103334397175615

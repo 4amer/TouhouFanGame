@@ -72,6 +72,7 @@ namespace BezierMovementSystem
 
         public void StartMovement()
         {
+            Debug.Log("MOVE!!!!!!");
             _isMoving = true;
 
             BezierCurve bezierCurve = _bezierCurves[_currentCurve];
